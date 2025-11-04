@@ -8,6 +8,8 @@ namespace DuckovController
         private void Awake()
         {
             Debug.Log($"[{nameof(DuckovController)}] Duckov Controller is loaded.");
+            
+            
         }
     }
 }
