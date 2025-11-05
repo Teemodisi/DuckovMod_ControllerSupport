@@ -1,4 +1,4 @@
-﻿using Unity.VisualScripting;
+﻿using DuckovController.Utils;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -38,14 +38,20 @@ namespace DuckovController.SceneEdit
             MenuPadTipsLayout.anchorMin = new Vector2(1, 0);
             MenuPadTipsLayout.anchorMax = new Vector2(1, 0);
             MenuPadTipsLayout.pivot = new Vector2(1, 0);
-            MenuPadTipsLayout.sizeDelta = new Vector2(200, 40);
+            MenuPadTipsLayout.sizeDelta = new Vector2(500, 40);
             MenuPadTipsLayout.anchoredPosition = MenuButtonListLayout.anchoredPosition * new Vector2(-1, 1);
         }
 
         public void Patch2()
         {
-            var horGroup = MenuPadTipsLayout.AddComponent<HorizontalLayoutGroup>();
+            var horGroup = MenuPadTipsLayout.gameObject.AddComponent<HorizontalLayoutGroup>();
+            horGroup.spacing = 10;
             horGroup.childAlignment = TextAnchor.MiddleRight;
+            horGroup.childControlWidth = false;
+            horGroup.childControlHeight = false;
+            horGroup.childForceExpandWidth = false;
+            horGroup.childForceExpandHeight = true;
+            horGroup.reverseArrangement = true;
             UIStyle.DrawPadTips(MenuPadTipsLayout);
             UIStyle.DrawPadTips(MenuPadTipsLayout);
         }
