@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Duckov.UI;
 using UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -22,17 +23,23 @@ namespace DuckovController
         {
             if (Input.GetKeyDown(KeyCode.F2))
             {
-                ModTest();
+                var canvas =  FindFirstObjectByType<Canvas>();
+                Utils.ShowAllComponents(canvas.transform,showCom: true);
+            }
+            if (Input.GetKeyDown(KeyCode.F3))
+            {
+                Utils.ShowHierarchy(true);
             }
         }
 
         private void ModTest()
         {
             var objs = SceneManager.GetActiveScene().GetRootGameObjects();
-            var mainMenu =  GameObject.FindFirstObjectByType<MainMenu>();
 
-            // mainMenu.
-           
+
+            // View.ActiveView
+
+
             // var coms = mainMenu.GetComponents<Component>();
             // foreach (var o in coms)
             // {
