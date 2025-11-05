@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace DuckovController
+namespace DuckovController.Utils
 {
     public static class Utils
     {
@@ -87,6 +87,29 @@ namespace DuckovController
             {
                 ShowAllComponents(gameObject.transform, showCom: showCom);
             }
+        }
+        
+        public static bool FindGameObject<T>(string path, out T com)
+        {
+            var gameObject = GameObject.Find(path);
+            if (gameObject != null)
+            {
+                return gameObject.TryGetComponent(out com);
+            }
+            com = default!;
+            return false;
+        }
+
+        public static void LogRectTransformInfo(this RectTransform rectTransform)
+        {
+            Debug.Log($"[RectTransform INFO]{rectTransform.name}");
+            Debug.Log($"{nameof(rectTransform.anchorMin)}: {rectTransform.anchorMin}");
+            Debug.Log($"{nameof(rectTransform.anchorMax)}: {rectTransform.anchorMax}");
+            Debug.Log($"{nameof(rectTransform.pivot)}: {rectTransform.pivot}");
+            Debug.Log($"{nameof(rectTransform.offsetMin)}: {rectTransform.offsetMin}");
+            Debug.Log($"{nameof(rectTransform.offsetMax)}: {rectTransform.offsetMax}");
+            Debug.Log($"{nameof(rectTransform.anchoredPosition)}: {rectTransform.anchoredPosition}");
+            Debug.Log($"{nameof(rectTransform.sizeDelta)}: {rectTransform.sizeDelta}");
         }
     }
 }
