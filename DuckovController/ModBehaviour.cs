@@ -19,22 +19,19 @@ namespace DuckovController
         {
             if (Input.GetKeyDown(KeyCode.F2))
             {
-                var canvas = FindFirstObjectByType<Canvas>();
-                Utils.Utils.ShowAllComponents(canvas.transform, showCom: true);
+                Utils.Utils.ShowHierarchy(true);z
             }
             if (Input.GetKeyDown(KeyCode.F3))
             {
-                Utils.Utils.ShowHierarchy(true);
+                //
             }
-            if (Input.GetKeyDown(KeyCode.F4)) { }
+            if (Input.GetKeyDown(KeyCode.F4))
+            {
+                //
+            }
             if (Input.GetKeyDown(KeyCode.F5))
             {
-                var gameObject = transform.Find("MainMenuContainer/Menu/MainGroup/Layout");
-                Debug.Log(gameObject != null);
-                // if (Utils.FindGameObject("MainMenuContainer/Menu/MainGroup/Layout", out RectTransform referenceRect))
-                // {
-                //     referenceRect.LogRectTransformInfo();
-                // }
+                //
             }
         }
 
@@ -54,11 +51,17 @@ namespace DuckovController
         {
             if (scene.name == GameplayDataSettings.SceneManagement.MainMenuScene.Name)
             {
+                InputManager.OnInputDeviceChanged += InputManagerOnOnInputDeviceChanged;
+                
                 MainMenuPatch = new MainMenuPatch();
                 MainMenuPatch.Patch1();
                 ResourceDataBase.Instance.Init(MainMenuPatch.MenuButtonListLayout);
                 MainMenuPatch.Patch2();
             }
+        }
+
+        private void InputManagerOnOnInputDeviceChanged()
+        {
         }
     }
 }
