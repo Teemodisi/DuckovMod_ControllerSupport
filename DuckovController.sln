@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DuckovController", "DuckovController.csproj", "{177BE1B3-504B-4B01-B802-712ACCFFD6DB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DuckovController", "DuckovController/DuckovController.csproj", "{177BE1B3-504B-4B01-B802-712ACCFFD6DB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
