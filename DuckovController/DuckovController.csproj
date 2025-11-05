@@ -21,7 +21,10 @@
         <Reference Include="$(DuckovPath)$(SubPath)ItemStatsSystem.dll"/>
         <Reference Include="$(DuckovPath)$(SubPath)Unity*"/>
     </ItemGroup>
+    <ItemGroup>
+      <Folder Include="SceneEdit\" />
+    </ItemGroup>
     <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-      <Exec Command="set gamePath=&quot;C:\Program Files (x86)\Steam\steamapps\common\Escape from Duckov\Duckov_Data\Mods\$(ProjectName)&quot;&#xA;if not exist %gamePath% mkdir %gamePath%&#xA;copy &quot;$(TargetPath)&quot; %gamePath% /Y&#xA;" />
+      <Exec Command="set gamePath=&quot;C:\Program Files (x86)\Steam\steamapps\common\Escape from Duckov\Duckov_Data\Mods\$(ProjectName)&quot;&#xA;if not exist %gamePath% mkdir %gamePath%&#xA;copy &quot;$(TargetPath)&quot; %gamePath% /Y&#xA;copy &quot;$(ProjectDir)info.ini&quot; %gamePath% /Y&#xA;copy &quot;$(ProjectDir)preview.png&quot; %gamePath% /Y&#xA;" />
     </Target>
 </Project>
