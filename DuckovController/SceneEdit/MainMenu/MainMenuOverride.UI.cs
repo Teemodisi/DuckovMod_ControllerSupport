@@ -5,7 +5,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using UnityEngine.UI.ProceduralImage;
 
 namespace DuckovController.SceneEdit.MainMenu
 {
@@ -72,24 +71,7 @@ namespace DuckovController.SceneEdit.MainMenu
             var btnAnims = MenuButtonListLayout.gameObject.GetComponentsInChildren<ButtonAnimation>();
             foreach (var buttonAnimation in btnAnims)
             {
-                var hoveringObj = buttonAnimation.transform.Find("Hovering");
-                if (hoveringObj == null)
-                {
-                    //为什么退出游戏按钮是不一样的样式 Tell me why！
-                    hoveringObj = buttonAnimation.transform.Find("Image/Hovering");
-                }
-                if (hoveringObj != null)
-                {
-                    var image = hoveringObj.GetComponent<Image>();
-                    image.color = Color.white;
-                    var rt = hoveringObj.GetComponent<RectTransform>();
-                    rt.offsetMin += new Vector2(-5, -5);
-                    rt.offsetMax += new Vector2(5, 5);
-                    var pi = hoveringObj.GetComponent<ProceduralImage>();
-                    pi.BorderWidth = 5;
-                    var um = hoveringObj.GetComponent<UniformModifier>();
-                    um.Radius += 5;
-                }
+                buttonAnimation.gameObject.AddComponent<MainMenuBtnStyleOverride>();
             }
 
             //无效

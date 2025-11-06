@@ -6,6 +6,8 @@ namespace DuckovController.SceneEdit.MainMenu
 {
     public partial class MainMenuOverride : MonoBehaviour
     {
+        private Button[] _buttons;
+
         private void Awake()
         {
             InitInputMap();
@@ -15,6 +17,11 @@ namespace DuckovController.SceneEdit.MainMenu
         private void Start()
         {
             Patch();
+            _buttons = new Button[MenuButtonListLayout.childCount];
+            for (var i = 0; i < _buttons.Length; i++)
+            {
+                _buttons[i] = gameObject.GetComponent<Button>();
+            }
         }
 
         private void Update()
@@ -25,11 +32,7 @@ namespace DuckovController.SceneEdit.MainMenu
             }
             if (Input.GetKeyDown(KeyCode.F2))
             {
-                var btns = MenuButtonListLayout.gameObject.GetComponentsInChildren<Button>();
-                foreach (var button in btns)
-                {
-                    Debug.Log(button.navigation.mode);
-                }
+                Debug.Log(gameObject.GetComponentsInChildren<Button>().Length);
             }
         }
 

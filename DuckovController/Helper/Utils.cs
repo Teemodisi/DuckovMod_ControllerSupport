@@ -9,7 +9,7 @@ namespace DuckovController.Helper
 {
     public static class Utils
     {
-        private static readonly Type[] s_BaseExcludeList = new[]
+        private static readonly Type[] s_BaseExcludeList =
         {
             typeof(Transform),
             typeof(RectTransform),
@@ -17,7 +17,7 @@ namespace DuckovController.Helper
             typeof(TMP_SubMesh),
             typeof(CanvasRenderer)
         };
-        
+
         public static void ShowAllComponents(Transform transform, IList<Type> excludeList = null, bool showCom = false)
         {
             var exclude = new HashSet<Type>();
@@ -88,7 +88,7 @@ namespace DuckovController.Helper
                 ShowAllComponents(gameObject.transform, showCom: showCom);
             }
         }
-        
+
         public static bool FindGameObject<T>(string path, out T com)
         {
             var gameObject = GameObject.Find(path);

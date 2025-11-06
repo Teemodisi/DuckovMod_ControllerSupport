@@ -1,7 +1,5 @@
-﻿using UnityEngine;
-using UnityEngine.EventSystems;
+﻿using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
-using UnityEngine.UI;
 
 namespace DuckovController.SceneEdit.MainMenu
 {
@@ -14,6 +12,9 @@ namespace DuckovController.SceneEdit.MainMenu
         private InputAction _navigateDownAction;
 
         private InputAction _confirmAction;
+
+        //不知道为什么，用 EventSystem + Navigate 无法正常运作，用土办法了
+        private int _selectedIndex;
 
         private void InitInputMap()
         {
@@ -34,49 +35,31 @@ namespace DuckovController.SceneEdit.MainMenu
 
         private void OnConfirm(InputAction.CallbackContext obj)
         {
-            if (EventSystem.current.alreadySelecting)
+            var go = EventSystem.current.currentSelectedGameObject;
+            if (go != null)
             {
-                var com = EventSystem.current.currentSelectedGameObject.GetComponent<ISubmitHandler>();
-                if (com != null)
-                {
-                    com.OnSubmit(null);
-                }
+                go.GetComponent<ISubmitHandler>()?.OnSubmit(new BaseEventData(EventSystem.current));
             }
-            Debug.Log($"Confirm {EventSystem.current.alreadySelecting}");
         }
 
         private void OnNavigateUp(InputAction.CallbackContext obj)
         {
-            if (EventSystem.current.alreadySelecting)
+            --_selectedIndex;
+            if (_selectedIndex < 0)
             {
-                var com = EventSystem.current.currentSelectedGameObject.GetComponent<Selectable>();
-                if (com != null)
-                {
-                    EventSystem.current.SetSelectedGameObject(com.navigation.selectOnUp.gameObject);
-                }
+                _selectedIndex = _buttons.Length - 1;
             }
-            else
-            {
-                EventSystem.current.SetSelectedGameObject(MenuButtonListLayout.GetChild(0).gameObject);
-            }
-            Debug.Log($"OnNavigateUp {EventSystem.current.alreadySelecting}");
+            EventSystem.current.SetSelectedGameObject(MenuButtonListLayout.GetChild(_selectedIndex).gameObject);
         }
 
         private void OnNavigateDown(InputAction.CallbackContext obj)
         {
-            if (EventSystem.current.alreadySelecting)
+            ++_selectedIndex;
+            if (_selectedIndex >= _buttons.Length)
             {
-                var com = EventSystem.current.currentSelectedGameObject.GetComponent<Selectable>();
-                if (com != null)
-                {
-                    EventSystem.current.SetSelectedGameObject(com.navigation.selectOnDown.gameObject);
-                }
+                _selectedIndex = 0;
             }
-            else
-            {
-                EventSystem.current.SetSelectedGameObject(MenuButtonListLayout.GetChild(0).gameObject);
-            }
-            Debug.Log($"OnNavigateDown {EventSystem.current.alreadySelecting}");
+            EventSystem.current.SetSelectedGameObject(MenuButtonListLayout.GetChild(_selectedIndex).gameObject);
         }
     }
 }
