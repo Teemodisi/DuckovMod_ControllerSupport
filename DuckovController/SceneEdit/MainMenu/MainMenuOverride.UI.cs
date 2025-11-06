@@ -1,23 +1,28 @@
-﻿#nullable disable
-using System;
+﻿using Duckov.UI.Animations;
 using DuckovController.Helper;
+using JetBrains.Annotations;
+using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using UnityEngine.UI.ProceduralImage;
 
-namespace DuckovController.SceneEdit
+namespace DuckovController.SceneEdit.MainMenu
 {
-    [Obsolete]
-    public class MainMenuPatch
+    public partial class MainMenuOverride
     {
+        [CanBeNull]
+        private TMP_FontAsset _fontTemplate;
+
         public Canvas MenuCanvas { get; private set; }
 
         public RectTransform MenuButtonListLayout { get; private set; }
 
         public RectTransform MenuPadTipsLayout { get; private set; }
 
-        public void Patch1()
+        public void Patch()
         {
-            //获取参考位置
+            //获取参考
             if (!Utils.FindGameObject("Canvas", out Canvas canvas))
             {
                 Debug.LogError("找不到Canvas");
@@ -36,6 +41,15 @@ namespace DuckovController.SceneEdit
                 Debug.LogError("找不到主菜单的Layout的RectTransform");
                 return;
             }
+            var tmp = MenuButtonListLayout.GetComponentInChildren<TextMeshProUGUI>();
+            if (tmp == null)
+            {
+                Debug.LogError("找不到模板字体");
+                return;
+            }
+            _fontTemplate = tmp.font;
+
+            UIStyle.currentFont = _fontTemplate;
             MenuPadTipsLayout = new GameObject("ControllerTips").AddComponent<RectTransform>();
             MenuPadTipsLayout.SetParent(MenuButtonListLayout.parent, false);
             MenuPadTipsLayout.anchorMin = new Vector2(1, 0);
@@ -43,7 +57,6 @@ namespace DuckovController.SceneEdit
             MenuPadTipsLayout.pivot = new Vector2(1, 0);
             MenuPadTipsLayout.sizeDelta = new Vector2(500, 40);
             MenuPadTipsLayout.anchoredPosition = MenuButtonListLayout.anchoredPosition * new Vector2(-1, 1);
-
             var horGroup = MenuPadTipsLayout.gameObject.AddComponent<HorizontalLayoutGroup>();
             horGroup.spacing = 10;
             horGroup.childAlignment = TextAnchor.MiddleRight;
@@ -54,6 +67,33 @@ namespace DuckovController.SceneEdit
             horGroup.reverseArrangement = true;
             UIStyle.DrawPadTips(MenuPadTipsLayout);
             UIStyle.DrawPadTips(MenuPadTipsLayout);
+
+            //更改UI Hovering样式 改为描边嗷
+            var btnAnims = MenuButtonListLayout.gameObject.GetComponentsInChildren<ButtonAnimation>();
+            foreach (var buttonAnimation in btnAnims)
+            {
+                var hoveringObj = buttonAnimation.transform.Find("Hovering");
+                if (hoveringObj == null)
+                {
+                    //为什么退出游戏按钮是不一样的样式 Tell me why！
+                    hoveringObj = buttonAnimation.transform.Find("Image/Hovering");
+                }
+                if (hoveringObj != null)
+                {
+                    var image = hoveringObj.GetComponent<Image>();
+                    image.color = Color.white;
+                    var rt = hoveringObj.GetComponent<RectTransform>();
+                    rt.offsetMin += new Vector2(-5, -5);
+                    rt.offsetMax += new Vector2(5, 5);
+                    var pi = hoveringObj.GetComponent<ProceduralImage>();
+                    pi.BorderWidth = 5;
+                    var um = hoveringObj.GetComponent<UniformModifier>();
+                    um.Radius += 5;
+                }
+            }
+
+            //无效
+            EventSystem.current.SetSelectedGameObject(MenuButtonListLayout.GetChild(0).gameObject);
         }
     }
 }

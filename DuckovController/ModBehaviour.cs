@@ -1,6 +1,8 @@
 ﻿using Duckov.Utilities;
-using DuckovController.SceneEdit;
+using DuckovController.Helper;
+using DuckovController.SceneEdit.MainMenu;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 namespace DuckovController
@@ -8,8 +10,6 @@ namespace DuckovController
     //Entrance
     public class ModBehaviour : Duckov.Modding.ModBehaviour
     {
-        public MainMenuPatch MainMenuPatch { get; private set; } = null!;
-
         private void Awake()
         {
             Debug.Log($"[{nameof(DuckovController)}] Awake");
@@ -19,11 +19,12 @@ namespace DuckovController
         {
             if (Input.GetKeyDown(KeyCode.F2))
             {
-                Utils.Utils.ShowHierarchy(true);z
+                //
             }
             if (Input.GetKeyDown(KeyCode.F3))
             {
                 //
+                InputSystem.DisableAllEnabledActions();
             }
             if (Input.GetKeyDown(KeyCode.F4))
             {
@@ -51,17 +52,18 @@ namespace DuckovController
         {
             if (scene.name == GameplayDataSettings.SceneManagement.MainMenuScene.Name)
             {
-                InputManager.OnInputDeviceChanged += InputManagerOnOnInputDeviceChanged;
-                
-                MainMenuPatch = new MainMenuPatch();
-                MainMenuPatch.Patch1();
-                ResourceDataBase.Instance.Init(MainMenuPatch.MenuButtonListLayout);
-                MainMenuPatch.Patch2();
-            }
-        }
+                if (!Utils.FindGameObject("Canvas", out Canvas canvas))
+                {
+                    Debug.LogError("找不到Canvas");
+                    return;
+                }
+                canvas.gameObject.AddComponent<MainMenuOverride>();
 
-        private void InputManagerOnOnInputDeviceChanged()
-        {
+                // MainMenuPatch = new MainMenuPatch();
+                // MainMenuPatch.Patch1();
+                // ResourceDataBase.Instance.Init(MainMenuPatch.MenuButtonListLayout);
+                // MainMenuPatch.Patch2();
+            }
         }
     }
 }

@@ -1,9 +1,11 @@
-﻿using DuckovController.Utils;
+﻿using System;
+using DuckovController.Helper;
 using TMPro;
 using UnityEngine;
 
 namespace DuckovController.SceneEdit
 {
+    [Obsolete]
     public class ResourceDataBase : Singleton<ResourceDataBase>
     {
         public TMP_FontAsset Font { get; private set; } = null!;

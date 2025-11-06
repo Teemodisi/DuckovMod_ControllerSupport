@@ -1,5 +1,4 @@
-﻿using DuckovController.Utils;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UI.ProceduralImage;
@@ -8,15 +7,17 @@ namespace DuckovController.SceneEdit
 {
     public static class UIStyle
     {
+        public static TMP_FontAsset currentFont = null;
+
         public static RectTransform DrawPadTips(RectTransform parent)
         {
             var rectTransform = new GameObject("GamePadTips").AddComponent<RectTransform>();
-            rectTransform.SetParent(parent,false);
+            rectTransform.SetParent(parent, false);
             rectTransform.pivot = new Vector2(0.5f, 0.5f);
             rectTransform.anchorMin = new Vector2(0, 1);
             rectTransform.anchorMax = new Vector2(0, 1);
             rectTransform.sizeDelta = new Vector2(160, 40);
-            
+
             var circle = NewCircleSprite("CircleSprite", rectTransform);
             circle.rectTransform.pivot = new Vector2(0, 0.5f);
             circle.rectTransform.anchorMin = new Vector2(0, 0);
@@ -32,7 +33,7 @@ namespace DuckovController.SceneEdit
             btnLabel.rectTransform.sizeDelta = Vector2.zero;
             btnLabel.color = Color.black;
             btnLabel.horizontalAlignment = HorizontalAlignmentOptions.Center;
-            btnLabel.verticalAlignment = VerticalAlignmentOptions.Middle;
+            btnLabel.verticalAlignment = VerticalAlignmentOptions.Capline;
             btnLabel.fontSize = 25;
             btnLabel.text = "A";
             btnLabel.fontStyle = FontStyles.Bold;
@@ -45,7 +46,7 @@ namespace DuckovController.SceneEdit
             label.rectTransform.sizeDelta = new Vector2(-60, 0);
             label.color = Color.white;
             label.horizontalAlignment = HorizontalAlignmentOptions.Left;
-            label.verticalAlignment = VerticalAlignmentOptions.Middle;
+            label.verticalAlignment = VerticalAlignmentOptions.Capline;
             label.fontSize = 30;
             label.text = "你好";
             label.fontStyle = FontStyles.Bold;
@@ -56,16 +57,19 @@ namespace DuckovController.SceneEdit
         public static TextMeshProUGUI NewLabel(string name, RectTransform parent)
         {
             var rectTransform = new GameObject(name).AddComponent<RectTransform>();
-            rectTransform.SetParent(parent,false);
+            rectTransform.SetParent(parent, false);
             var text = rectTransform.gameObject.AddComponent<TextMeshProUGUI>();
-            text.font = ResourceDataBase.Instance.Font;
+            if (currentFont != null)
+            {
+                text.font = currentFont;
+            }
             return text;
         }
 
         public static ProceduralImage NewCircleSprite(string name, RectTransform parent)
         {
             var rectTransform = new GameObject(name).AddComponent<RectTransform>();
-            rectTransform.SetParent(parent,false);
+            rectTransform.SetParent(parent, false);
             var pi = rectTransform.gameObject.AddComponent<ProceduralImage>();
             rectTransform.gameObject.AddComponent<RoundModifier>();
             return pi;
@@ -76,7 +80,7 @@ namespace DuckovController.SceneEdit
             var rectTransform = new GameObject("DebugRect").AddComponent<RectTransform>();
             var element = rectTransform.gameObject.AddComponent<LayoutElement>();
             element.ignoreLayout = true;
-            rectTransform.SetParent(parent,false);
+            rectTransform.SetParent(parent, false);
             rectTransform.anchorMin = Vector2.zero;
             rectTransform.anchorMax = Vector2.one;
             rectTransform.pivot = new Vector2(0.5f, 0.5f);

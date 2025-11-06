@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace DuckovController.Utils
+namespace DuckovController.Helper
 {
     public static class Utils
     {
@@ -18,7 +18,7 @@ namespace DuckovController.Utils
             typeof(CanvasRenderer)
         };
         
-        public static void ShowAllComponents(Transform transform, IList<Type>? excludeList = null, bool showCom = false)
+        public static void ShowAllComponents(Transform transform, IList<Type> excludeList = null, bool showCom = false)
         {
             var exclude = new HashSet<Type>();
             foreach (var type in s_BaseExcludeList)
@@ -32,7 +32,7 @@ namespace DuckovController.Utils
                     exclude.Add(type);
                 }
             }
-            var stack = new Stack<Transform?>();
+            var stack = new Stack<Transform>();
             stack.Push(transform);
             var level = 0;
             var sb = new StringBuilder();

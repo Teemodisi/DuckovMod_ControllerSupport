@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace DuckovController.Utils
+namespace DuckovController.Helper
 {
     public abstract class Singleton<T>  where T : new()
     {
@@ -21,7 +21,7 @@ namespace DuckovController.Utils
     
     public abstract class SingletonMonoBehaviour<T> : MonoBehaviour where T : MonoBehaviour
     {
-        private static T? s_Instance;
+        private static T s_Instance;
 
         public static T Instance
         {
