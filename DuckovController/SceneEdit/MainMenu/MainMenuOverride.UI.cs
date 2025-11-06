@@ -74,8 +74,6 @@ namespace DuckovController.SceneEdit.MainMenu
                 buttonAnimation.gameObject.AddComponent<MainMenuBtnStyleOverride>();
             }
 
-            //无效
-            EventSystem.current.SetSelectedGameObject(MenuButtonListLayout.GetChild(0).gameObject);
         }
     }
 }

@@ -47,6 +47,7 @@ namespace DuckovController.SceneEdit.MainMenu
                 var um = hoveringObj.GetComponent<UniformModifier>();
                 um.Radius += 5;
             }
+
         }
     }
 }

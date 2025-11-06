@@ -24,7 +24,6 @@ namespace DuckovController
             if (Input.GetKeyDown(KeyCode.F3))
             {
                 //
-                InputSystem.DisableAllEnabledActions();
             }
             if (Input.GetKeyDown(KeyCode.F4))
             {

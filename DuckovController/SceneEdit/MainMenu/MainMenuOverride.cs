@@ -1,12 +1,11 @@
 ﻿using DuckovController.Helper;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace DuckovController.SceneEdit.MainMenu
 {
     public partial class MainMenuOverride : MonoBehaviour
     {
-        private Button[] _buttons;
+        private MainMenuBtnButtonOverride[] _buttons;
 
         private void Awake()
         {
@@ -17,10 +16,10 @@ namespace DuckovController.SceneEdit.MainMenu
         private void Start()
         {
             Patch();
-            _buttons = new Button[MenuButtonListLayout.childCount];
+            _buttons = new MainMenuBtnButtonOverride[MenuButtonListLayout.childCount];
             for (var i = 0; i < _buttons.Length; i++)
             {
-                _buttons[i] = gameObject.GetComponent<Button>();
+                _buttons[i] = MenuButtonListLayout.GetChild(i).gameObject.AddComponent<MainMenuBtnButtonOverride>();
             }
         }
 
@@ -32,7 +31,10 @@ namespace DuckovController.SceneEdit.MainMenu
             }
             if (Input.GetKeyDown(KeyCode.F2))
             {
-                Debug.Log(gameObject.GetComponentsInChildren<Button>().Length);
+                foreach (var actionsBinding in GameManager.MainPlayerInput.actions.bindings)
+                {
+                    Debug.Log($"{actionsBinding.action}, {actionsBinding.path}");
+                }
             }
         }
 
