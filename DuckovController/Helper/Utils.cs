@@ -111,5 +111,19 @@ namespace DuckovController.Helper
             Debug.Log($"{nameof(rectTransform.anchoredPosition)}: {rectTransform.anchoredPosition}");
             Debug.Log($"{nameof(rectTransform.sizeDelta)}: {rectTransform.sizeDelta}");
         }
+
+        public static Type FindType(string name)
+        {
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+            foreach (var assembly in assemblies)
+            {
+                var type = assembly.GetType(name);
+                if (type != null)
+                {
+                    return type;
+                }
+            }
+            return null;
+        }
     }
 }

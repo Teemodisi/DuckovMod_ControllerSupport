@@ -1,5 +1,4 @@
-﻿using DuckovController.Helper;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace DuckovController.SceneEdit.MainMenu

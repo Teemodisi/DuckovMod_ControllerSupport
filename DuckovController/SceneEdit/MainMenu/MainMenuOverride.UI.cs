@@ -3,7 +3,6 @@ using DuckovController.Helper;
 using JetBrains.Annotations;
 using TMPro;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace DuckovController.SceneEdit.MainMenu
@@ -48,6 +47,7 @@ namespace DuckovController.SceneEdit.MainMenu
             }
             _fontTemplate = tmp.font;
 
+            MenuButtonListLayout.LogRectTransformInfo();
             UIStyle.currentFont = _fontTemplate;
             MenuPadTipsLayout = new GameObject("ControllerTips").AddComponent<RectTransform>();
             MenuPadTipsLayout.SetParent(MenuButtonListLayout.parent, false);
@@ -64,8 +64,9 @@ namespace DuckovController.SceneEdit.MainMenu
             horGroup.childForceExpandWidth = false;
             horGroup.childForceExpandHeight = true;
             horGroup.reverseArrangement = true;
-            UIStyle.DrawPadButtonTips(MenuPadTipsLayout);
-            UIStyle.DrawPadButtonTips(MenuPadTipsLayout);
+            UIStyle.DrawPadButtonTips(MenuPadTipsLayout, UIStyle.GamePadButton.A, "确认");
+            UIStyle.DrawPadButtonTips(MenuPadTipsLayout, UIStyle.GamePadButton.Up, "上");
+            UIStyle.DrawPadButtonTips(MenuPadTipsLayout, UIStyle.GamePadButton.Down, "下");
 
             //更改UI Hovering样式 改为描边嗷
             var btnAnims = MenuButtonListLayout.gameObject.GetComponentsInChildren<ButtonAnimation>();
