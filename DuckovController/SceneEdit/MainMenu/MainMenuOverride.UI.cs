@@ -64,8 +64,8 @@ namespace DuckovController.SceneEdit.MainMenu
             horGroup.childForceExpandWidth = false;
             horGroup.childForceExpandHeight = true;
             horGroup.reverseArrangement = true;
-            UIStyle.DrawPadTips(MenuPadTipsLayout);
-            UIStyle.DrawPadTips(MenuPadTipsLayout);
+            UIStyle.DrawPadButtonTips(MenuPadTipsLayout);
+            UIStyle.DrawPadButtonTips(MenuPadTipsLayout);
 
             //更改UI Hovering样式 改为描边嗷
             var btnAnims = MenuButtonListLayout.gameObject.GetComponentsInChildren<ButtonAnimation>();
@@ -73,7 +73,6 @@ namespace DuckovController.SceneEdit.MainMenu
             {
                 buttonAnimation.gameObject.AddComponent<MainMenuBtnStyleOverride>();
             }
-
         }
     }
 }

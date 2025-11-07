@@ -1,5 +1,6 @@
 ﻿using DuckovController.Helper;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace DuckovController.SceneEdit.MainMenu
 {
@@ -10,7 +11,6 @@ namespace DuckovController.SceneEdit.MainMenu
         private void Awake()
         {
             InitInputMap();
-            Debug.Log($"{nameof(MainMenuOverride)} Awake");
         }
 
         private void Start()
@@ -21,33 +21,18 @@ namespace DuckovController.SceneEdit.MainMenu
             {
                 _buttons[i] = MenuButtonListLayout.GetChild(i).gameObject.AddComponent<MainMenuBtnButtonOverride>();
             }
-        }
-
-        private void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.F1))
-            {
-                Utils.ShowAllComponents(MenuButtonListLayout, showCom: true);
-            }
-            if (Input.GetKeyDown(KeyCode.F2))
-            {
-                foreach (var actionsBinding in GameManager.MainPlayerInput.actions.bindings)
-                {
-                    Debug.Log($"{actionsBinding.action}, {actionsBinding.path}");
-                }
-            }
+            //选中第一
+            EventSystem.current.SetSelectedGameObject(MenuButtonListLayout.GetChild(0).gameObject);
         }
 
         private void OnEnable()
         {
             _inputActionMap.Enable();
-            Debug.Log($"{nameof(MainMenuOverride)} OnEnable");
         }
 
         private void OnDisable()
         {
             _inputActionMap.Disable();
-            Debug.Log($"{nameof(MainMenuOverride)} OnDisable");
         }
     }
 }

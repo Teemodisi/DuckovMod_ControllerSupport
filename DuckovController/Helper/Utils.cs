@@ -18,7 +18,7 @@ namespace DuckovController.Helper
             typeof(CanvasRenderer)
         };
 
-        public static void ShowAllComponents(Transform transform, IList<Type> excludeList = null, bool showCom = false)
+        public static void ShowAllComponents(this Transform transform, bool showCom = false, IList<Type> excludeList = null)
         {
             var exclude = new HashSet<Type>();
             foreach (var type in s_BaseExcludeList)

@@ -43,6 +43,7 @@ namespace DuckovController.SceneEdit.MainMenu
             _navigateUpAction.performed += OnNavigateUp;
             _navigateDownAction.performed += OnNavigateDown;
 
+            //好像碳酸本来就没绑这些交互在主界面
             // GameManager.MainPlayerInput.actions["UI_Cancel"].AddBinding("<Gamepad>/buttonEast");
         }
 

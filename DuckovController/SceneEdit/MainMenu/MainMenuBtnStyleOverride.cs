@@ -19,7 +19,6 @@ namespace DuckovController.SceneEdit.MainMenu
         public void OnDeselect(BaseEventData eventData)
         {
             _btnAnimation.OnPointerExit(null);
-            Debug.Log("Deselected");
         }
 
         public void OnSelect(BaseEventData eventData)
@@ -47,7 +46,6 @@ namespace DuckovController.SceneEdit.MainMenu
                 var um = hoveringObj.GetComponent<UniformModifier>();
                 um.Radius += 5;
             }
-
         }
     }
 }
