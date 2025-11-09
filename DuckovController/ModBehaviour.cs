@@ -1,14 +1,15 @@
-﻿using Duckov.Utilities;
+﻿using Duckov.UI;
+using Duckov.Utilities;
 using DuckovController.Helper;
-using DuckovController.SceneEdit;
 using DuckovController.SceneEdit.MainMenu;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace DuckovController
 {
-    //Entrance
-    public class ModBehaviour : Duckov.Modding.ModBehaviour
+    //Mod Main Entrance
+    public partial class ModBehaviour : Duckov.Modding.ModBehaviour
     {
         private void Awake()
         {
@@ -21,14 +22,27 @@ namespace DuckovController
             if (Input.GetKeyDown(KeyCode.F2))
             {
                 //
+                BlackScreen.Instance.gameObject.SetActive(!BlackScreen.Instance.gameObject.activeSelf);
+                Debug.Log(BlackScreen.Instance.gameObject.activeSelf);
             }
             if (Input.GetKeyDown(KeyCode.F3))
             {
                 //
+                SceneManager.LoadScene("LoadingScreen_Black", LoadSceneMode.Single);
             }
             if (Input.GetKeyDown(KeyCode.F4))
             {
                 //
+                var roots = SceneManager.GetActiveScene().GetRootGameObjects();
+                foreach (var root in roots)
+                {
+                    Debug.Log("==========");
+                    root.transform.ShowAllComponents();
+                    if (root.TryGetComponent(out TextMeshPro tmp))
+                    {
+                        Debug.Log($"TMP!: {tmp.text}");
+                    }
+                }
             }
             if (Input.GetKeyDown(KeyCode.F5))
             {
@@ -55,25 +69,13 @@ namespace DuckovController
 #endif
             if (scene.name == GameplayDataSettings.SceneManagement.MainMenuScene.Name)
             {
-                if (!Utils.FindGameObject("Canvas", out Canvas canvas))
-                {
-                    Debug.LogError("找不到 Canvas");
-                    return;
-                }
-                var mainTitle = canvas.transform.Find("MainTitle");
-                if (mainTitle == null)
-                {
-                    Debug.LogError("找不到主菜单的 MainTitle");
-                    return;
-                }
-                mainTitle.gameObject.AddComponent<MainTitleOverride>();
-                var mainGroup = canvas.transform.Find("MainMenuContainer/Menu/MainGroup");
-                if (mainGroup == null)
-                {
-                    Debug.LogError("找不到主菜单的 MainGroup");
-                    return;
-                }
-                mainGroup.gameObject.AddComponent<MainMenuOverride>();
+                PatchMainMenu();
+                return;
+            }
+            if (scene.name == SceneLoader.Instance.defaultCurtainScene.Name)
+            {
+                //Scene name: LoadingScreen_Black
+                PatchLoadingBlack();
             }
         }
     }

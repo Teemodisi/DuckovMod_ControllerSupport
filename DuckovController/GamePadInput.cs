@@ -1,7 +1,7 @@
 ﻿using DuckovController.Helper;
 using UnityEngine.InputSystem;
 
-namespace DuckovController.SceneEdit
+namespace DuckovController
 {
     public class GamePadInput : SingletonMonoBehaviour<GamePadInput>
     {

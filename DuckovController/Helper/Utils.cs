@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
 using TMPro;
 using UnityEngine;
@@ -53,7 +54,7 @@ namespace DuckovController.Helper
                     sb.Append("  ");
                 }
                 sb.Append(cur.gameObject.name);
-                
+
                 if (showCom)
                 {
                     LogGameObjectComponents(cur, sb, exclude);
