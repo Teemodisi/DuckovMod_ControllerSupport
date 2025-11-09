@@ -54,9 +54,9 @@ namespace DuckovController.SceneEdit.MainMenu
             horGroup.childForceExpandWidth = false;
             horGroup.childForceExpandHeight = true;
             horGroup.reverseArrangement = true;
-            UIStyle.DrawPadButtonTips(MenuPadTipsLayout, UIStyle.GamePadButton.A, "确认");
-            UIStyle.DrawPadButtonTips(MenuPadTipsLayout, UIStyle.GamePadButton.Up, "上");
-            UIStyle.DrawPadButtonTips(MenuPadTipsLayout, UIStyle.GamePadButton.Down, "下");
+            UIStyle.DrawPadButtonTips(MenuPadTipsLayout, UIStyle.GamePadButton.A, L10N.Instance.Confirm);
+            UIStyle.DrawPadButtonTips(MenuPadTipsLayout, UIStyle.GamePadButton.Up, L10N.Instance.NavigateUp);
+            UIStyle.DrawPadButtonTips(MenuPadTipsLayout, UIStyle.GamePadButton.Down, L10N.Instance.NavigateDown);
             UpdateTipsRectPos();
 
             //更改UI Hovering样式 改为描边嗷

@@ -9,12 +9,11 @@ namespace DuckovController.SceneEdit.MainMenu
         private MainMenuBtnButtonOverride[] _buttons;
 
         private FadeGroup _fadeGroup;
-        
+
         private void Awake()
         {
             _fadeGroup = GetComponent<FadeGroup>();
             _fadeGroup.OnShowComplete += OnFadeGroupCompleted;
-            InitInputMap();
         }
 
         private void Start()
@@ -31,12 +30,12 @@ namespace DuckovController.SceneEdit.MainMenu
 
         private void OnEnable()
         {
-            _inputActionMap.Enable();
+            RegInput();
         }
 
         private void OnDisable()
         {
-            _inputActionMap.Disable();
+            UnRegInput();
         }
     }
 }
