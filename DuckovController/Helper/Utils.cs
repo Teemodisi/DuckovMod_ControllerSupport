@@ -18,7 +18,10 @@ namespace DuckovController.Helper
             typeof(CanvasRenderer)
         };
 
-        public static void ShowAllComponents(this Transform transform, bool showCom = false, IList<Type> excludeList = null)
+        public static string ModName { get; } = "[Duckov Controller]";
+
+        public static void ShowAllComponents(this Transform transform, bool showCom = true,
+            IList<Type> excludeList = null)
         {
             var exclude = new HashSet<Type>();
             foreach (var type in s_BaseExcludeList)
@@ -50,22 +53,10 @@ namespace DuckovController.Helper
                     sb.Append("  ");
                 }
                 sb.Append(cur.gameObject.name);
-
+                
                 if (showCom)
                 {
-                    var monos = cur.GetComponents<Component>();
-                    sb.Append('{');
-                    foreach (var monoBehaviour in monos)
-                    {
-                        var t = monoBehaviour.GetType();
-                        if (exclude.Contains(t))
-                        {
-                            continue;
-                        }
-                        sb.Append(t.Name);
-                        sb.Append(", ");
-                    }
-                    sb.Append("}");
+                    LogGameObjectComponents(cur, sb, exclude);
                 }
 
                 Debug.Log(sb.ToString());
@@ -80,12 +71,38 @@ namespace DuckovController.Helper
             }
         }
 
+        public static void LogGameObjectComponents(this Transform transform, StringBuilder sb,
+            HashSet<Type> exclude = null)
+        {
+            var monos = transform.GetComponents<Component>();
+            sb.Append('{');
+            foreach (var monoBehaviour in monos)
+            {
+                var t = monoBehaviour.GetType();
+                if (exclude != null && exclude.Contains(t))
+                {
+                    continue;
+                }
+                sb.Append(t.Name);
+                sb.Append(", ");
+            }
+            sb.Append("}");
+        }
+
+        public static void LogGameObjectComponents(this Transform transform)
+        {
+            var sb = new StringBuilder();
+            sb.Append(transform.gameObject.name);
+            LogGameObjectComponents(transform, sb);
+            Debug.Log(sb.ToString());
+        }
+
         public static void ShowHierarchy(bool showCom = false)
         {
             var gameObjects = SceneManager.GetActiveScene().GetRootGameObjects();
             foreach (var gameObject in gameObjects)
             {
-                ShowAllComponents(gameObject.transform, showCom: showCom);
+                ShowAllComponents(gameObject.transform, showCom);
             }
         }
 

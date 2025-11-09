@@ -30,7 +30,7 @@ namespace DuckovController.SceneEdit
             label.color = Color.white;
             label.horizontalAlignment = HorizontalAlignmentOptions.Left;
             label.verticalAlignment = VerticalAlignmentOptions.Capline;
-            label.fontSize = 30;
+            label.fontSize = game_pad_button_label_size;
             label.text = labelText;
             label.fontStyle = FontStyles.Bold;
 
@@ -39,9 +39,9 @@ namespace DuckovController.SceneEdit
 
     #region GamePadButtonType
 
-        private const int icon_size = 40;
+        private const int icon_size = 30;
 
-        private const int dpad_thickness = 10;
+        private const int dpad_thickness = 8;
 
         private const int dpad_rect_radius = 3;
 
@@ -50,6 +50,9 @@ namespace DuckovController.SceneEdit
         private static readonly Color s_Gray = new Color(0.5f, 0.5f, 0.5f, 1f);
 
         private static readonly Color s_Dark = new Color(0.2f, 0.2f, 0.2f, 1f);
+
+        private const int game_pad_button_label_size = 24;
+        private const int game_pad_button_size = game_pad_button_label_size - 3;
 
         private static RectTransform DrawPadButtonIcon(RectTransform parent, GamePadButton button)
         {
@@ -186,7 +189,7 @@ namespace DuckovController.SceneEdit
             btnLabel.color = s_Dark;
             btnLabel.horizontalAlignment = HorizontalAlignmentOptions.Center;
             btnLabel.verticalAlignment = VerticalAlignmentOptions.Capline;
-            btnLabel.fontSize = 25;
+            btnLabel.fontSize = game_pad_button_size;
             switch (button)
             {
                 case GamePadButton.A: btnLabel.text = "A"; break;
@@ -238,7 +241,7 @@ namespace DuckovController.SceneEdit
             return pi;
         }
 
-        public static Image DebugRect(RectTransform parent, Color color)
+        public static Image DebugRect(this RectTransform parent, Color color)
         {
             var rectTransform = new GameObject("DebugRect").AddComponent<RectTransform>();
             var element = rectTransform.gameObject.AddComponent<LayoutElement>();
@@ -250,6 +253,7 @@ namespace DuckovController.SceneEdit
             rectTransform.sizeDelta = Vector2.zero;
             var image = rectTransform.gameObject.AddComponent<Image>();
             image.color = color;
+            image.raycastTarget = false;
             return image;
         }
 

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Duckov.UI.Animations;
+using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace DuckovController.SceneEdit.MainMenu
@@ -7,8 +8,12 @@ namespace DuckovController.SceneEdit.MainMenu
     {
         private MainMenuBtnButtonOverride[] _buttons;
 
+        private FadeGroup _fadeGroup;
+        
         private void Awake()
         {
+            _fadeGroup = GetComponent<FadeGroup>();
+            _fadeGroup.OnShowComplete += OnFadeGroupCompleted;
             InitInputMap();
         }
 
