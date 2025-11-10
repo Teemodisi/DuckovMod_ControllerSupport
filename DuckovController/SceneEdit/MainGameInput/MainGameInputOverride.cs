@@ -10,7 +10,7 @@ namespace DuckovController.SceneEdit.MainGameInput
 {
     public class MainGameInputOverride : MonoBehaviour
     {
-        private const float aim_smooth_time = 0.2f;
+        private const float aim_smooth_time = 0.1f;
 
         private Vector2 _aimSmoothVel = Vector2.zero;
 
@@ -19,6 +19,8 @@ namespace DuckovController.SceneEdit.MainGameInput
         private bool _hadBind;
 
         private Vector2 _controllerDirection;
+
+        private bool _isGaming;
 
         private InputManager InputManager => CharacterInputControl.Instance.inputManager;
 
@@ -40,25 +42,19 @@ namespace DuckovController.SceneEdit.MainGameInput
                 { GamePadInput.Instance.QuackAction, CharacterInputControl.Instance.OnQuackInput }
             };
             View.OnActiveViewChanged += OnActiveViewChanged;
+            OnActiveViewChanged();
         }
 
         private void Update()
         {
-            // View.ActiveView 
-            // switch (CameraAimingType)
-            // {
-            //     case GameCamera.CameraAimingTypes.normal:
-            //         Func();
-            //         break;
-            //     case GameCamera.CameraAimingTypes.bounds:
-            //         Func();
-            //         break;
-            // }
-            
+            if (!_isGaming)
+            {
+                return;
+            }
             var w = Screen.width;
             var h = Screen.height;
             var center = new Vector2(w / 2f, h / 2f);
-            //TODO：缺少偏移
+            //TODO：整体缺少偏移
             var controllerTarget = center + _controllerDirection.normalized * (Mathf.Min(w, h) * 0.4f);
             var cur = InputManager.MousePos;
             var next = Vector2.SmoothDamp(cur, controllerTarget, ref _aimSmoothVel, aim_smooth_time);
@@ -67,7 +63,6 @@ namespace DuckovController.SceneEdit.MainGameInput
             {
                 InputManager.SetAimInputUsingMouse(delta);
             }
-            // var next = Vector2.MoveTowards(InputManager.MousePos , controllerTarget,aim_smooth_time * Time.deltaTime);
         }
 
         private void OnEnable()
@@ -91,9 +86,14 @@ namespace DuckovController.SceneEdit.MainGameInput
             }
         }
 
+        private void OnDestroy()
+        {
+            View.OnActiveViewChanged -= OnActiveViewChanged;
+        }
+
         private void OnActiveViewChanged()
         {
-            Debug.Log($"ViewChanged {View.ActiveView?.name}");
+            _isGaming = View.ActiveView == null;
         }
 
         private void OnAimDirection(InputAction.CallbackContext context)
