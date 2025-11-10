@@ -1,7 +1,6 @@
 ﻿using Duckov.UI;
 using Duckov.Utilities;
 using DuckovController.Helper;
-using DuckovController.SceneEdit.MainMenu;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -76,6 +75,10 @@ namespace DuckovController
             {
                 //Scene name: LoadingScreen_Black
                 PatchLoadingBlack();
+            }
+            if (scene.name == GameplayDataSettings.SceneManagement.BaseScene.Name)
+            {
+                PatchGameInput();
             }
         }
     }

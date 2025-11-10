@@ -1,7 +1,9 @@
 ﻿using DuckovController.Helper;
+using DuckovController.SceneEdit.MainGameInput;
 using DuckovController.SceneEdit.MainMenu;
 using DuckovController.SceneEdit.Other;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace DuckovController
 {
@@ -32,13 +34,12 @@ namespace DuckovController
 
         private void PatchLoadingBlack()
         {
-            var ddolScene = gameObject.scene;
-            var rootObjects = ddolScene.GetRootGameObjects();
-
-            foreach (var rootObject in rootObjects)
-            {
-                rootObject.transform.ShowAllComponents();
-            }
+            // var ddolScene = gameObject.scene;
+            // var rootObjects = ddolScene.GetRootGameObjects();
+            // foreach (var rootObject in rootObjects)
+            // {
+            //     rootObject.transform.ShowAllComponents();
+            // }
 
             var slObj = GameObject.Find("SceneLoader");
             if (slObj == null)
@@ -60,6 +61,23 @@ namespace DuckovController
                 return;
             }
             loader.gameObject.AddComponent<SceneLoaderOverride>();
+        }
+
+        private void PatchGameInput()
+        {
+            var playerInput = GameObject.Find("PlayerInput");
+            if (playerInput == null)
+            {
+                Debug.LogError("找不到 PlayerInput");
+                return;
+            }
+            var pi = playerInput.GetComponent<PlayerInput>();
+            if (playerInput == null)
+            {
+                Debug.LogError("找不到 PlayerInput Com");
+                return;
+            }
+            pi.gameObject.AddComponent<MainGameInputOverride>();
         }
     }
 }

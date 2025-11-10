@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Text;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 namespace DuckovController.Helper
@@ -142,6 +143,20 @@ namespace DuckovController.Helper
                 }
             }
             return null;
+        }
+
+        public static void BindInput(this InputAction inputAction, Action<InputAction.CallbackContext> bind)
+        {
+            inputAction.started += bind;
+            inputAction.performed += bind;
+            inputAction.canceled += bind;
+        }
+        
+        public static void UnBindInput(this InputAction inputAction, Action<InputAction.CallbackContext> bind)
+        {
+            inputAction.started -= bind;
+            inputAction.performed -= bind;
+            inputAction.canceled -= bind;
         }
     }
 }
