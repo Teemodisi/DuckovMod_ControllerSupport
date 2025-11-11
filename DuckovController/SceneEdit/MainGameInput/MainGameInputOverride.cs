@@ -1,13 +1,11 @@
-﻿using System;
-using System.Reflection;
-using Duckov.UI;
+﻿using Duckov.UI;
 using DuckovController.Helper;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace DuckovController.SceneEdit.MainGameInput
 {
-    public class MainGameInputOverride : MonoBehaviour
+    public partial class MainGameInputOverride : MonoBehaviour
     {
         private const float aim_smooth_time = 0.1f;
 
@@ -27,8 +25,6 @@ namespace DuckovController.SceneEdit.MainGameInput
 
         private MainGamePlayInputMap _inputMap;
 
-        private BulletTypeHUD _bulletTypeHUD;
-
         //右摇杆平移模式，用于压枪或者是瞄准
         private bool IsTranslateMod => _isAiming || _triggerIsDown;
 
@@ -47,20 +43,6 @@ namespace DuckovController.SceneEdit.MainGameInput
 
         private void LateUpdate()
         {
-            if (Input.GetKeyDown(KeyCode.F5))
-            {
-                Debug.Log("=====");
-                foreach (var inputBinding in SwitchBulletInputAction.bindings)
-                {
-                    Debug.Log(inputBinding.path);
-                }
-            }
-
-            if (SwitchBulletInputAction.WasPressedThisFrame())
-            {
-                Debug.Log("=============");
-            }
-
             if (!_isGaming)
             {
                 return;
@@ -118,8 +100,8 @@ namespace DuckovController.SceneEdit.MainGameInput
             _inputMap.SmallMenuNavigateUp.BindInput(OnNavigateUp);
             _inputMap.SmallMenuNavigateDown.BindInput(OnNavigateDown);
             // _inputMap.SwitchBullet.BindInput(OnSwitchBullet);
-            _inputMap.SwitchMeleeWeapon.BindInput(CharacterInputControl.Instance.OnPlayerSwitchItemAgentMelee);
-            _inputMap.PutAwayWeapon.BindInput(CharacterInputControl.Instance.OnPutAwayInput);
+            _inputMap.SwitchMeleeWeapon.BindInput(OnSwitchMeleeInput);
+            _inputMap.PutAwayWeapon.BindInput(OnPutAwayInput);
             _inputMap.SwitchWeapon.BindInput(OnSwitchWeaponInput);
             _inputMap.UseItem.BindInput(UseItemInput);
             _inputMap.OpenItemTurntable.BindInput(OnOpenItemTurntableInput);
@@ -200,7 +182,64 @@ namespace DuckovController.SceneEdit.MainGameInput
             }
         }
 
-        private void OnSwitchWeaponInput(InputAction.CallbackContext context) { }
+        // 收起武器
+        private void OnPutAwayInput(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+            {
+                RecordHoldingWeaponExcludeMelee();
+                CharacterInputControl.Instance.OnPutAwayInput(context);
+            }
+        }
+
+        // 切刀
+        private void OnSwitchMeleeInput(InputAction.CallbackContext context)
+        {
+            if (context.started)
+            {
+                RecordHoldingWeaponExcludeMelee();
+                CharacterInputControl.Instance.OnPlayerSwitchItemAgentMelee(context);
+            }
+        }
+
+        private void OnSwitchWeaponInput(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+            {
+                var curWeapon = CharacterMainControl.Main.CurrentHoldItemAgent;
+                var primSlot = CharacterMainControl.Main.PrimWeaponSlot().Content;
+                var secSlot = CharacterMainControl.Main.SecWeaponSlot().Content;
+                if (curWeapon == null)
+                {
+#if DEBUG
+                    Debug.Log($"{Utils.ModName} {nameof(OnSwitchWeaponInput)} SwitchToFirstAvailableWeapon");
+#endif
+                    CharacterMainControl.Main.SwitchToFirstAvailableWeapon();
+                    return;
+                }
+                if (primSlot != null && curWeapon.Item == primSlot)
+                {
+#if DEBUG
+                    Debug.Log($"{Utils.ModName} {nameof(OnSwitchWeaponInput)} SwitchToWeapon 1");
+#endif
+                    CharacterMainControl.Main.SwitchToWeapon(1);
+                    return;
+                }
+                if (secSlot != null && curWeapon.Item == secSlot)
+                {
+#if DEBUG
+                    Debug.Log($"{Utils.ModName} {nameof(OnSwitchWeaponInput)} SwitchToWeapon 0");
+#endif
+                    CharacterMainControl.Main.SwitchToWeapon(0);
+                    return;
+                }
+#if DEBUG
+
+                Debug.Log($"{Utils.ModName} {nameof(OnSwitchWeaponInput)} RestoreWeapon");
+#endif
+                CharacterMainControl.Main.SwitchToWeaponBeforeUse();
+            }
+        }
 
         private void UseItemInput(InputAction.CallbackContext context) { }
 
@@ -211,61 +250,25 @@ namespace DuckovController.SceneEdit.MainGameInput
             PauseMenu.Show();
         }
 
-    #region Reflection
-
-        private FieldInfo GameCameraAimingTypeFieldInfo { get; } =
-            ReflectionUtils.FindField<GameCamera>("cameraAimingType");
-
-        private GameCamera.CameraAimingTypes CameraAimingType =>
-            (GameCamera.CameraAimingTypes)GameCameraAimingTypeFieldInfo.GetValue(GameCamera.Instance);
-
-        //Typo bro
-        private FieldInfo CharInputScrollYFieldInfo { get; } =
-            ReflectionUtils.FindField<CharacterInputControl>("scollY");
-
-        private float CharInputScrollY
+        private void RecordHoldingWeaponExcludeMelee()
         {
-            get => (float)CharInputScrollYFieldInfo.GetValue(CharacterInputControl.Instance);
-            set => CharInputScrollYFieldInfo.SetValue(CharacterInputControl.Instance, value);
-        }
-
-        private FieldInfo _switchBulletTypeFieldInfo;
-
-        private FieldInfo CicInputActionsFieldInfo { get; } =
-            ReflectionUtils.FindField<CharacterInputControl>("inputActions");
-
-        private InputAction _switchBulletInputAction;
-
-        //damn 这个交互怎么是这样捏
-        private InputAction SwitchBulletInputAction
-        {
-            get
+            var curWeapon = CharacterMainControl.Main.CurrentHoldItemAgent;
+            var primSlot = CharacterMainControl.Main.PrimWeaponSlot().Content;
+            var secSlot = CharacterMainControl.Main.SecWeaponSlot().Content;
+            if (curWeapon == null)
             {
-                if (_switchBulletInputAction == null)
-                {
-                    object fieldObj = null;
-                    if (_switchBulletTypeFieldInfo == null)
-                    {
-                        fieldObj = CicInputActionsFieldInfo.GetValue(CharacterInputControl.Instance);
-                        var priType = fieldObj.GetType();
-                        _switchBulletTypeFieldInfo = priType.GetField("SwitchBulletType",
-                            BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic);
-                        if (_switchBulletTypeFieldInfo == null)
-                        {
-                            throw new Exception("找不到SwitchBulletInputAction");
-                        }
-                    }
-                    if (fieldObj == null)
-                    {
-                        fieldObj = CicInputActionsFieldInfo.GetValue(CharacterInputControl.Instance);
-                    }
-                    _switchBulletInputAction =
-                        _switchBulletTypeFieldInfo.GetValue(fieldObj) as InputAction;
-                }
-                return _switchBulletInputAction;
+                return;
+            }
+            if (primSlot != null && curWeapon.Item == primSlot)
+            {
+                RefStoreHoldWeaponBeforeUseMethodInfo();
+                return;
+            }
+            if (secSlot != null && curWeapon.Item == secSlot)
+            {
+                RefStoreHoldWeaponBeforeUseMethodInfo();
+                return;
             }
         }
-
-    #endregion
     }
 }
