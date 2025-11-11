@@ -1,4 +1,5 @@
 ﻿using System;
+using DuckovController.Helper;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -30,10 +31,12 @@ namespace DuckovController.SceneEdit.MainMenu
             GamePadInput.Instance.NavigateUpAction.performed -= OnNavigateUp;
             GamePadInput.Instance.NavigateDownAction.performed -= OnNavigateDown;
         }
-        
-        
+
         private void OnConfirm(InputAction.CallbackContext obj)
         {
+#if DEBUG
+            Debug.Log($"{Utils.ModName} MainMenu OnConfirm");
+#endif
             var go = EventSystem.current.currentSelectedGameObject;
             if (go != null)
             {
@@ -51,12 +54,18 @@ namespace DuckovController.SceneEdit.MainMenu
 
         private void OnNavigateUp(InputAction.CallbackContext obj)
         {
+#if DEBUG
+            Debug.Log($"{Utils.ModName} MainMenu OnNavigateUp");
+#endif
             _selectedIndex = Mathf.Max(_selectedIndex - 1, 0);
             EventSystem.current.SetSelectedGameObject(MenuButtonListLayout.GetChild(_selectedIndex).gameObject);
         }
 
         private void OnNavigateDown(InputAction.CallbackContext obj)
         {
+#if DEBUG
+            Debug.Log($"{Utils.ModName} MainMenu OnNavigateDown");
+#endif
             _selectedIndex = Mathf.Min(_selectedIndex + 1, _buttons.Length - 1);
             EventSystem.current.SetSelectedGameObject(MenuButtonListLayout.GetChild(_selectedIndex).gameObject);
         }

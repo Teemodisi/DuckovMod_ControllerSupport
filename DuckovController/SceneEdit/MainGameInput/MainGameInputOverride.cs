@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Reflection;
 using Duckov.UI;
 using DuckovController.Helper;
@@ -16,10 +15,6 @@ namespace DuckovController.SceneEdit.MainGameInput
 
         private Vector2 _aimSmoothVel = Vector2.zero;
 
-        private Dictionary<InputAction, Action<InputAction.CallbackContext>> _bindingMap;
-
-        private bool _hadBind;
-
         private Vector2 _lastDirection;
 
         private Vector2 _controllerDirection;
@@ -29,6 +24,10 @@ namespace DuckovController.SceneEdit.MainGameInput
         private bool _triggerIsDown;
 
         private bool _isAiming;
+
+        private MainGamePlayInputMap _inputMap;
+
+        private BulletTypeHUD _bulletTypeHUD;
 
         //右摇杆平移模式，用于压枪或者是瞄准
         private bool IsTranslateMod => _isAiming || _triggerIsDown;
@@ -41,24 +40,27 @@ namespace DuckovController.SceneEdit.MainGameInput
 
         private void Awake()
         {
-            _bindingMap = new Dictionary<InputAction, Action<InputAction.CallbackContext>>
-            {
-                { GamePadInput.Instance.RunAction, CharacterInputControl.Instance.OnPlayerRunInput },
-                { GamePadInput.Instance.RollAction, CharacterInputControl.Instance.OnDashInput },
-                { GamePadInput.Instance.ReloadAction, CharacterInputControl.Instance.OnReloadInput },
-                { GamePadInput.Instance.InteractAction, CharacterInputControl.Instance.OnInteractInput },
-                { GamePadInput.Instance.MovementAction, CharacterInputControl.Instance.OnPlayerMoveInput },
-                { GamePadInput.Instance.TriggerAction, OnTriggerInput },
-                { GamePadInput.Instance.AimAction, OnAimInput },
-                { GamePadInput.Instance.AimDirectionAction, OnAimDirectionInput },
-                { GamePadInput.Instance.QuackAction, CharacterInputControl.Instance.OnQuackInput }
-            };
+            InitInputMap();
             View.OnActiveViewChanged += OnActiveViewChanged;
             OnActiveViewChanged();
         }
 
-        private void Update()
+        private void LateUpdate()
         {
+            if (Input.GetKeyDown(KeyCode.F5))
+            {
+                Debug.Log("=====");
+                foreach (var inputBinding in SwitchBulletInputAction.bindings)
+                {
+                    Debug.Log(inputBinding.path);
+                }
+            }
+
+            if (SwitchBulletInputAction.WasPressedThisFrame())
+            {
+                Debug.Log("=============");
+            }
+
             if (!_isGaming)
             {
                 return;
@@ -69,7 +71,7 @@ namespace DuckovController.SceneEdit.MainGameInput
                 InputManager.SetAimInputUsingMouse(_controllerDirection * aim_translation);
                 _lastDirection = (InputManager.MousePos - AxisCenter).normalized;
             }
-            else
+            else //TODO：存在漏洞 把连续射击的后坐力给跳过了
             {
                 //TODO：整体缺少偏移
                 var controllerTarget = AxisCenter + _lastDirection.normalized * AimDirectDistance;
@@ -85,28 +87,55 @@ namespace DuckovController.SceneEdit.MainGameInput
 
         private void OnEnable()
         {
-            if (_hadBind)
-            {
-                return;
-            }
-            foreach (var pair in _bindingMap)
-            {
-                pair.Key.BindInput(pair.Value);
-            }
-            _hadBind = true;
+            _inputMap.Map.Enable();
         }
 
         private void OnDisable()
         {
-            foreach (var pair in _bindingMap)
-            {
-                pair.Key.UnBindInput(pair.Value);
-            }
+            _inputMap.Map.Disable();
         }
 
         private void OnDestroy()
         {
             View.OnActiveViewChanged -= OnActiveViewChanged;
+        }
+
+        private void InitInputMap()
+        {
+            //TODO:缺少开启夜视仪
+            _inputMap = new MainGamePlayInputMap();
+            _inputMap.RunAction.BindInput(CharacterInputControl.Instance.OnPlayerRunInput);
+            _inputMap.CancelAction.BindInput(OnCancelInput);
+            _inputMap.RollAction.BindInput(CharacterInputControl.Instance.OnDashInput);
+            _inputMap.ReloadAction.BindInput(CharacterInputControl.Instance.OnReloadInput);
+            _inputMap.InteractAction.BindInput(CharacterInputControl.Instance.OnInteractInput);
+            _inputMap.MovementAction.BindInput(CharacterInputControl.Instance.OnPlayerMoveInput);
+            _inputMap.TriggerAction.BindInput(OnTriggerInput);
+            _inputMap.AdsAction.BindInput(OnAdsInput);
+            _inputMap.AimDirectionAction.BindInput(OnAimDirectionInput);
+            _inputMap.OpenInventory.BindInput(CharacterInputControl.Instance.OnUIInventoryInput);
+            _inputMap.OpenMenu.BindInput(OnMenuInput);
+            _inputMap.SmallMenuNavigateUp.BindInput(OnNavigateUp);
+            _inputMap.SmallMenuNavigateDown.BindInput(OnNavigateDown);
+            // _inputMap.SwitchBullet.BindInput(OnSwitchBullet);
+            _inputMap.SwitchMeleeWeapon.BindInput(CharacterInputControl.Instance.OnPlayerSwitchItemAgentMelee);
+            _inputMap.PutAwayWeapon.BindInput(CharacterInputControl.Instance.OnPutAwayInput);
+            _inputMap.SwitchWeapon.BindInput(OnSwitchWeaponInput);
+            _inputMap.UseItem.BindInput(UseItemInput);
+            _inputMap.OpenItemTurntable.BindInput(OnOpenItemTurntableInput);
+            _inputMap.QuackAction.BindInput(CharacterInputControl.Instance.OnQuackInput);
+
+            // 这个按键T是业务轮询原有 InputAction 实现的
+            // 反射获取这个 Action 额外给这个按钮绑定新的按键
+            // 因为原有 InputMap 屏蔽了GamePad的输入，在这里要重刷一下
+            GameManager.MainPlayerInput.SwitchCurrentControlScheme(Keyboard.current, Mouse.current, Gamepad.current);
+            SwitchBulletInputAction.AddBinding("<Gamepad>/dpad/right");
+        }
+
+        private void OnCancelInput(InputAction.CallbackContext context)
+        {
+            CharacterInputControl.Instance.OnPlayerStopAction(context);
+            CharacterInputControl.Instance.OnCancelSkillInput(context);
         }
 
         private void OnActiveViewChanged()
@@ -129,7 +158,6 @@ namespace DuckovController.SceneEdit.MainGameInput
 
         private void OnTriggerInput(InputAction.CallbackContext context)
         {
-            CharacterInputControl.Instance.OnPlayerTriggerInputUsingMouseKeyboard(context);
             if (context.started)
             {
                 _triggerIsDown = true;
@@ -138,9 +166,10 @@ namespace DuckovController.SceneEdit.MainGameInput
             {
                 _triggerIsDown = false;
             }
+            CharacterInputControl.Instance.OnPlayerTriggerInputUsingMouseKeyboard(context);
         }
 
-        private void OnAimInput(InputAction.CallbackContext context)
+        private void OnAdsInput(InputAction.CallbackContext context)
         {
             CharacterInputControl.Instance.OnPlayerAdsInput(context);
             if (context.started)
@@ -153,13 +182,89 @@ namespace DuckovController.SceneEdit.MainGameInput
             }
         }
 
+        private void OnNavigateUp(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+            {
+                InputManager.SetSwitchInteractInput(1);
+                InputManager.SetSwitchBulletTypeInput(1);
+            }
+        }
+
+        private void OnNavigateDown(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+            {
+                InputManager.SetSwitchInteractInput(-1);
+                InputManager.SetSwitchBulletTypeInput(-1);
+            }
+        }
+
+        private void OnSwitchWeaponInput(InputAction.CallbackContext context) { }
+
+        private void UseItemInput(InputAction.CallbackContext context) { }
+
+        private void OnOpenItemTurntableInput(InputAction.CallbackContext context) { }
+
+        private void OnMenuInput(InputAction.CallbackContext context)
+        {
+            PauseMenu.Show();
+        }
+
     #region Reflection
 
-        private FieldInfo GameCameraAimingTypeMethodInfo { get; } = typeof(GameCamera)
-            .GetField("cameraAimingType", BindingFlags.NonPublic | BindingFlags.Instance);
+        private FieldInfo GameCameraAimingTypeFieldInfo { get; } =
+            ReflectionUtils.FindField<GameCamera>("cameraAimingType");
 
         private GameCamera.CameraAimingTypes CameraAimingType =>
-            (GameCamera.CameraAimingTypes)GameCameraAimingTypeMethodInfo.GetValue(GameCamera.Instance);
+            (GameCamera.CameraAimingTypes)GameCameraAimingTypeFieldInfo.GetValue(GameCamera.Instance);
+
+        //Typo bro
+        private FieldInfo CharInputScrollYFieldInfo { get; } =
+            ReflectionUtils.FindField<CharacterInputControl>("scollY");
+
+        private float CharInputScrollY
+        {
+            get => (float)CharInputScrollYFieldInfo.GetValue(CharacterInputControl.Instance);
+            set => CharInputScrollYFieldInfo.SetValue(CharacterInputControl.Instance, value);
+        }
+
+        private FieldInfo _switchBulletTypeFieldInfo;
+
+        private FieldInfo CicInputActionsFieldInfo { get; } =
+            ReflectionUtils.FindField<CharacterInputControl>("inputActions");
+
+        private InputAction _switchBulletInputAction;
+
+        //damn 这个交互怎么是这样捏
+        private InputAction SwitchBulletInputAction
+        {
+            get
+            {
+                if (_switchBulletInputAction == null)
+                {
+                    object fieldObj = null;
+                    if (_switchBulletTypeFieldInfo == null)
+                    {
+                        fieldObj = CicInputActionsFieldInfo.GetValue(CharacterInputControl.Instance);
+                        var priType = fieldObj.GetType();
+                        _switchBulletTypeFieldInfo = priType.GetField("SwitchBulletType",
+                            BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic);
+                        if (_switchBulletTypeFieldInfo == null)
+                        {
+                            throw new Exception("找不到SwitchBulletInputAction");
+                        }
+                    }
+                    if (fieldObj == null)
+                    {
+                        fieldObj = CicInputActionsFieldInfo.GetValue(CharacterInputControl.Instance);
+                    }
+                    _switchBulletInputAction =
+                        _switchBulletTypeFieldInfo.GetValue(fieldObj) as InputAction;
+                }
+                return _switchBulletInputAction;
+            }
+        }
 
     #endregion
     }

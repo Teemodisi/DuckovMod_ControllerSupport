@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection;
 using System.Text;
 using TMPro;
 using UnityEngine;
@@ -131,27 +130,13 @@ namespace DuckovController.Helper
             Debug.Log($"{nameof(rectTransform.sizeDelta)}: {rectTransform.sizeDelta}");
         }
 
-        public static Type FindType(string name)
-        {
-            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
-            foreach (var assembly in assemblies)
-            {
-                var type = assembly.GetType(name);
-                if (type != null)
-                {
-                    return type;
-                }
-            }
-            return null;
-        }
-
         public static void BindInput(this InputAction inputAction, Action<InputAction.CallbackContext> bind)
         {
             inputAction.started += bind;
             inputAction.performed += bind;
             inputAction.canceled += bind;
         }
-        
+
         public static void UnBindInput(this InputAction inputAction, Action<InputAction.CallbackContext> bind)
         {
             inputAction.started -= bind;
