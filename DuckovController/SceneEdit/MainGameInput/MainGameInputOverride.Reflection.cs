@@ -9,10 +9,10 @@ namespace DuckovController.SceneEdit.MainGameInput
     {
         private InputAction SwitchBulletInputAction => ReflectionPart.SwitchBulletInputAction;
 
-        private void RefStoreHoldWeaponBeforeUseMethodInfo()
-        {
-            ReflectionPart.StoreHoldWeaponBeforeUseMethodInfo.Invoke(CharacterMainControl.Main, null);
-        }
+        // private void RefStoreHoldWeaponBeforeUseMethodInfo()
+        // {
+        //     ReflectionPart.StoreHoldWeaponBeforeUseMethodInfo.Invoke(CharacterMainControl.Main, null);
+        // }
 
         private static class ReflectionPart
         {
@@ -53,9 +53,9 @@ namespace DuckovController.SceneEdit.MainGameInput
                 }
             }
 
-            public static MethodInfo StoreHoldWeaponBeforeUseMethodInfo { get; } =
-                typeof(CharacterMainControl).GetMethod("StoreHoldWeaponBeforeUse",
-                    BindingFlags.Instance | BindingFlags.NonPublic);
+            // public static MethodInfo StoreHoldWeaponBeforeUseMethodInfo { get; } =
+            //     typeof(CharacterMainControl).GetMethod("StoreHoldWeaponBeforeUse",
+            //         BindingFlags.Instance | BindingFlags.NonPublic);
 
             // private static FieldInfo GameCameraAimingTypeFieldInfo { get; } =
             //     ReflectionUtils.FindField<GameCamera>("cameraAimingType");

@@ -40,20 +40,14 @@ namespace DuckovController.SceneEdit.MainGameInput
             // SwitchBullet = Map.AddAction("SwitchBullet", InputActionType.Button);
             // SwitchBullet.AddBinding("<Gamepad>/dpad/right");
 
-            SwitchMeleeWeapon = Map.AddAction("SwitchMeleeWeapon", InputActionType.Button);
-            SwitchMeleeWeapon.AddBinding("<Gamepad>/dpad/left");
-
-            PutAwayWeapon = Map.AddAction("PutAwayWeapon", InputActionType.Button);
-            // PutAwayWeapon.AddBinding("<Gamepad>/dpad/left");
+            SwitchMeleeOrHold2ToPutAwayWeapon = Map.AddAction("SwitchMeleeOrPutAway", InputActionType.Button);
+            SwitchMeleeOrHold2ToPutAwayWeapon.AddBinding("<Gamepad>/dpad/left").WithInteractions("Hold,Press");
 
             SwitchWeapon = Map.AddAction("SwitchWeapon", InputActionType.Button);
             SwitchWeapon.AddBinding("<Gamepad>/leftShoulder");
 
-            UseItem = Map.AddAction("UseItem", InputActionType.Button);
-            UseItem.AddBinding("<Gamepad>/rightShoulder");
-
-            OpenItemTurntable = Map.AddAction("OpenItemTurntable", InputActionType.Button);
-            // OpenItemTurntable.AddBinding("<Gamepad>/rightShoulder");
+            UseItemOrHold2OpenTurntable = Map.AddAction("UseItemOrOpenTurntable", InputActionType.Button);
+            UseItemOrHold2OpenTurntable.AddBinding("<Gamepad>/rightShoulder").WithInteractions("Hold,Press");
 
             SmallMenuNavigateUp = Map.AddAction("SmallMenuNavigationUp", InputActionType.Button);
             SmallMenuNavigateUp.AddBinding("<Gamepad>/dpad/up");
@@ -98,15 +92,11 @@ namespace DuckovController.SceneEdit.MainGameInput
         // 另外的做法 详见 MainGameInputOverride
         // public InputAction SwitchBullet { get; }
 
-        public InputAction SwitchMeleeWeapon { get; }
-
-        public InputAction PutAwayWeapon { get; }
+        public InputAction SwitchMeleeOrHold2ToPutAwayWeapon { get; }
 
         public InputAction SwitchWeapon { get; }
 
-        public InputAction UseItem { get; }
-
-        public InputAction OpenItemTurntable { get; }
+        public InputAction UseItemOrHold2OpenTurntable { get; }
 
         public InputAction OpenMenu { get; }
 

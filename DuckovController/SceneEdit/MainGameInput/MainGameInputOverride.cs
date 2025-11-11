@@ -2,6 +2,7 @@
 using DuckovController.Helper;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Interactions;
 
 namespace DuckovController.SceneEdit.MainGameInput
 {
@@ -24,6 +25,8 @@ namespace DuckovController.SceneEdit.MainGameInput
         private bool _isAiming;
 
         private MainGamePlayInputMap _inputMap;
+
+        private int _lastUseWeapon;
 
         //右摇杆平移模式，用于压枪或者是瞄准
         private bool IsTranslateMod => _isAiming || _triggerIsDown;
@@ -100,11 +103,9 @@ namespace DuckovController.SceneEdit.MainGameInput
             _inputMap.SmallMenuNavigateUp.BindInput(OnNavigateUp);
             _inputMap.SmallMenuNavigateDown.BindInput(OnNavigateDown);
             // _inputMap.SwitchBullet.BindInput(OnSwitchBullet);
-            _inputMap.SwitchMeleeWeapon.BindInput(OnSwitchMeleeInput);
-            _inputMap.PutAwayWeapon.BindInput(OnPutAwayInput);
+            _inputMap.SwitchMeleeOrHold2ToPutAwayWeapon.BindInput(OnSwitchMeleeOrPutAwayInput);
             _inputMap.SwitchWeapon.BindInput(OnSwitchWeaponInput);
-            _inputMap.UseItem.BindInput(UseItemInput);
-            _inputMap.OpenItemTurntable.BindInput(OnOpenItemTurntableInput);
+            _inputMap.UseItemOrHold2OpenTurntable.BindInput(OnUseItemOrOpenItemTurntableInput);
             _inputMap.QuackAction.BindInput(CharacterInputControl.Instance.OnQuackInput);
 
             // 这个按键T是业务轮询原有 InputAction 实现的
@@ -182,23 +183,31 @@ namespace DuckovController.SceneEdit.MainGameInput
             }
         }
 
-        // 收起武器
-        private void OnPutAwayInput(InputAction.CallbackContext context)
+        private void OnSwitchMeleeOrPutAwayInput(InputAction.CallbackContext context)
         {
-            if (context.performed)
+            if (context.interaction == null)
             {
-                RecordHoldingWeaponExcludeMelee();
-                CharacterInputControl.Instance.OnPutAwayInput(context);
+                Debug.LogError(
+                    $"{Utils.ModName} {nameof(MainGameInputOverride)} {nameof(OnSwitchMeleeOrPutAwayInput)} interaction is null");
+                return;
             }
-        }
-
-        // 切刀
-        private void OnSwitchMeleeInput(InputAction.CallbackContext context)
-        {
-            if (context.started)
+            if (context.interaction.GetType() == typeof(PressInteraction))
             {
-                RecordHoldingWeaponExcludeMelee();
-                CharacterInputControl.Instance.OnPlayerSwitchItemAgentMelee(context);
+                // 切刀
+                if (context.started)
+                {
+                    RecordHoldingWeaponExcludeMelee();
+                    CharacterInputControl.Instance.OnPlayerSwitchItemAgentMelee(context);
+                }
+            }
+            else if (context.interaction.GetType() == typeof(HoldInteraction))
+            {
+                // 收起武器
+                if (context.performed)
+                {
+                    RecordHoldingWeaponExcludeMelee();
+                    CharacterInputControl.Instance.OnPutAwayInput(context);
+                }
             }
         }
 
@@ -209,39 +218,43 @@ namespace DuckovController.SceneEdit.MainGameInput
                 var curWeapon = CharacterMainControl.Main.CurrentHoldItemAgent;
                 var primSlot = CharacterMainControl.Main.PrimWeaponSlot().Content;
                 var secSlot = CharacterMainControl.Main.SecWeaponSlot().Content;
-                if (curWeapon == null)
+                if (curWeapon != null)
                 {
+                    if (primSlot != null && curWeapon.Item == primSlot)
+                    {
+                        if (CharacterMainControl.Main.SwitchToWeapon(1))
+                        {
 #if DEBUG
-                    Debug.Log($"{Utils.ModName} {nameof(OnSwitchWeaponInput)} SwitchToFirstAvailableWeapon");
+                            Debug.Log($"{Utils.ModName} {nameof(OnSwitchWeaponInput)} SwitchToWeapon 1");
 #endif
-                    CharacterMainControl.Main.SwitchToFirstAvailableWeapon();
-                    return;
-                }
-                if (primSlot != null && curWeapon.Item == primSlot)
-                {
+                            _lastUseWeapon = 1;
+                            return;
+                        }
+                    }
+                    if (secSlot != null && curWeapon.Item == secSlot)
+                    {
+                        if (CharacterMainControl.Main.SwitchToWeapon(0))
+                        {
 #if DEBUG
-                    Debug.Log($"{Utils.ModName} {nameof(OnSwitchWeaponInput)} SwitchToWeapon 1");
+                            Debug.Log($"{Utils.ModName} {nameof(OnSwitchWeaponInput)} SwitchToWeapon 0");
 #endif
-                    CharacterMainControl.Main.SwitchToWeapon(1);
-                    return;
-                }
-                if (secSlot != null && curWeapon.Item == secSlot)
-                {
-#if DEBUG
-                    Debug.Log($"{Utils.ModName} {nameof(OnSwitchWeaponInput)} SwitchToWeapon 0");
-#endif
-                    CharacterMainControl.Main.SwitchToWeapon(0);
-                    return;
+                            _lastUseWeapon = 0;
+                            return;
+                        }
+                    }
                 }
 #if DEBUG
 
                 Debug.Log($"{Utils.ModName} {nameof(OnSwitchWeaponInput)} RestoreWeapon");
 #endif
-                CharacterMainControl.Main.SwitchToWeaponBeforeUse();
+                if (!CharacterMainControl.Main.SwitchToWeapon(_lastUseWeapon))
+                {
+                    CharacterMainControl.Main.SwitchToFirstAvailableWeapon();
+                }
             }
         }
 
-        private void UseItemInput(InputAction.CallbackContext context) { }
+        private void OnUseItemOrOpenItemTurntableInput(InputAction.CallbackContext context) { }
 
         private void OnOpenItemTurntableInput(InputAction.CallbackContext context) { }
 
@@ -250,24 +263,24 @@ namespace DuckovController.SceneEdit.MainGameInput
             PauseMenu.Show();
         }
 
+        // CharacterMainControl.StoreHoldWeaponBeforeUse 主要服务于物品使用返回
+        // 再三测试为了这里响应正确，将独立记录使用过的主/副武器
         private void RecordHoldingWeaponExcludeMelee()
         {
             var curWeapon = CharacterMainControl.Main.CurrentHoldItemAgent;
             var primSlot = CharacterMainControl.Main.PrimWeaponSlot().Content;
             var secSlot = CharacterMainControl.Main.SecWeaponSlot().Content;
-            if (curWeapon == null)
+            if (curWeapon != null)
             {
-                return;
-            }
-            if (primSlot != null && curWeapon.Item == primSlot)
-            {
-                RefStoreHoldWeaponBeforeUseMethodInfo();
-                return;
-            }
-            if (secSlot != null && curWeapon.Item == secSlot)
-            {
-                RefStoreHoldWeaponBeforeUseMethodInfo();
-                return;
+                if (primSlot != null && curWeapon.Item == primSlot)
+                {
+                    _lastUseWeapon = 0;
+                    return;
+                }
+                if (secSlot != null && curWeapon.Item == secSlot)
+                {
+                    _lastUseWeapon = 1;
+                }
             }
         }
     }
