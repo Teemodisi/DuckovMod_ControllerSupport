@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using DuckovController.Helper;
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace DuckovController.SceneEdit.MainGameInput
@@ -8,6 +9,12 @@ namespace DuckovController.SceneEdit.MainGameInput
     public partial class MainGameInputOverride
     {
         private InputAction SwitchBulletInputAction => ReflectionPart.SwitchBulletInputAction;
+
+        private Vector2 CharInputCtrlMouseDelta
+        {
+            get => (Vector2)ReflectionPart.CicMouseDeltaFieldInfo.GetValue(CharacterInputControl.Instance);
+            set => ReflectionPart.CicMouseDeltaFieldInfo.SetValue(CharacterInputControl.Instance, value);
+        }
 
         // private void RefStoreHoldWeaponBeforeUseMethodInfo()
         // {
@@ -19,6 +26,9 @@ namespace DuckovController.SceneEdit.MainGameInput
             private static FieldInfo s_SwitchBulletTypeFieldInfo;
 
             private static InputAction s_SwitchBulletInputAction;
+
+            public static FieldInfo CicMouseDeltaFieldInfo { get; } =
+                ReflectionUtils.FindField<CharacterInputControl>("mouseDelta");
 
             private static FieldInfo CicInputActionsFieldInfo { get; } =
                 ReflectionUtils.FindField<CharacterInputControl>("inputActions");

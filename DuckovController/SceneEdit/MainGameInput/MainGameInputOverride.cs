@@ -53,10 +53,10 @@ namespace DuckovController.SceneEdit.MainGameInput
             if (IsTranslateMod)
             {
                 //改为平移
-                InputManager.SetAimInputUsingMouse(_controllerDirection * aim_translation);
+                CharInputCtrlMouseDelta = _controllerDirection * aim_translation;
                 _lastDirection = (InputManager.MousePos - AxisCenter).normalized;
             }
-            else //TODO：存在漏洞 把连续射击的后坐力给跳过了
+            else
             {
                 //TODO：整体缺少偏移
                 var controllerTarget = AxisCenter + _lastDirection.normalized * AimDirectDistance;
@@ -65,7 +65,7 @@ namespace DuckovController.SceneEdit.MainGameInput
                 var delta = next - cur;
                 if (delta.magnitude > 0.01f)
                 {
-                    InputManager.SetAimInputUsingMouse(delta);
+                    CharInputCtrlMouseDelta = delta;
                 }
             }
         }
@@ -255,8 +255,6 @@ namespace DuckovController.SceneEdit.MainGameInput
         }
 
         private void OnUseItemOrOpenItemTurntableInput(InputAction.CallbackContext context) { }
-
-        private void OnOpenItemTurntableInput(InputAction.CallbackContext context) { }
 
         private void OnMenuInput(InputAction.CallbackContext context)
         {
