@@ -8,7 +8,9 @@ namespace DuckovController.SceneEdit.MainGameInput
 {
     public partial class MainGameInputOverride : MonoBehaviour
     {
-        private const float aim_smooth_time = 0.1f;
+        private const float aim_smooth_time_fast = 0.05f;
+
+        private const float aim_smooth_time_slow = 0.2f;
 
         private const float aim_translation = 20f;
 
@@ -61,7 +63,10 @@ namespace DuckovController.SceneEdit.MainGameInput
                 //TODO：整体缺少偏移
                 var controllerTarget = AxisCenter + _lastDirection.normalized * AimDirectDistance;
                 var cur = InputManager.MousePos;
-                var next = Vector2.SmoothDamp(cur, controllerTarget, ref _aimSmoothVel, aim_smooth_time);
+                //给缓动时间加个权重 向量的模越大响应速度越快
+                var time = Mathf.Lerp(aim_smooth_time_slow, aim_smooth_time_fast,
+                    Mathf.Clamp01(_controllerDirection.magnitude));
+                var next = Vector2.SmoothDamp(cur, controllerTarget, ref _aimSmoothVel, time);
                 var delta = next - cur;
                 if (delta.magnitude > 0.01f)
                 {
