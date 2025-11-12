@@ -24,11 +24,11 @@ namespace DuckovController.SceneEdit.MainGameInput
             ReloadAction = Map.AddAction("Reload", InputActionType.Button);
             ReloadAction.AddBinding("<Gamepad>/buttonWest");
 
-            MovementAction = Map.AddAction("Movement");
-            MovementAction.AddBinding("<Gamepad>/leftStick");
+            MovementAction = Map.AddAction("Movement", expectedControlLayout: "Vector2");
+            MovementAction.AddBinding("<Gamepad>/leftStick").WithProcessors("StickDeadzone");
 
-            AimDirectionAction = Map.AddAction("AimDirection");
-            AimDirectionAction.AddBinding("<Gamepad>/rightStick");
+            AimDirectionAction = Map.AddAction("AimDirection", expectedControlLayout: "Vector2");
+            AimDirectionAction.AddBinding("<Gamepad>/rightStick").WithProcessors("StickDeadzone");
 
             AdsAction = Map.AddAction("Aim");
             AdsAction.AddBinding("<Gamepad>/leftTrigger");

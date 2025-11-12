@@ -131,7 +131,10 @@ namespace DuckovController.SceneEdit.MainGameInput
             if (context.performed)
             {
                 _controllerDirection = context.ReadValue<Vector2>();
-                _lastDirection = _controllerDirection;
+                if (_controllerDirection.magnitude > 0.01f)
+                {
+                    _lastDirection = _controllerDirection;
+                }
             }
             if (context.canceled)
             {
