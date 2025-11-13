@@ -6,7 +6,7 @@ namespace DuckovController.SceneEdit.MainGameInput
     {
         public MainGamePlayInputMap()
         {
-            Map = new InputActionMap();
+            Map = new InputActionMap(nameof(MainGamePlayInputMap));
 
             RunAction = Map.AddAction("Run", InputActionType.Button);
             RunAction.AddBinding("<Gamepad>/buttonEast");
@@ -47,7 +47,7 @@ namespace DuckovController.SceneEdit.MainGameInput
             SwitchWeapon.AddBinding("<Gamepad>/leftShoulder");
 
             UseItemOrHold2OpenTurntable = Map.AddAction("UseItemOrOpenTurntable", InputActionType.Button);
-            UseItemOrHold2OpenTurntable.AddBinding("<Gamepad>/rightShoulder").WithInteractions("Hold,Press");
+            UseItemOrHold2OpenTurntable.AddBinding("<Gamepad>/rightShoulder").WithInteractions("Hold(duration=0.2),Press");
 
             SmallMenuNavigateUp = Map.AddAction("SmallMenuNavigationUp", InputActionType.Button);
             SmallMenuNavigateUp.AddBinding("<Gamepad>/dpad/up");

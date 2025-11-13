@@ -10,6 +10,21 @@ namespace DuckovController.SceneEdit
     {
         public static TMP_FontAsset currentFont = null;
 
+        private static Material s_TranslucentImageMaterial;
+        
+        public static Material TranslucentImageMaterial
+        {
+            get
+            {
+                if (s_TranslucentImageMaterial == null)
+                {
+                    s_TranslucentImageMaterial = new Material(Shader.Find("UI/TranslucentImage"));
+                }
+
+                return s_TranslucentImageMaterial;
+            }
+        }
+
         public static RectTransform DrawPadButtonTips(RectTransform parent, GamePadButton button, string labelText)
         {
             var rectTransform = new GameObject("GamePadTips").AddComponent<RectTransform>();
@@ -257,7 +272,7 @@ namespace DuckovController.SceneEdit
             return image;
         }
 
-        private static void UniShadow(TrueShadow shadow)
+        public static void UniShadow(TrueShadow shadow)
         {
             //统一阴影样式
             shadow.Size = 10;

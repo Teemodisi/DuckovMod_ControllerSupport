@@ -63,6 +63,12 @@ namespace DuckovController
             loader.gameObject.AddComponent<SceneLoaderOverride>();
         }
 
+        private void PatchMainGame()
+        {
+            PatchGameInput();
+            PatchItemTurntableHUD();
+        }
+
         private void PatchGameInput()
         {
             var playerInput = GameObject.Find("PlayerInput");
@@ -78,6 +84,14 @@ namespace DuckovController
                 return;
             }
             pi.gameObject.AddComponent<MainGameInputOverride>();
+        }
+
+        private void PatchItemTurntableHUD()
+        {
+            var hudManager = FindObjectOfType<HUDManager>();
+            var table = new GameObject("ItemTurntableHUD");
+            table.transform.SetParent(hudManager.transform, false);
+            table.AddComponent<MainGameItemTurntableHUD>();
         }
     }
 }

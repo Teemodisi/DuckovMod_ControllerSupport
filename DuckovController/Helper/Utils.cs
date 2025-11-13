@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using Object = UnityEngine.Object;
 
 namespace DuckovController.Helper
 {
@@ -142,6 +143,30 @@ namespace DuckovController.Helper
             inputAction.started -= bind;
             inputAction.performed -= bind;
             inputAction.canceled -= bind;
+        }
+
+        public static void DebugShowAllSceneGameObject()
+        {
+            Debug.Log("====DebugShowAllSceneGameObject====");
+            var roots = SceneManager.GetActiveScene().GetRootGameObjects();
+            foreach (var root in roots)
+            {
+                root.transform.ShowAllComponents();
+            }
+        }
+
+        public static void DebugShowAllDDOLSceneGameObject()
+        {
+            Debug.Log($"===={nameof(DebugShowAllDDOLSceneGameObject)}====");
+            var temp = new GameObject("temp");
+            Object.DontDestroyOnLoad(temp);
+            var scene = temp.scene;
+            Object.DestroyImmediate(temp);
+            var roots = scene.GetRootGameObjects();
+            foreach (var root in roots)
+            {
+                root.transform.ShowAllComponents();
+            }
         }
     }
 }

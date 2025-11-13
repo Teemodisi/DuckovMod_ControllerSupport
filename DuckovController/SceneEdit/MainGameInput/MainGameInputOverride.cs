@@ -115,7 +115,7 @@ namespace DuckovController.SceneEdit.MainGameInput
 
             // 这个按键T是业务轮询原有 InputAction 实现的
             // 反射获取这个 Action 额外给这个按钮绑定新的按键
-            // 因为原有 InputMap 屏蔽了GamePad的输入，在这里要重刷一下
+            // 因为原有 PlayerInput=>InputActionMap 带的 ControlScheme 屏蔽了GamePad的输入，在这里要重刷一下
             GameManager.MainPlayerInput.SwitchCurrentControlScheme(Keyboard.current, Mouse.current, Gamepad.current);
             SwitchBulletInputAction.AddBinding("<Gamepad>/dpad/right");
         }
@@ -133,6 +133,11 @@ namespace DuckovController.SceneEdit.MainGameInput
 
         private void OnAimDirectionInput(InputAction.CallbackContext context)
         {
+            if (MainGameItemTurntableHUD.Instance.Interactive)
+            {
+                _controllerDirection = Vector2.zero;
+                return;
+            }
             if (context.performed)
             {
                 _controllerDirection = context.ReadValue<Vector2>();
@@ -262,7 +267,36 @@ namespace DuckovController.SceneEdit.MainGameInput
             }
         }
 
-        private void OnUseItemOrOpenItemTurntableInput(InputAction.CallbackContext context) { }
+        private void OnUseItemOrOpenItemTurntableInput(InputAction.CallbackContext context)
+        {
+            if (context.interaction == null)
+            {
+                Debug.LogError(
+                    $"{Utils.ModName} {nameof(MainGameInputOverride)} {nameof(OnUseItemOrOpenItemTurntableInput)} interaction is null");
+                return;
+            }
+            if (context.interaction.GetType() == typeof(PressInteraction))
+            {
+                if (context.performed)
+                {
+                    Debug.Log("UseItem====");
+                }
+            }
+            else if (context.interaction.GetType() == typeof(HoldInteraction))
+            {
+                // 收起武器
+                if (context.performed)
+                {
+                    Debug.Log("ShowTable====");  
+                    MainGameItemTurntableHUD.Instance.Show();
+                }
+                if (context.canceled)
+                {
+                    Debug.Log("HideTable====");  
+                    MainGameItemTurntableHUD.Instance.Hide();
+                }
+            }
+        }
 
         private void OnMenuInput(InputAction.CallbackContext context)
         {

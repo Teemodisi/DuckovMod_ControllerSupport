@@ -1,9 +1,12 @@
-﻿using Duckov.UI;
+﻿using Duckov.MiniMaps.UI;
+using Duckov.Quests.UI;
+using Duckov.UI;
 using Duckov.Utilities;
 using DuckovController.Helper;
-using TMPro;
+using LeTai.Asset.TranslucentImage;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 namespace DuckovController
 {
@@ -20,32 +23,73 @@ namespace DuckovController
         {
             if (Input.GetKeyDown(KeyCode.F2))
             {
-                //
-                BlackScreen.Instance.gameObject.SetActive(!BlackScreen.Instance.gameObject.activeSelf);
-                Debug.Log(BlackScreen.Instance.gameObject.activeSelf);
+                // var hudManager = FindObjectOfType<HUDManager>();
+                // var tran = hudManager.gameObject.transform;
+                // while (tran.parent != null)
+                // {
+                //     tran = tran.parent; 
+                // }
+                // tran.transform.ShowAllComponents();
+                var obj = FindObjectOfType<GameplayUIManager>();
+                Debug.Log(obj == null);
+                // var target = obj.transform.Find("LevelManager(Clone)/GameplayUICanvas/Tabs/ViewArea/MiniMapView/Content");
+                var target = obj.GetComponentInChildren<QuestGiverView>(true);
+                Debug.Log(target == null);
+                var com = target.transform.GetChild(0) .GetComponent<TranslucentImage>();
+                Debug.Log(com.spriteBlending);
+                Debug.Log(com.vibrancy);
+                Debug.Log(com.brightness);
+                Debug.Log(com.flatten);
+                Debug.Log(com.material.name);
+                Debug.Log(com.color);
+                Debug.Log(com.sprite);
+                Debug.Log(com.source);
+
             }
             if (Input.GetKeyDown(KeyCode.F3))
             {
-                //
-                SceneManager.LoadScene("LoadingScreen_Black", LoadSceneMode.Single);
+                var roots = SceneManager.GetActiveScene().GetRootGameObjects();
+                foreach (var root in roots)
+                {
+                    Debug.Log(root.name);
+                }
             }
             if (Input.GetKeyDown(KeyCode.F4))
             {
                 //
-                var roots = SceneManager.GetActiveScene().GetRootGameObjects();
-                foreach (var root in roots)
+                var hud = FindObjectOfType<HUDManager>();
+                if (hud == null)
                 {
-                    Debug.Log("==========");
-                    root.transform.ShowAllComponents();
-                    if (root.TryGetComponent(out TextMeshPro tmp))
-                    {
-                        Debug.Log($"TMP!: {tmp.text}");
-                    }
+                    Debug.LogError("hub is no found");
                 }
+                hud.GetComponent<RectTransform>().LogRectTransformInfo();
+                var canvas = hud.gameObject.GetComponentInParent<Canvas>();
+                if (canvas == null)
+                {
+                    Debug.LogError("canvas is no found");
+                }
+                canvas.GetComponent<RectTransform>().LogRectTransformInfo();
+                var rect = canvas.GetComponent<CanvasScaler>();
+                Debug.Log($"uiScaleMode {rect.uiScaleMode} {rect.referenceResolution}");
+                Debug.Log($"uiScaleMode {rect.screenMatchMode} {rect.matchWidthOrHeight}");
+
+                Debug.Log(canvas.gameObject.scene.name);
+                if (canvas.transform.parent != null)
+                {
+                    // canvas.transform.parent.ShowAllComponents();
+                }
+
+                // canvas.transform.ShowAllComponents();
             }
             if (Input.GetKeyDown(KeyCode.F5))
             {
-                //
+                
+                
+                Utils.DebugShowAllSceneGameObject();
+            }
+            if (Input.GetKeyDown(KeyCode.F6))
+            {
+                Utils.DebugShowAllDDOLSceneGameObject();
             }
         }
 
@@ -78,7 +122,7 @@ namespace DuckovController
             }
             if (scene.name == GameplayDataSettings.SceneManagement.BaseScene.Name)
             {
-                PatchGameInput();
+                PatchMainGame();
             }
         }
     }
