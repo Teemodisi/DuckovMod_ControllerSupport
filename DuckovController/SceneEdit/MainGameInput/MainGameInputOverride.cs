@@ -279,7 +279,7 @@ namespace DuckovController.SceneEdit.MainGameInput
             {
                 if (context.performed)
                 {
-                    Debug.Log("UseItem====");
+                    MainGameItemTurntableHUD.Instance.UseCurrentSlot();
                 }
             }
             else if (context.interaction.GetType() == typeof(HoldInteraction))
@@ -287,13 +287,12 @@ namespace DuckovController.SceneEdit.MainGameInput
                 // 收起武器
                 if (context.performed)
                 {
-                    Debug.Log("ShowTable====");  
                     MainGameItemTurntableHUD.Instance.Show();
                 }
                 if (context.canceled)
                 {
-                    Debug.Log("HideTable====");  
                     MainGameItemTurntableHUD.Instance.Hide();
+                    MainGameItemTurntableHUD.Instance.UseCurrentSlot();
                 }
             }
         }
