@@ -10,6 +10,8 @@ namespace DuckovController.SceneEdit.Other
 
         private OnPointerClick _onPointerClick;
 
+        private InputAction _action;
+
         private static PointerEventData PointerEventData
         {
             get
@@ -28,17 +30,20 @@ namespace DuckovController.SceneEdit.Other
         private void Awake()
         {
             _onPointerClick = GetComponent<OnPointerClick>();
+            _action = new InputAction("ConfirmBtn", InputActionType.Button);
+            _action.AddBinding("<Gamepad>/buttonSouth");
+            _action.performed += OnConfirmBtnDown;
         }
 
         //这里会根据SceneLoader被开启和关闭
         private void OnEnable()
         {
-            GamePadInput.Instance.ConfirmAction.performed += OnConfirmBtnDown;
+            _action.Enable();
         }
 
         private void OnDisable()
         {
-            GamePadInput.Instance.ConfirmAction.performed -= OnConfirmBtnDown;
+            _action.Disable();
         }
 
         private void OnConfirmBtnDown(InputAction.CallbackContext obj)
