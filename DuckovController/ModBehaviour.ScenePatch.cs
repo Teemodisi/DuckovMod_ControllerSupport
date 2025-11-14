@@ -1,5 +1,5 @@
 ﻿using DuckovController.Helper;
-using DuckovController.SceneEdit.MainGameInput;
+using DuckovController.SceneEdit.MainGame;
 using DuckovController.SceneEdit.MainMenu;
 using DuckovController.SceneEdit.Other;
 using UnityEngine;

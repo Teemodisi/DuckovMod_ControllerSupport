@@ -1,6 +1,6 @@
 ﻿using UnityEngine.InputSystem;
 
-namespace DuckovController.SceneEdit.MainGameInput
+namespace DuckovController.SceneEdit.MainGame
 {
     public class MainGamePlayInputMap
     {

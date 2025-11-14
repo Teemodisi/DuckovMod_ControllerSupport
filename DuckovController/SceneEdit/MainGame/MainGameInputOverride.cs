@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Interactions;
 
-namespace DuckovController.SceneEdit.MainGameInput
+namespace DuckovController.SceneEdit.MainGame
 {
     public partial class MainGameInputOverride : MonoBehaviour
     {

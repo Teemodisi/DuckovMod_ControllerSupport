@@ -9,7 +9,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using UnityEngine.UI.ProceduralImage;
 
-namespace DuckovController.SceneEdit.MainGameInput
+namespace DuckovController.SceneEdit.MainGame
 {
     public partial class MainGameItemTurntableHUD : SingletonMonoBehaviour<MainGameItemTurntableHUD>
     {

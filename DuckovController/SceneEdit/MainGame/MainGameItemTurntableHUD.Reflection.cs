@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace DuckovController.SceneEdit.MainGameInput
+namespace DuckovController.SceneEdit.MainGame
 {
     public partial class MainGameItemTurntableHUD
     {
