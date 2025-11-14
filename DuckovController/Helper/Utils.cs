@@ -23,7 +23,7 @@ namespace DuckovController.Helper
         public static string ModName { get; } = "[Duckov Controller]";
 
         public static void ShowAllComponents(this Transform transform, bool showCom = true,
-            IList<Type> excludeList = null)
+            IList<Type> excludeList = null, int depth = int.MaxValue)
         {
             var exclude = new HashSet<Type>();
             foreach (var type in s_BaseExcludeList)
@@ -63,6 +63,10 @@ namespace DuckovController.Helper
 
                 Debug.Log(sb.ToString());
 
+                if (level >= depth)
+                {
+                    continue;
+                }
                 level++;
                 stack.Push(null);
                 var count = cur.childCount;
@@ -71,6 +75,19 @@ namespace DuckovController.Helper
                     stack.Push(cur.GetChild(i));
                 }
             }
+        }
+
+        public static Transform GetRootParent(this Transform transform, out int levelCount)
+        {
+            levelCount = 1;
+            var parent = transform.parent;
+            while (parent != null)
+            {
+                transform = parent;
+                parent = transform.parent;
+                levelCount++;
+            }
+            return transform;
         }
 
         public static void LogGameObjectComponents(this Transform transform, StringBuilder sb,

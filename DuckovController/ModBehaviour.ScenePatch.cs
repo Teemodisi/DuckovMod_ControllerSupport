@@ -1,4 +1,5 @@
-﻿using DuckovController.Helper;
+﻿using Duckov.UI;
+using DuckovController.Helper;
 using DuckovController.SceneEdit.MainGame;
 using DuckovController.SceneEdit.MainMenu;
 using DuckovController.SceneEdit.Other;
@@ -67,6 +68,7 @@ namespace DuckovController
         {
             PatchGameInput();
             PatchItemTurntableHUD();
+            PatchGameplayUIManager();
         }
 
         private void PatchGameInput()
@@ -89,9 +91,25 @@ namespace DuckovController
         private void PatchItemTurntableHUD()
         {
             var hudManager = FindObjectOfType<HUDManager>();
+            if (hudManager == null)
+            {
+                Debug.LogError("找不到 HUDManager");
+                return;
+            }
             var table = new GameObject("ItemTurntableHUD");
             table.transform.SetParent(hudManager.transform, false);
             table.AddComponent<MainGameItemTurntableHUD>();
+        }
+
+        private void PatchGameplayUIManager()
+        {
+            var gameplayUIManager = FindObjectOfType<GameplayUIManager>();
+            if (gameplayUIManager == null)
+            {
+                Debug.LogError("找不到 GameplayUIManager");
+                return;
+            }
+            gameplayUIManager.gameObject.AddComponent<GameplayUIOverride>();
         }
     }
 }
