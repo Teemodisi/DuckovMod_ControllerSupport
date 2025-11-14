@@ -113,6 +113,7 @@ namespace DuckovController.SceneEdit.MainGame
             _inputMap.UseItemOrHold2OpenTurntable.BindInput(OnUseItemOrOpenItemTurntableInput);
             _inputMap.QuackAction.BindInput(CharacterInputControl.Instance.OnQuackInput);
 
+            // TODO：拔掉手柄这里会有问题
             // 这个按键T是业务轮询原有 InputAction 实现的
             // 反射获取这个 Action 额外给这个按钮绑定新的按键
             // 因为原有 PlayerInput=>InputActionMap 带的 ControlScheme 屏蔽了GamePad的输入，在这里要重刷一下
