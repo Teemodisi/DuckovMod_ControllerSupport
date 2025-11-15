@@ -23,8 +23,6 @@ namespace DuckovController.SceneEdit.MainGame
 
         private readonly RectTransform[] _itemSlotMark = new RectTransform[6];
 
-        private InputAction _inputAction;
-
         public bool Interactive { get; private set; }
 
         public int SelectedSlotIndex { get; private set; }

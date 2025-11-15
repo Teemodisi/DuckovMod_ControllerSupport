@@ -26,8 +26,6 @@ namespace DuckovController.SceneEdit.MainGame
 
         private bool _isAiming;
 
-        private MainGamePlayInputMap _inputMap;
-
         private int _lastUseWeapon;
 
         //右摇杆平移模式，用于压枪或者是瞄准
@@ -41,7 +39,7 @@ namespace DuckovController.SceneEdit.MainGame
 
         private void Awake()
         {
-            InitInputMap();
+            InitMap();
             View.OnActiveViewChanged += OnActiveViewChanged;
             OnActiveViewChanged();
         }
@@ -77,48 +75,17 @@ namespace DuckovController.SceneEdit.MainGame
 
         private void OnEnable()
         {
-            _inputMap.Map.Enable();
+            _map.Enable();
         }
 
         private void OnDisable()
         {
-            _inputMap.Map.Disable();
+            _map.Disable();
         }
 
         private void OnDestroy()
         {
             View.OnActiveViewChanged -= OnActiveViewChanged;
-        }
-
-        private void InitInputMap()
-        {
-            //TODO:缺少开启夜视仪
-            _inputMap = new MainGamePlayInputMap();
-            _inputMap.RunAction.BindInput(CharacterInputControl.Instance.OnPlayerRunInput);
-            _inputMap.CancelAction.BindInput(OnCancelInput);
-            _inputMap.RollAction.BindInput(CharacterInputControl.Instance.OnDashInput);
-            _inputMap.ReloadAction.BindInput(CharacterInputControl.Instance.OnReloadInput);
-            _inputMap.InteractAction.BindInput(CharacterInputControl.Instance.OnInteractInput);
-            _inputMap.MovementAction.BindInput(CharacterInputControl.Instance.OnPlayerMoveInput);
-            _inputMap.TriggerAction.BindInput(OnTriggerInput);
-            _inputMap.AdsAction.BindInput(OnAdsInput);
-            _inputMap.AimDirectionAction.BindInput(OnAimDirectionInput);
-            _inputMap.OpenInventory.BindInput(CharacterInputControl.Instance.OnUIInventoryInput);
-            _inputMap.OpenMenu.BindInput(OnMenuInput);
-            _inputMap.SmallMenuNavigateUp.BindInput(OnNavigateUp);
-            _inputMap.SmallMenuNavigateDown.BindInput(OnNavigateDown);
-            // _inputMap.SwitchBullet.BindInput(OnSwitchBullet);
-            _inputMap.SwitchMeleeOrHold2ToPutAwayWeapon.BindInput(OnSwitchMeleeOrPutAwayInput);
-            _inputMap.SwitchWeapon.BindInput(OnSwitchWeaponInput);
-            _inputMap.UseItemOrHold2OpenTurntable.BindInput(OnUseItemOrOpenItemTurntableInput);
-            _inputMap.QuackAction.BindInput(CharacterInputControl.Instance.OnQuackInput);
-
-            // TODO：拔掉手柄这里会有问题
-            // 这个按键T是业务轮询原有 InputAction 实现的
-            // 反射获取这个 Action 额外给这个按钮绑定新的按键
-            // 因为原有 PlayerInput=>InputActionMap 带的 ControlScheme 屏蔽了GamePad的输入，在这里要重刷一下
-            GameManager.MainPlayerInput.SwitchCurrentControlScheme(Keyboard.current, Mouse.current, Gamepad.current);
-            SwitchBulletInputAction.AddBinding("<Gamepad>/dpad/right");
         }
 
         private void OnCancelInput(InputAction.CallbackContext context)
