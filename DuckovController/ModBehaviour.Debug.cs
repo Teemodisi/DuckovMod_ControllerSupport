@@ -14,39 +14,20 @@ namespace DuckovController
         {
             if (Input.GetKeyDown(KeyCode.F2))
             {
-                // if (View.ActiveView != null)
+                var inputManager = GameObject.FindObjectOfType<LevelManager>();
+                inputManager.transform.ShowAllComponents(depth: 3);
+                // var fields = typeof(LevelManager)
+                //     .GetFields(BindingFlags.NonPublic | BindingFlags.Instance)
+                //     .Where(x => x.Name.Contains("inputAction"));
+                // foreach (var field in fields)
                 // {
-                //     var view = View.ActiveView;
-                //     var parent = view.transform.parent;
-                //     Debug.Log($"===={parent.gameObject.name}====");
-                //     var trans = view.transform.GetRootParent(out var levelCount);
-                //     Debug.Log($"levelCount  {levelCount}");
-                //     // trans.ShowAllComponents(depth: levelCount);
-                //     var count = parent.childCount;
-                //     for (var i = 0; i < count; i++)
+                //     Debug.Log($"=={field.Name}==");
+                //     var ia = (InputAction)field.GetValue(UIInputManager.Instance);
+                //     foreach (var inputBinding in ia.bindings)
                 //     {
-                //         var child = parent.GetChild(i);
-                //         Debug.Log(child.name);
-                //         var com = child.GetComponents<MonoBehaviour>();
-                //         foreach (var monoBehaviour in com)
-                //         {
-                //             Debug.Log($"--{monoBehaviour.GetType().Name}");
-                //         }
+                //         Debug.Log(inputBinding.path);
                 //     }
                 // }
-
-                var fields = typeof(UIInputManager)
-                    .GetFields(BindingFlags.NonPublic | BindingFlags.Instance)
-                    .Where(x => x.Name.Contains("inputAction"));
-                foreach (var field in fields)
-                {
-                    Debug.Log($"=={field.Name}==");
-                    var ia = (InputAction)field.GetValue(UIInputManager.Instance);
-                    foreach (var inputBinding in ia.bindings)
-                    {
-                        Debug.Log(inputBinding.path);
-                    }
-                }
             }
             if (Input.GetKeyDown(KeyCode.F3))
             {

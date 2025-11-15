@@ -1,5 +1,6 @@
 ﻿using Duckov.UI;
 using DuckovController.Helper;
+using DuckovController.SceneEdit.GamePlayUI;
 using DuckovController.SceneEdit.MainGame;
 using DuckovController.SceneEdit.MainMenu;
 using DuckovController.SceneEdit.Other;

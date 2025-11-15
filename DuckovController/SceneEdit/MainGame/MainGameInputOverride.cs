@@ -97,6 +97,17 @@ namespace DuckovController.SceneEdit.MainGame
         private void OnActiveViewChanged()
         {
             _isGaming = View.ActiveView == null;
+            if (gameObject.activeInHierarchy)
+            {
+                if (_isGaming)
+                {
+                    _inputActionMap.Enable();
+                }
+                else
+                {
+                    _inputActionMap.Disable();
+                }
+            }
         }
 
         private void OnAimDirectionInput(InputAction.CallbackContext context)

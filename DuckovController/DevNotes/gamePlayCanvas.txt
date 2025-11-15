@@ -1,0 +1,990 @@
+﻿Dev by:InitLoader
+Mod Loaded: 控制台Mod
+ModActive_DuckovController: True
+Loading mod dll at path: C:/Program Files (x86)/Steam/steamapps/common/Escape from Duckov/Duckov_Data\Mods\DuckovController\DuckovController.dll
+[DuckovController] Awake
+Mod Loaded: DuckovController
+[DuckovController] OnAfterSetup
+ModActive_GameControllerSupport: False
+ModActive_BossLiveMapMod: False
+ModActive_BattlefieldTypeKillNotice: False
+ModActive_Duckov_RecipeRecordedIndicator: False
+ModActive_KeycardRecordedIndicator: False
+ModActive_ItemLevelAndSearchSoundMod: False
+ModActive_DuckSort: False
+ModActive_CFKillFeedback: False
+ModActive_DisplayItemValue: False
+[Duckov Controller] SceneLoadListen: MainMenu
+Sorted mods:
+HarmonyLoadMod
+tinygrox.DuckovMods.DuckovExplorer
+控制台Mod
+DuckovController
+GameControllerSupport
+BossLiveMapMod
+BattlefieldTypeKillNotice
+Duckov_RecipeRecordedIndicator
+KeycardRecordedIndicator
+ItemLevelAndSearchSoundMod
+DuckSort
+CFKillFeedback
+DisplayItemValue
+
+[Duckov Controller] SceneLoadListen: LoadingScreen_Black
+tree data is empty
+[Duckov Controller] SceneLoadListen: Base
+New boot
+[Level Initialization] Starting up...
+[Level Initialization] Invoking Beginning Event...
+[Level Initialization] Setting up rule...
+Rule is:生存,Recoil:1
+[Level Initialization] Getting location...
+[Level Initialization] Creating location info...
+[Level Initialization] Setting start position...
+[Level Initialization] Creating character at location...
+Error: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: startIndex
+[Level Initialization] Teleporting to location...
+[Duckov Controller] SceneLoadListen: Base_SceneV2
+[Level Initialization] Opening ears
+[Level Initialization] Hearing Ambient
+[Level Initialization] Hearing Buses
+[Level Initialization] Reach location task caching
+[Level Initialization] Spawning item for task
+[Level Initialization] Spawning prefabs for task
+[Level Initialization] Spawning item for task
+[Level Initialization] Spawning item for task
+[Level Initialization] Spawning prefabs for task
+[Level Initialization] Spawning item for task
+[Level Initialization] Spawning prefabs for task
+[Level Initialization] Spawning prefabs for task
+[Level Initialization] Spawning prefabs for task
+[Level Initialization] Spawning item for task
+[Level Initialization] Spawning item for task
+[Level Initialization] Spawning prefabs for task
+[Level Initialization] Spawning prefabs for task
+[Level Initialization] Spawning prefabs for task
+[Level Initialization] Spawning prefabs for task
+[Level Initialization] Spawning prefabs for task
+[Level Initialization] Spawning item for task
+[Level Initialization] Spawning item for task
+[Level Initialization] Spawning item for task
+[Level Initialization] Spawning item for task
+[Level Initialization] Spawning item for task
+[Level Initialization] Spawning item for task
+[Level Initialization] Spawning item for task
+[Level Initialization] Spawning item for task
+[Level Initialization] Spawning prefabs for task
+[Level Initialization] Spawning prefabs for task
+[Level Initialization] Spawning prefabs for task
+[Level Initialization] Spawning prefabs for task
+[Level Initialization] Spawning prefabs for task
+[Level Initialization] Spawning prefabs for task
+[Level Initialization] Spawning prefabs for task
+[Level Initialization] Spawning prefabs for task
+[Level Initialization] Spawning item for task
+[Level Initialization] Spawning prefabs for task
+[Level Initialization] Spawning prefabs for task
+[Level Initialization] Spawning prefabs for task
+[Level Initialization] Spawning prefabs for task
+[Level Initialization] Spawning prefabs for task
+[Level Initialization] Spawning item for task
+[Level Initialization] Spawning item for task
+[Level Initialization] Spawning prefabs for task
+[Level Initialization] Spawning item for task
+[Level Initialization] Spawning prefabs for task
+[Level Initialization] Spawning prefabs for task
+[Level Initialization] Spawning item for task
+[Level Initialization] Spawning prefabs for task
+[Level Initialization] Spawning bodies
+[Level Initialization] Setting up character status...
+[Level Initialization] Setting up pet...
+Error: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: startIndex
+[Level Initialization] Setting character items...
+[Level Initialization] Waiting for other initialization...
+[Level Initialization] Handling raid initialization...
+[Level Initialization] Invoking initialized event...
+[Level Initialization] Healing...
+[Level Initialization] Spawing exits...
+[Level Initialization] Creating map element...
+[Level Initialization] Setting character position...
+Load bool:StormZone_GetHardDrive  value:False
+Error: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: startIndex
+Error: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: startIndex
+Error: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: startIndex
+Error: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: startIndex
+Error: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: startIndex
+Error: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: startIndex
+Error: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: startIndex
+[Level Initialization] Done!
+LevelManager(Clone){LevelManager, CharacterCreator, AIMainBrain, ExitCreator, CharacterPosInShader, CustomFaceManager, CheatingManager, BlueNoiseSetter, }
+  FogOfWar{FogOfWarWorld, FogOfWarManager, }
+    MainVis{FogOfWarRevealer3D, }
+  TimeOfDayController{TimeOfDayController, }
+    TimeOfDayWeatherVolumeControl{TimeOfDayVolumeControl, }
+      FromVolume{Volume, }
+      ToVolume{Volume, }
+    Storms{}
+      StormI{StormWeather, }
+      StormII{StormWeather, }
+  GameplayUICanvas{Canvas, CanvasScaler, GraphicRaycaster, GameplayUIManager, CanvasGroup, CanvasGroupFade, FadeGroup, CanvasScalerController, GameplayUIOverride, }
+    Tabs{ViewTabs, FadeGroup, CanvasGroup, CanvasGroupFade, }
+      Top{Image, }
+      Bottom{Image, }
+      ViewArea{}
+      ViewButtons{HorizontalLayoutGroup, ContentSizeFitter, }
+    StorageDock{Image, FadeGroup, CloseViewOnPointerClick, StorageDock, }
+      ButtonContainer{LayoutElement, }
+      Content{TranslucentImage, TrueShadow, RectTransformFade, VerticalLayoutGroup, }
+      PrevPage{Image, TrueShadow, Button, ButtonAnimation, LayoutElement, }
+      Page{TextMeshProUGUI, }
+      NextPage{Image, TrueShadow, Button, ButtonAnimation, LayoutElement, }
+      Text (TMP){TextMeshProUGUI, TextLocalizor, }
+    CraftView{CanvasGroup, FadeGroup, CanvasGroupFade, Image, CraftView, }
+      Text (TMP){TextMeshProUGUI, TextLocalizor, }
+      Content{}
+    StockShopView{CanvasGroup, FadeGroup, CanvasGroupFade, StockShopView, Image, CloseViewOnPointerClick, }
+      Text (TMP){TextMeshProUGUI, TextLocalizor, }
+      ItemDetails{FadeGroup, CanvasGroup, CanvasGroupFade, ItemDetailsDisplay, }
+      Content{}
+    ItemDetails{ItemDetailsPanel, FadeGroup, CanvasGroup, CanvasGroupFade, ItemDetailsDisplay, }
+      Panel{TranslucentImage, TrueShadow, RectTransformFade, CanvasGroup, CanvasGroupFade, ContentSizeFitter, VerticalLayoutGroup, }
+    QuestGiverView{QuestGiverView, QuestViewDetails, FadeGroup, CanvasGroup, CanvasGroupFade, Image, CloseViewOnPointerClick, }
+      Content{TranslucentImage, TrueShadow, RectTransformFade, CanvasGroup, CanvasGroupFade, }
+      CompletePanel{Image, QuestCompletePanel, FadeGroup, CanvasGroup, CanvasGroupFade, }
+    ItemPicker{ItemPicker, FadeGroup, }
+      LootTarget{}
+    ItemCustomizeSelectionView{Image, FadeGroup, ItemCustomizeSelectionView, CloseViewOnPointerClick, }
+      Content{CanvasGroup, CanvasGroupFade, }
+      ItemDetails{FadeGroup, CanvasGroup, CanvasGroupFade, ItemDetailsDisplay, }
+    ItemDecomposeView{Image, FadeGroup, CloseViewOnPointerClick, ItemDecomposeView, }
+      Content{CanvasGroup, CanvasGroupFade, }
+      ItemDetails{FadeGroup, CanvasGroup, CanvasGroupFade, ItemDetailsDisplay, }
+    ItemCustomizeView{ItemCustomizeView, Image, FadeGroup, CanvasGroup, CanvasGroupFade, CloseViewOnPointerClick, }
+      Main{}
+    ItemRepairView{Image, FadeGroup, CloseViewOnPointerClick, ItemRepairView, }
+      Content{CanvasGroup, CanvasGroupFade, }
+      ItemDetails{FadeGroup, CanvasGroup, CanvasGroupFade, ItemDetailsDisplay, }
+    PerkTreeView{PerkTreeView, FadeGroup, CanvasGroup, CanvasGroupFade, CloseViewOnPointerClick, Image, }
+      Title{HorizontalLayoutGroup, LayoutElement, RectTransformFade, CanvasGroup, CanvasGroupFade, }
+      ButtonContainer{LayoutElement, }
+      Content{}
+    MasterKeysRegisterView{Image, FadeGroup, MasterKeysRegisterView, CloseViewOnPointerClick, }
+      Content{CanvasGroup, CanvasGroupFade, }
+      KeySlotItem{Item, SlotCollection, }
+    FormulaRegisterView{Image, FadeGroup, CloseViewOnPointerClick, FormulasRegisterView, }
+      Content{CanvasGroup, CanvasGroupFade, }
+      SubmitItem{Item, SlotCollection, }
+    FormulasIndexView{FadeGroup, CanvasGroup, CanvasGroupFade, Image, CloseViewOnPointerClick, FormulasIndexView, }
+      Content{}
+    BitcoinView{BitcoinMinerView, FadeGroup, CanvasGroup, CanvasGroupFade, }
+      EquipmentAndInventory{}
+      Miner{FadeGroup, CanvasGroup, CanvasGroupFade, }
+      ButtonContainer{LayoutElement, }
+    DeathLotteryView{DeathLotteryVIew, FadeGroup, CanvasGroup, CanvasGroupFade, }
+      BG{Image, }
+      MoneyDisplay{HorizontalLayoutGroup, MoneyDisplay, }
+      CardsLayout{Image, GridLayoutGroup, ContentSizeFitter, }
+      Text (TMP){TextMeshProUGUI, TextLocalizor, }
+      Remaining{TextMeshProUGUI, }
+      ExitButton{ProceduralImage, UniformModifier, LayoutElement, Button, PointerDownUpEvents, PunchReceiver, }
+      Busy{Image, CanvasGroup, FadeGroup, CanvasGroupFade, }
+    DestinationSelectionView{MapSelectionView, FadeGroup, CanvasGroup, CanvasGroupFade, CloseViewOnPointerClick, Image, }
+      Bottom{Image, TrueShadow, }
+      Top{Image, TrueShadow, }
+      MapName{TextMeshProUGUI, TextLocalizor, }
+      ButtonContainer{LayoutElement, }
+      Scroll View{ScrollRect, ScrollViewBorderFrame, LayoutElement, }
+      ConfirmIndicator{FadeGroup, CanvasGroup, CanvasGroupFade, TranslucentImage, }
+    BuilderView{BuilderView, FadeGroup, CanvasGroup, CanvasGroupFade, Image, }
+      Virtual Camera{CinemachineVirtualCamera, CinemachineVolumeSettings, }
+      ButtonContainer{LayoutElement, }
+      Layout{}
+      GridDisplay{GridDisplay, }
+      ContextMenu{VerticalLayoutGroup, ContentSizeFitter, BuildingContextMenu, ProceduralImage, UniformModifier, }
+      ContextMenuIndicator{FadeGroup, CanvasGroup, CanvasGroupFade, }
+    FishingHUD{FadeGroup, CanvasGroup, CanvasGroupFade, FishingHUD, }
+      ProgressBar{}
+    BlackMarketView{Image, BlackMarketView, FadeGroup, CanvasGroup, CanvasGroupFade, }
+      ExitButton{ProceduralImage, UniformModifier, LayoutElement, Button, PointerDownUpEvents, PunchReceiver, }
+      TopBar{VerticalLayoutGroup, }
+      MainContent{}
+    SleepView{SleepView, FadeGroup, CanvasGroup, CanvasGroupFade, }
+      BG{Image, }
+      Panel{ProceduralImage, UniformModifier, VerticalLayoutGroup, ContentSizeFitter, TrueShadow, ProceduralImageHashProvider, }
+    ATMView{ATMView, FadeGroup, CanvasGroup, CanvasGroupFade, }
+      Panel{ProceduralImage, UniformModifier, VerticalLayoutGroup, ATMPanel, }
+    GamingConsoleView{GamingConsoleView, FadeGroup, }
+      ExitButton{ProceduralImage, UniformModifier, LayoutElement, Button, PointerDownUpEvents, PunchReceiver, }
+      SelfStuff{}
+      Panel{TranslucentImage, TrueShadow, RectTransformFade, VerticalLayoutGroup, ContentSizeFitter, }
+    GardenView{GardenView, FadeGroup, CanvasGroup, CanvasGroupFade, }
+      FollowCursor{FollowCursor, }
+      EventReceiver{Image, }
+      CellContextInfo{ProceduralImage, UniformModifier, ContentSizeFitter, VerticalLayoutGroup, CellContextDisplay, CanvasGroup, }
+      Tools{HorizontalLayoutGroup, ContentSizeFitter, ProceduralImage, RoundModifier, TrueShadow, }
+      CropSelector{GardenViewCropSelector, FadeGroup, CanvasGroup, CanvasGroupFade, Image, }
+      Hovering{}
+      CamRig{}
+      Cursor3D{}
+    EndowmentSelection{EndowmentSelectionPanel, Image, CanvasGroup, FadeGroup, CanvasGroupFade, }
+      BG{Image, }
+      Panel{VerticalLayoutGroup, ProceduralImage, UniformModifier, TrueShadow, ProceduralImageHashProvider, Shadow, }
+    FishingUI{FishingUI, FadeGroup, CanvasGroup, CanvasGroupFade, }
+      BaitSelector{BaitSelectPanel, FadeGroup, CanvasGroup, CanvasGroupFade, }
+      ConfirmPanel{ConfirmPanel, FadeGroup, CanvasGroup, CanvasGroupFade, }
+    ItemSplitDialogue{Image, SplitDialogue, FadeGroup, CanvasGroup, CanvasGroupFade, }
+      Content{TranslucentImage, TrueShadow, RectTransformFade, CanvasGroup, CanvasGroupFade, VerticalLayoutGroup, ContentSizeFitter, }
+    ItemDraggingUI{ItemDraggingPointerDisplay, CanvasGroup, }
+      ItemDisplay{ItemDisplay, Image, }
+    ItemHoveringUI{ItemHoveringUI, FadeGroup, CanvasGroup, CanvasGroupFade, }
+      Content{ContentSizeFitter, HorizontalLayoutGroup, }
+    Tooltips{Tooltips, }
+      Contents{ProceduralImage, UniformModifier, VerticalLayoutGroup, ContentSizeFitter, FadeGroup, CanvasGroup, }
+    ItemOperationMenu{ItemOperationMenu, FadeGroup, CanvasGroup, CanvasGroupFade, Image, }
+      MainLayout{VerticalLayoutGroup, ContentSizeFitter, ProceduralImage, UniformModifier, }
+    ClosureView{ClosureView, FadeGroup, CanvasGroup, CanvasGroupFade, CloseViewOnPointerClick, }
+      Image{Image, }
+      Content{FadeGroup, CanvasGroupFade, CanvasGroup, VerticalLayoutGroup, }
+    StrongNotification{StrongNotification, }
+      MainFadeGroup{Image, CanvasGroup, FadeGroup, CanvasGroupFade, }
+    ItemUnlockNotification{ItemUnlockNotification, }
+      MainFadeGroup{Image, CanvasGroup, FadeGroup, CanvasGroupFade, }
+    NotificationText{NotificationText, CanvasGroup, HorizontalLayoutGroup, FadeGroup, CanvasGroupFade, ContentSizeFitter, ProceduralImage, RoundModifier, }
+      Text{TextMeshProUGUI, }
+    GamingConsoleHUD{GamingConsoleHUD, }
+      Content{ProceduralImage, UniformModifier, VerticalLayoutGroup, ContentSizeFitter, FadeGroup, CanvasGroup, CanvasGroupFade, }
+  PetProxy{BoxCollider, InteractableLootbox, Inventory, PetProxy, }
+    BR_VSS_Normal(Clone){Item, StatCollection, SlotCollection, Inventory, ItemSetting_Gun, ModifierDescriptionCollection, }
+    Sniper_VPO_Deng(Clone){Item, StatCollection, SlotCollection, Inventory, ItemSetting_Gun, ModifierDescriptionCollection, }
+      Tec_Laser_ADS_1(Clone){Item, ItemSetting_Accessory, ModifierDescriptionCollection, }
+    ArmorLV3(Clone){Item, SlotCollection, ModifierDescriptionCollection, }
+  OcclusionFadeManager{OcclusionFadeManager, }
+    AimChecker{OcclusionFadeChecker, Rigidbody, CapsuleCollider, }
+    CharacterChecker{OcclusionFadeChecker, Rigidbody, CapsuleCollider, }
+  InputManager{InputManager, AimTargetFinder, }
+    InputReceiver{}
+      PlayerInput{CharacterInputControl, }
+      TouchInput{CharacterTouchInputControl, }
+  StartPoint{}
+  GameCamera{GameCamera, CameraArm, DuckovScreenCapturer, }
+    Global Volume{Volume, }
+    Volume_Hurt{Volume, PlayerHurtVisual, }
+    TopDownVolume{Volume, }
+    StormFX{WeatherFxControl, }
+      Particle_Storm_Smoke{ParticleSystem, ParticleSystemRenderer, }
+      Particle_Storm_Spark{ParticleSystem, ParticleSystemRenderer, }
+    StormFX_2{WeatherFxControl, }
+      Particle_Storm_Smoke{ParticleSystem, ParticleSystemRenderer, }
+      Particle_Storm_Spark{ParticleSystem, ParticleSystemRenderer, }
+    RainyFX{WeatherFxControl, }
+      Rain{ParticleSystem, ParticleSystemRenderer, }
+    CameraArmYaw{}
+      CameraArmPitch{}
+    Main Camera{Camera, UniversalAdditionalCameraData, CinemachineBrain, TranslucentImageSource, Outliner, }
+      ShakeImpuls{CameraShaker, }
+      Fx{SyncDebugEdgeLight, }
+      __CMVolumes{Volume, }
+    VolumeProxy{}
+  DialogueBubbleCanvas{Canvas, CanvasScaler, GraphicRaycaster, DialogueCanvas, CanvasScalerController, }
+    DialogueBubble{DialogueBubblesManager, Image, }
+      DialogueBubble{DialogueBubble, ContentSizeFitter, HorizontalLayoutGroup, FadeGroup, CanvasGroup, CanvasGroupFade, }
+  DialogueInteractiveCanvas{Canvas, CanvasScaler, GraphicRaycaster, DialogueCanvas, CanvasScalerController, }
+    DialogueSystem{DialogueUI, FadeGroup, CanvasGroup, CanvasGroupFade, }
+      BG{Image, FadeGroup, CanvasGroup, CanvasGroupFade, }
+  HUDCanvas{Canvas, CanvasScaler, GraphicRaycaster, HUDManager, FadeGroup, CanvasGroup, CanvasGroupFade, CanvasScalerController, }
+    SoundVisualization{SoundVisualization, }
+      OctoLayout{FollowCharacterHUD, }
+    HealthBars{HealthBarManager, }
+      HealthBar(Clone){HealthBar, CanvasGroup, CanvasGroupFade, FadeGroup, }
+      HealthBar(Clone){HealthBar, CanvasGroup, CanvasGroupFade, FadeGroup, }
+      HealthBar(Clone){HealthBar, CanvasGroup, CanvasGroupFade, FadeGroup, }
+      HealthBar(Clone){HealthBar, CanvasGroup, CanvasGroupFade, FadeGroup, }
+      HealthBar(Clone){HealthBar, CanvasGroup, CanvasGroupFade, FadeGroup, }
+      HealthBar(Clone){HealthBar, CanvasGroup, CanvasGroupFade, FadeGroup, }
+      HealthBar(Clone){HealthBar, CanvasGroup, CanvasGroupFade, FadeGroup, }
+    CostTakerHUD{CostTakerHUD, }
+      Entry{ProceduralImage, UniformModifier, VerticalLayoutGroup, ContentSizeFitter, CostTakerHUD_Entry, FadeGroup, CanvasGroup, CanvasGroupFade, TrueShadow, }
+    AimMarker{AimMarker, CanvasGroup, }
+      NormalPanel{}
+      DistanceIndicator{}
+      ADSAimMarker_Default(Clone){ADSAimMarker, CanvasGroup, }
+    MouseKeyboardOnly{SetActiveByInputDevice, }
+      Interact_MouseKeyboard{InteractHUD, }
+    EvacuationCountDown{EvacuationCountdownUI, CanvasGroup, CanvasGroupFade, FadeGroup, }
+      BG{TranslucentImage, TrueShadow, }
+    ViewButtons{HorizontalLayoutGroup, }
+      BackpackButton{Image, GenericButton, ViewsProxy, LayoutElement, ViewTabDisplayEntry, LayoutElement, }
+      PlayerStatsButton{Image, GenericButton, ViewsProxy, LayoutElement, }
+      QuestsButton{Image, GenericButton, ViewsProxy, QuestsButtonRedDot, LayoutElement, ViewTabDisplayEntry, LayoutElement, }
+      MapButton{Image, GenericButton, ViewsProxy, LayoutElement, }
+      KeyButton{Image, GenericButton, ViewsProxy, LayoutElement, }
+    ItemShortCut{ItemShortcutPanel, HorizontalLayoutGroup, CanvasGroup, }
+      Button_3{Image, ItemShortcutButton, LayoutElement, }
+      Button_4{Image, ItemShortcutButton, LayoutElement, }
+      Button_5{Image, ItemShortcutButton, LayoutElement, }
+      Button_6{Image, ItemShortcutButton, LayoutElement, }
+      Button_7{Image, ItemShortcutButton, LayoutElement, }
+      Button_8{Image, ItemShortcutButton, LayoutElement, }
+    Buffs{ContentSizeFitter, BuffsDisplay, VerticalLayoutGroup, }
+      BuffDetailsOverlay{BuffDetailsOverlay, LayoutElement, TranslucentImage, VerticalLayoutGroup, ContentSizeFitter, TrueShadow, FadeGroup, CanvasGroup, CanvasGroupFade, PunchReceiver, }
+      BuffsDisplayEntry(Clone){BuffsDisplayEntry, CanvasGroup, FadeGroup, CanvasGroupFade, ScaleFade, Image, HorizontalLayoutGroup, ContentSizeFitter, }
+    Energy{CanvasGroup, EnergyHUD, }
+      Background{ProceduralImage, RoundModifier, TrueShadow, }
+    Water{CanvasGroup, WaterHUD, }
+      Background{ProceduralImage, RoundModifier, TrueShadow, }
+    HP{CanvasGroup, HealthHUD, }
+      Background{ProceduralImage, RoundModifier, TrueShadow, }
+    ActionProgress_Slider{ActionProgressHUD, CanvasGroup, PunchReceiver, VerticalLayoutGroup, ContentSizeFitter, }
+      FillBackground{ProceduralImage, RoundModifier, TrueShadow, LayoutElement, }
+      Text (TMP){TextMeshProUGUI, }
+      Cancle{HorizontalLayoutGroup, }
+    SmoothFollowCharacterHUD{FollowCharacterHUD, }
+      Stamina{StaminaHUD, CanvasGroup, }
+    HealthBar{}
+      MoveParent{LittleMoveHUD, }
+    InteractionMenu{MultiInteractionMenu, }
+      MenuArea{VerticalLayoutGroup, }
+    WeaponButtons{HorizontalLayoutGroup, ContentSizeFitter, }
+      WeaponButton_1{Image, WeaponButton, LayoutElement, }
+      WeaponButton_2{Image, WeaponButton, LayoutElement, }
+      WeaponButton_Melee{Image, WeaponButton, LayoutElement, }
+    BulletTypeHUD{CanvasGroup, BulletTypeHUD, }
+      CurrentBulletType{ProceduralImage, UniformModifier, TrueShadow, HorizontalLayoutGroup, ContentSizeFitter, PunchReceiver, }
+      SelectList{VerticalLayoutGroup, ContentSizeFitter, }
+      BulletCount{BulletCountHUD, CanvasGroup, PunchReceiver, }
+    SimpleIndicators{IndicatorHUD, ContentSizeFitter, VerticalLayoutGroup, }
+      SimpleIndicatorEntry_Toggle{ProceduralImage, RoundModifier, HorizontalLayoutGroup, }
+      ToggleParent{VerticalLayoutGroup, }
+    TimeOfDayDisplay{TimeOfDayDisplay, }
+      Vertical{ContentSizeFitter, VerticalLayoutGroup, }
+    TouchOnly{SetActiveByInputDevice, }
+      JoyLeft{Image, Soda_Joysticks, CanvasGroup, }
+      JoyRight{Image, Soda_Joysticks, CanvasGroup, }
+      Character Skill HUD_1 Touch{SkillHUD, }
+      Item Skill HUD Touch{SkillHUD, }
+      Interact_Touch{InteractHUD, FadeGroup, }
+      Run{FadeGroup, PunchReceiver, }
+      Reload{ReloadHUD, FadeGroup, PunchReceiver, }
+    ItemTurntableHUD{MainGameItemTurntableHUD, CanvasGroup, }
+      SubLayout{RoundModifier, ProceduralImage, TrueShadow, }
+  HUD_InWorld{}
+    MovingRing{MeshFilter, MeshRenderer, MoveRing, }
+    SkillInWorldHUD{SkillHud3D, }
+      SkillRangeTarget{SkillRangeHUD, }
+    ShootRangeRing{ShootRangeRing, }
+      UI_Ring{MeshFilter, MeshRenderer, }
+  CommonVariables{CommonVariables, }
+  EconomyManager{EconomyManager, }
+  QuestManager{QuestManager, }
+    Quest 1105_Reach+SubQ(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 209_HeadKillSub(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 307_Sub(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 321_KillRedSpider(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 329_EveItem(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 54_KillPisDemo(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 325_KillGrenade(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 932_Sub(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 917_Sub(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 1302_SubQWItem(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 314_KillwithYellow(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 1204_SubQ(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 1503_SubQ(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 330_EveItem(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 21_Con(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 7_Use(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 111_Kill+Eva(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 4_Kill+Sub(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 65_Perk(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 909_SubM(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 103_HeadKill(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 35_Sub(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 27_SubQ(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 30_Con(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 31_Sub(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 45_Sub(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 26_EveItem(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 914_Perk(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 24_Con(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 0_Sub(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 941_Sub(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 23_Con(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 29_Perk(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 912_Sub(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 40_Sub(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 102_EveItem(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 36_Sub(Clone){Quest, DialogueTreeController, Blackboard, PlayDialogueGraphOnQuestActive, }
+      Tasks{}
+      Rewards{}
+    Quest 44_KillAK74(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 37_Sub(Clone){Quest, DialogueTreeController, Blackboard, PlayDialogueGraphOnQuestActive, }
+      Tasks{}
+      Rewards{}
+    Quest 46_Kill(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 38_Sub(Clone){Quest, DialogueTreeController, Blackboard, PlayDialogueGraphOnQuestActive, }
+      Tasks{}
+      Rewards{}
+    Quest 39_Con(Clone){Quest, DialogueTreeController, Blackboard, PlayDialogueGraphOnQuestActive, }
+      Tasks{}
+      Rewards{}
+    Quest 905_Sub(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 930_SubMoney(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 915_Con(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 110_HeadKill(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 922_Sub(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 43_Reach(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 916_SubQ(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 902_Sub(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 901_Con(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 801_Bea(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 53_Kill(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 802_Bea(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 41_SubQ(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 42_SubQ(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 105_Kill2Weapon(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 904_Sub(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 906_Use(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 871_SubQ(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 931_Sub(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 47_Eva(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 942_Sub(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 59_EveItem(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 50_Eve(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 51_Reach(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 923_Sub(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 910_Sub(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 201_EveItem(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 55_EveItem(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 872_SubQ(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 52_SubQ(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 924_Sub(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 211_Reach(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 928_Sub(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 58_Reach(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 911_Kill+Sub(Clone){Quest, UnlockEndowmentWhenQuestComplete, }
+      Tasks{}
+      Rewards{}
+    Quest 303_Eva(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 48_KillAK47(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 803_Bea(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 206_SubQ(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 109_KillMF(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 305_SubQReach(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 881_EveDeliver(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 207_HeadKill(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 890_Sub(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 1401_SubQ(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 1402_Sub(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 107_HeadKillGlick(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 108_HeadKillSKS(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 56_Kill(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 205_SubQ(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 882_EveDeliver(Clone){Quest, UnlockEndowmentWhenQuestComplete, }
+      Tasks{}
+      Rewards{}
+    Quest 1201_Sub(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 929_Sub(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 913_Sub(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 1101_Sub(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 1102_SubQ(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 908_Sub(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 210_KillPP19(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 208_HeadKillSub(Clone){Quest, UnlockEndowmentWhenQuestComplete, }
+      Tasks{}
+      Rewards{}
+    Quest 1103_EveItem(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 63_Kill(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 938_Sub(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 202_KillStick(Clone){Quest, UnlockEndowmentWhenQuestComplete, }
+      Tasks{}
+      Rewards{}
+    Quest 60_SubDemo(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 61_ConDemo(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 101_EveItem(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 903_Sub(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 861_Reach(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 304_SubQReach(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 318_Reach(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 301_Reach(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 1301_EveItem(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 315_KillAUGA1(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 873_SubQkill(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 925_Sub(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 926_Sub(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 306_SubReach(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 316_Kill(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 804_Bea(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 327_Kill(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 401_KillRea(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 1305_KillMp7E(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 308_EveItem(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 1501_SubQ(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 907_Perk(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 1202_Reach+EveItem(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 1502_Sub(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 49_KillBowDemo(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+    Quest 1104_Sub(Clone){Quest, }
+      Tasks{}
+      Rewards{}
+  PopText{PopText, }
+  ExplosionManager{ExplosionManager, }
+  EXPManager{EXPManager, }
+  PerkTreeManager{PerkTreeManager, }
+    PerkTree_Skills{PerkTree, PerkTreeRelationGraphOwner, Blackboard, }
+      perk (2){Perk, ModifyCharacterStatsBase, }
+      perk (3){Perk, ModifyCharacterStatsBase, }
+      perk (5){Perk, ModifyCharacterStatsBase, }
+      perk (9){Perk, ModifyCharacterStatsBase, }
+      perk (10){Perk, ModifyCharacterStatsBase, }
+      perk (11){Perk, ModifyCharacterStatsBase, }
+      perk (12){Perk, ModifyCharacterStatsBase, }
+      perk (13){Perk, ModifyCharacterStatsBase, }
+      perk (14){Perk, ModifyCharacterStatsBase, }
+      perk (15){Perk, ModifyCharacterStatsBase, }
+      perk (17){Perk, ModifyCharacterStatsBase, }
+      perk (18){Perk, ModifyCharacterStatsBase, }
+      perk (19){Perk, ModifyCharacterStatsBase, }
+      perk (20){Perk, ModifyCharacterStatsBase, }
+      perk (21){Perk, ModifyCharacterStatsBase, }
+      perk (22){Perk, ModifyCharacterStatsBase, }
+      perk (23){Perk, ModifyCharacterStatsBase, }
+      perk (24){Perk, ModifyCharacterStatsBase, }
+      perk (25){Perk, ModifyCharacterStatsBase, }
+      perk (26){Perk, ModifyCharacterStatsBase, }
+      perk (27){Perk, ModifyCharacterStatsBase, }
+      perk (28){Perk, ModifyCharacterStatsBase, }
+      perk (29){Perk, ModifyCharacterStatsBase, }
+      perk_30{Perk, ModifyCharacterStatsBase, }
+      perk_31{Perk, ModifyCharacterStatsBase, }
+      perk_32{Perk, ModifyCharacterStatsBase, }
+      perk_33{Perk, ModifyCharacterStatsBase, }
+      perk_34{Perk, ModifyCharacterStatsBase, }
+      perk_35{Perk, ModifyCharacterStatsBase, }
+      perk_36{Perk, ModifyCharacterStatsBase, }
+      perk_37{Perk, ModifyCharacterStatsBase, }
+      perk_38{Perk, ModifyCharacterStatsBase, }
+      perk_39{Perk, ModifyCharacterStatsBase, }
+      perk_40{Perk, ModifyCharacterStatsBase, }
+      perk_41{Perk, ModifyCharacterStatsBase, }
+      perk_42{Perk, ModifyCharacterStatsBase, }
+      perk_43{Perk, ModifyCharacterStatsBase, }
+      perk_44{Perk, ModifyCharacterStatsBase, }
+      perk_45{Perk, ModifyCharacterStatsBase, }
+      perk_46{Perk, ModifyCharacterStatsBase, }
+      perk_47{Perk, ModifyCharacterStatsBase, }
+      perk_48{Perk, ModifyCharacterStatsBase, }
+      perk_49{Perk, ModifyCharacterStatsBase, UnlockAchievement, }
+    PerkTree_PhysicalTraining{PerkTree, PerkTreeRelationGraphOwner, Blackboard, }
+      perk_1{Perk, ModifyCharacterStatsBase, }
+      perk_2{Perk, ModifyCharacterStatsBase, }
+      perk_3{Perk, ModifyCharacterStatsBase, }
+      perk_4{Perk, ModifyCharacterStatsBase, }
+      perk_5{Perk, ModifyCharacterStatsBase, }
+      perk_6{Perk, ModifyCharacterStatsBase, }
+      perk_7{Perk, ModifyCharacterStatsBase, }
+      perk_8{Perk, ModifyCharacterStatsBase, }
+      perk_9{Perk, ModifyCharacterStatsBase, }
+      perk_10{Perk, ModifyCharacterStatsBase, }
+      perk_11{Perk, ModifyCharacterStatsBase, }
+      perk_12{Perk, ModifyCharacterStatsBase, }
+      perk_13{Perk, ModifyCharacterStatsBase, }
+      perk_14{Perk, ModifyCharacterStatsBase, }
+      perk_15{Perk, ModifyCharacterStatsBase, }
+      perk_16{Perk, ModifyCharacterStatsBase, }
+      perk_17{Perk, ModifyCharacterStatsBase, }
+      perk_18{Perk, ModifyCharacterStatsBase, }
+      perk_19{Perk, ModifyCharacterStatsBase, }
+      perk_20{Perk, ModifyCharacterStatsBase, }
+      perk_21{Perk, ModifyCharacterStatsBase, }
+      perk_22{Perk, ModifyCharacterStatsBase, }
+      perk_23{Perk, ModifyCharacterStatsBase, }
+      perk_24{Perk, ModifyCharacterStatsBase, }
+      perk_25{Perk, ModifyCharacterStatsBase, }
+      perk_26{Perk, ModifyCharacterStatsBase, }
+      perk_27{Perk, ModifyCharacterStatsBase, }
+      perk_28{Perk, ModifyCharacterStatsBase, }
+      perk_29{Perk, ModifyCharacterStatsBase, }
+      perk_30{Perk, ModifyCharacterStatsBase, }
+      perk_31{Perk, ModifyCharacterStatsBase, }
+      perk_32{Perk, ModifyCharacterStatsBase, }
+      perk_33{Perk, ModifyCharacterStatsBase, UnlockAchievement, }
+      perk_34{Perk, ModifyCharacterStatsBase, }
+      perk_35{Perk, ModifyCharacterStatsBase, }
+    PerkTree_Blueprint{PerkTree, PerkTreeRelationGraphOwner, Blackboard, }
+      perk_3{Perk, UnlockStockShopItem, }
+      perk_6{Perk, UnlockStockShopItem, }
+      perk_9{Perk, UnlockStockShopItem, }
+      perk_12{Perk, UnlockStockShopItem, }
+      perk_15{Perk, UnlockStockShopItem, }
+      perk_18{Perk, UnlockStockShopItem, }
+      perk_21{Perk, UnlockStockShopItem, }
+      perk_24{Perk, UnlockStockShopItem, }
+      perk_27{Perk, UnlockStockShopItem, }
+      perk_30{Perk, UnlockStockShopItem, }
+      perk_33{Perk, UnlockStockShopItem, }
+      perk_36{Perk, UnlockStockShopItem, }
+      perk_39{Perk, UnlockStockShopItem, }
+    kTree_StorageExpendand{PerkTree, PerkTreeRelationGraphOwner, Blackboard, }
+      perk_1{Perk, AddPlayerStorage, }
+      perk_2{Perk, AddPlayerStorage, }
+      perk_3{Perk, AddPlayerStorage, }
+      perk_4{Perk, AddPlayerStorage, }
+      perk_5{Perk, AddPlayerStorage, }
+      perk_6{Perk, AddPlayerStorage, }
+      perk_Dog_1{Perk, AddPlayerStorage, }
+      perk_t_1{Perk, AddPlayerStorage, }
+      perk_t_2{Perk, AddPlayerStorage, }
+      perk_t_3{Perk, AddPlayerStorage, }
+      perk_t_4{Perk, AddPlayerStorage, UnlockAchievement, }
+      perk_y_1{Perk, AddPlayerStorage, UnlockAchievement, }
+      perk_y_2{Perk, AddPlayerStorage, UnlockAchievement, }
+      perk_y_3{Perk, AddPlayerStorage, UnlockAchievement, }
+      perk_y_4{Perk, AddPlayerStorage, UnlockAchievement, }
+      perk_y_5{Perk, AddPlayerStorage, UnlockAchievement, }
+    PerkTree_FoodTable{PerkTree, PerkTreeRelationGraphOwner, Blackboard, }
+      perk_1{Perk, ModifyCharacterStatsBase, }
+      perk_2{Perk, ModifyCharacterStatsBase, }
+      perk_3{Perk, ModifyCharacterStatsBase, }
+      perk_4{Perk, ModifyCharacterStatsBase, }
+      perk_5{Perk, ModifyCharacterStatsBase, }
+      perk_6{Perk, ModifyCharacterStatsBase, }
+      perk_FishingTime_1{Perk, ModifyCharacterStatsBase, }
+      perk_FishingTime_2{Perk, ModifyCharacterStatsBase, }
+      perk_FishingTime_3{Perk, ModifyCharacterStatsBase, }
+      perk_FishingQuality_1{Perk, ModifyCharacterStatsBase, }
+      perk_Injector_1{Perk, UnlockFormula, }
+      perk_FishingMaster{Perk, ModifyCharacterStatsBase, }
+    PerkTree_WorkBench{PerkTree, PerkTreeRelationGraphOwner, Blackboard, }
+      perk_Formula_1{Perk, UnlockFormula, }
+      perk_Formula_2{Perk, UnlockFormula, }
+      perk_Formula_3{Perk, UnlockFormula, }
+      perk_Formula_4{Perk, UnlockFormula, }
+      perk_Formula_5{Perk, UnlockFormula, }
+      perk_Repair_1{Perk, }
+      perk_Decompose_1{Perk, }
+    PerkTree_Farming{PerkTree, PerkTreeRelationGraphOwner, Blackboard, }
+      perk_AutoWater{Perk, GardenAutoWater, }
+      perk_AddSize{Perk, AddGardenSize, }
+      perk_AddSize_1{Perk, AddGardenSize, }
+      perk_AddSize_2{Perk, AddGardenSize, }
+    PerkTree_Blue{PerkTree, PerkTreeRelationGraphOwner, Blackboard, }
+      perk_Fire_1{Perk, ModifyCharacterStatsBase, }
+      perk_Fire_2{Perk, ModifyCharacterStatsBase, }
+      perk_Elec_1{Perk, ModifyCharacterStatsBase, }
+      perk_Elec_2{Perk, ModifyCharacterStatsBase, }
+      perk_Poison_1{Perk, ModifyCharacterStatsBase, }
+      perk_Poison_2{Perk, ModifyCharacterStatsBase, }
+      perk_Space_1{Perk, ModifyCharacterStatsBase, }
+      perk_Space_2{Perk, ModifyCharacterStatsBase, }
+      perk_Damage_1{Perk, ModifyCharacterStatsBase, }
+      perk_Damage_2{Perk, ModifyCharacterStatsBase, UnlockAchievement, }
+      perk_MeleeDamage_1{Perk, ModifyCharacterStatsBase, }
+      perk_MeleeDamage_2{Perk, ModifyCharacterStatsBase, }
+    PerkTree_BlackMarket{PerkTree, PerkTreeRelationGraphOwner, Blackboard, }
+      perk_RefreshTime_1{Perk, ChangeBlackMarketRefreshTimeFactor, }
+      perk_RefreshTime_2{Perk, ChangeBlackMarketRefreshTimeFactor, }
+      perk_RefreshTime_3{Perk, ChangeBlackMarketRefreshTimeFactor, }
+      perk_RefreshTime_4{Perk, ChangeBlackMarketRefreshTimeFactor, }
+      perk_RefreshTime_5{Perk, ChangeBlackMarketRefreshTimeFactor, }
+      perk_RefreshChance_1{Perk, AddBlackMarketRefreshChance, }
+      perk_RefreshChance_2{Perk, AddBlackMarketRefreshChance, }
+      perk_RefreshChance_3{Perk, AddBlackMarketRefreshChance, }
+      perk_RefreshChance_4{Perk, AddBlackMarketRefreshChance, UnlockAchievement, }
+  MasterKeysManager{MasterKeysManager, }
+  SetActiveByPlayerDistance{SetActiveByPlayerDistance, }
+  ItemShortcutManager{ItemShortcut, }
+  BuildingManager{BuildingManager, }
+    Workbench{BuildingEffect, }
+  CraftingManager{CraftingManager, }
+  VolumesControl{VolumesControl, }
+    InteractVolume{Volume, }
+  Pools{}
+    BulletPool{BulletPool, }
+      BulletNormal(Clone){Projectile, }
+  DeadBodyManager{DeadBodyManager, }
+  BitcoinMiner{BitcoinMiner, }
+    BitcoinMiner(Clone){Item, StatCollection, SlotCollection, Inventory, }
+      GPU(Clone){Item, ModifierDescriptionCollection, ItemSetting_GPU, }
+      GPU(Clone){Item, ModifierDescriptionCollection, ItemSetting_GPU, }
+      GPU(Clone){Item, ModifierDescriptionCollection, ItemSetting_GPU, }
+      GPU(Clone){Item, ModifierDescriptionCollection, ItemSetting_GPU, }
+      GPU(Clone){Item, ModifierDescriptionCollection, ItemSetting_GPU, }
+      GPU(Clone){Item, ModifierDescriptionCollection, ItemSetting_GPU, }
+      GPU(Clone){Item, ModifierDescriptionCollection, ItemSetting_GPU, }
+      GPU(Clone){Item, ModifierDescriptionCollection, ItemSetting_GPU, }
+      GPU(Clone){Item, ModifierDescriptionCollection, ItemSetting_GPU, }
+      GPU(Clone){Item, ModifierDescriptionCollection, ItemSetting_GPU, }
+      GPU(Clone){Item, ModifierDescriptionCollection, ItemSetting_GPU, }
+      GPU(Clone){Item, ModifierDescriptionCollection, ItemSetting_GPU, }
+      BitCoin(Clone){Item, ModifierDescriptionCollection, }
+      BitCoin(Clone){Item, ModifierDescriptionCollection, }
+      BitCoin(Clone){Item, ModifierDescriptionCollection, }
+      BitCoin(Clone){Item, ModifierDescriptionCollection, }
+  BlackMarket{BlackMarket, }
+  GameClock{GameClock, }
+  CameraMode{CameraMode, }
+    CameraModeControl{CameraModeController, AudioEventProxy, }
+      Focus{}
+      Root{}
+      Canvas{Canvas, CanvasScaler, GraphicRaycaster, CanvasGroup, CanvasGroupFade, }
+  ItemWishlist{ItemWishlist, }
+  WeatherManager{WeatherManager, }
+  BeaconManager{BeaconManager, }
+  PlayerStorageBuffer{PlayerStorageBuffer, }
+  PlayerPositionBackup{PlayerPositionBackupManager, }
+    Interact{InteractableBase, BoxCollider, }
+  Loot Box Inventories{}
+    Inventory_1610612421{Inventory, }
+      Shit(Clone){Item, UsageUtilities, FoodDrink, AddBuff, }
