@@ -75,12 +75,12 @@ namespace DuckovController.SceneEdit.MainGame
 
         private void OnEnable()
         {
-            _map.Enable();
+            _inputActionMap.Enable();
         }
 
         private void OnDisable()
         {
-            _map.Disable();
+            _inputActionMap.Disable();
         }
 
         private void OnDestroy()
