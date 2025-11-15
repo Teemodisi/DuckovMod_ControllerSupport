@@ -1,4 +1,5 @@
 ﻿using Duckov.UI;
+﻿using Duckov.MiniMaps.UI;
 using UnityEngine;
 
 namespace DuckovController.SceneEdit.GamePlayUI
@@ -15,6 +16,8 @@ namespace DuckovController.SceneEdit.GamePlayUI
         {
             var viewTabs = GetComponentInChildren<ViewTabs>();
             viewTabs.gameObject.AddComponent<ViewTabsOverride>();
+            var miniMapView = GetComponentInChildren<MiniMapView>();
+            miniMapView.gameObject.AddComponent<MiniMapViewOverride>();
         }
 
         private void OnEnable()
