@@ -24,12 +24,12 @@ namespace DuckovController.SceneEdit.GamePlayUI
 
         private void OnEnable()
         {
-            _inputActionMap.Enable();
+            _inputActionMap?.Enable();
         }
 
         private void OnDisable()
         {
-            _inputActionMap.Disable();
+            _inputActionMap?.Disable();
         }
 
         //更可靠的Index

@@ -11,7 +11,7 @@ namespace DuckovController.SceneEdit
         public static TMP_FontAsset currentFont = null;
 
         private static Material s_TranslucentImageMaterial;
-        
+
         public static Material TranslucentImageMaterial
         {
             get
@@ -32,7 +32,7 @@ namespace DuckovController.SceneEdit
             rectTransform.pivot = new Vector2(0.5f, 0.5f);
             rectTransform.anchorMin = new Vector2(0, 1);
             rectTransform.anchorMax = new Vector2(0, 1);
-            rectTransform.sizeDelta = new Vector2(160, 40);
+            rectTransform.sizeDelta = new Vector2(160, icon_size);
 
             var icon = DrawPadButtonIcon(rectTransform, button);
 
@@ -54,11 +54,11 @@ namespace DuckovController.SceneEdit
 
     #region GamePadButtonType
 
-        private const int icon_size = 30;
+        private const int icon_size = 40;
 
         private const int dpad_thickness = 8;
 
-        private const int dpad_rect_radius = 3;
+        private const int rect_radius = 3;
 
         private static readonly Color s_Light = new Color(0.95f, 0.95f, 0.95f, 1f);
 
@@ -67,9 +67,10 @@ namespace DuckovController.SceneEdit
         private static readonly Color s_Dark = new Color(0.2f, 0.2f, 0.2f, 1f);
 
         private const int game_pad_button_label_size = 24;
+
         private const int game_pad_button_size = game_pad_button_label_size - 3;
 
-        private static RectTransform DrawPadButtonIcon(RectTransform parent, GamePadButton button)
+        public static RectTransform DrawPadButtonIcon(RectTransform parent, GamePadButton button)
         {
             switch (button)
             {
@@ -91,8 +92,7 @@ namespace DuckovController.SceneEdit
                     return null;
                 case GamePadButton.LB:
                 case GamePadButton.RB:
-                    //TODO:
-                    return null;
+                    return DrawPadShoulderButton(parent, button);
                 case GamePadButton.LT:
                 case GamePadButton.RT:
                     //TODO:
@@ -117,7 +117,7 @@ namespace DuckovController.SceneEdit
             container.anchoredPosition = Vector2.zero;
             container.sizeDelta = new Vector2(icon_size, icon_size);
 
-            var underHor = NewRoundRectSprite("underHor", container, dpad_rect_radius);
+            var underHor = NewRoundRectSprite("underHor", container, rect_radius);
             underHor.rectTransform.pivot = new Vector2(0.5f, 0.5f);
             underHor.rectTransform.anchorMin = new Vector2(0, 0.5f);
             underHor.rectTransform.anchorMax = new Vector2(1, 0.5f);
@@ -125,7 +125,7 @@ namespace DuckovController.SceneEdit
             underHor.rectTransform.sizeDelta = new Vector2(0, dpad_thickness - 1);
             UniShadow(underHor.gameObject.AddComponent<TrueShadow>());
 
-            var underVer = NewRoundRectSprite("underVer", container, dpad_rect_radius);
+            var underVer = NewRoundRectSprite("underVer", container, rect_radius);
             underVer.rectTransform.pivot = new Vector2(0.5f, 0.5f);
             underVer.rectTransform.anchorMin = new Vector2(0.5f, 0);
             underVer.rectTransform.anchorMax = new Vector2(0.5f, 1);
@@ -133,28 +133,28 @@ namespace DuckovController.SceneEdit
             underVer.rectTransform.sizeDelta = new Vector2(dpad_thickness - 1, 0);
             UniShadow(underVer.gameObject.AddComponent<TrueShadow>());
 
-            var left = NewRoundRectSprite("left", container, dpad_rect_radius);
+            var left = NewRoundRectSprite("left", container, rect_radius);
             left.rectTransform.pivot = new Vector2(0.5f, 0.5f);
             left.rectTransform.anchorMin = new Vector2(0, 0.5f);
             left.rectTransform.anchorMax = new Vector2(0.5f, 0.5f);
             left.rectTransform.anchoredPosition = Vector2.zero;
             left.rectTransform.sizeDelta = new Vector2(0, dpad_thickness);
 
-            var right = NewRoundRectSprite("right", container, dpad_rect_radius);
+            var right = NewRoundRectSprite("right", container, rect_radius);
             right.rectTransform.pivot = new Vector2(0.5f, 0.5f);
             right.rectTransform.anchorMin = new Vector2(0.5f, 0.5f);
             right.rectTransform.anchorMax = new Vector2(1, 0.5f);
             right.rectTransform.anchoredPosition = Vector2.zero;
             right.rectTransform.sizeDelta = new Vector2(0, dpad_thickness);
 
-            var up = NewRoundRectSprite("up", container, dpad_rect_radius);
+            var up = NewRoundRectSprite("up", container, rect_radius);
             up.rectTransform.pivot = new Vector2(0.5f, 0.5f);
             up.rectTransform.anchorMin = new Vector2(0.5f, 0.5f);
             up.rectTransform.anchorMax = new Vector2(0.5f, 1);
             up.rectTransform.anchoredPosition = Vector2.zero;
             up.rectTransform.sizeDelta = new Vector2(dpad_thickness, 0);
 
-            var down = NewRoundRectSprite("down", container, dpad_rect_radius);
+            var down = NewRoundRectSprite("down", container, rect_radius);
             down.rectTransform.pivot = new Vector2(0.5f, 0.5f);
             down.rectTransform.anchorMin = new Vector2(0.5f, 0);
             down.rectTransform.anchorMax = new Vector2(0.5f, 0.5f);
@@ -217,6 +217,36 @@ namespace DuckovController.SceneEdit
             return circle.rectTransform;
         }
 
+        private static RectTransform DrawPadShoulderButton(RectTransform parent, GamePadButton button)
+        {
+            var isLeft = button == GamePadButton.LB;
+            var (image, modifier) = NewFreeRectSprite("RoundSprite", parent);
+            image.rectTransform.pivot = new Vector2(0, 0.5f);
+            image.rectTransform.anchorMin = new Vector2(0, 0.5f);
+            image.rectTransform.anchorMax = new Vector2(0, 0.5f);
+            image.rectTransform.anchoredPosition = Vector2.zero;
+            image.rectTransform.sizeDelta = new Vector2(icon_size, icon_size);
+            var r = rect_radius;
+            modifier.Radius = isLeft
+                ? new Vector4(icon_size * 0.3f, r, r, r)
+                : new Vector4(r, icon_size * 0.3f, r, r);
+            UniShadow(image.gameObject.AddComponent<TrueShadow>());
+
+            var btnLabel = NewLabel("Text", image.rectTransform);
+            btnLabel.rectTransform.pivot = new Vector2(0.5f, 0.5f);
+            btnLabel.rectTransform.anchorMin = Vector2.zero;
+            btnLabel.rectTransform.anchorMax = Vector2.one;
+            btnLabel.rectTransform.anchoredPosition = Vector2.zero;
+            btnLabel.rectTransform.sizeDelta = Vector2.one * -10; // Offset
+            btnLabel.color = s_Dark;
+            btnLabel.horizontalAlignment = HorizontalAlignmentOptions.Center;
+            btnLabel.verticalAlignment = VerticalAlignmentOptions.Capline;
+            btnLabel.fontSize = game_pad_button_size;
+            btnLabel.text = isLeft ? "LB" : "RB";
+            btnLabel.fontStyle = FontStyles.Bold;
+            return image.rectTransform;
+        }
+
     #endregion
 
     #region UGUI
@@ -254,6 +284,16 @@ namespace DuckovController.SceneEdit
             pi.color = s_Light;
             um.Radius = radius;
             return pi;
+        }
+
+        public static (ProceduralImage, FreeModifier) NewFreeRectSprite(string name, RectTransform parent)
+        {
+            var rectTransform = new GameObject(name).AddComponent<RectTransform>();
+            rectTransform.SetParent(parent, false);
+            var um = rectTransform.gameObject.AddComponent<FreeModifier>();
+            var pi = rectTransform.gameObject.AddComponent<ProceduralImage>();
+            pi.color = s_Light;
+            return (pi, um);
         }
 
         public static Image DebugRect(this RectTransform parent, Color color)
