@@ -25,50 +25,74 @@ namespace DuckovController.SceneEdit
             }
         }
 
-        public static RectTransform DrawPadButtonTips(RectTransform parent, GamePadButton button, string labelText)
+        public static RectTransform DrawPadButtonTips(RectTransform parent, string labelText, GamePadButton[] buttons)
         {
-            var rectTransform = new GameObject("GamePadTips").AddComponent<RectTransform>();
+            var rectTransform = new GameObject("GamePadTipsBtn").AddComponent<RectTransform>();
             rectTransform.SetParent(parent, false);
             rectTransform.pivot = new Vector2(0.5f, 0.5f);
-            rectTransform.anchorMin = new Vector2(0, 1);
+            rectTransform.anchorMin = new Vector2(0, 0);
             rectTransform.anchorMax = new Vector2(0, 1);
-            rectTransform.sizeDelta = new Vector2(160, icon_size);
+            var iconW = icon_size * buttons.Length + tips_element_interval * Mathf.Max(0, buttons.Length - 1);
+            rectTransform.sizeDelta = new Vector2(tips_label_width + iconW, 0);
 
-            var icon = DrawPadButtonIcon(rectTransform, button);
+            var iconContainer = new GameObject("IconContainer").AddComponent<RectTransform>();
+            iconContainer.SetParent(rectTransform, false);
+            iconContainer.pivot = new Vector2(0, 0.5f);
+            iconContainer.anchorMin = new Vector2(0, 0);
+            iconContainer.anchorMax = new Vector2(0, 1);
+            iconContainer.anchoredPosition = new Vector2(0, 0);
+            iconContainer.sizeDelta = new Vector2(iconW, 0);
+            var horGroup = iconContainer.gameObject.AddComponent<HorizontalLayoutGroup>();
+            horGroup.spacing = tips_element_interval;
+            horGroup.childAlignment = TextAnchor.MiddleLeft;
+            horGroup.childControlWidth = false;
+            horGroup.childControlHeight = true;
+            horGroup.childForceExpandWidth = false;
+            horGroup.childForceExpandHeight = true;
+
+            for (var i = 0; i < buttons.Length; i++)
+            {
+                DrawPadButtonIcon(iconContainer, buttons[i]);
+            }
 
             var label = NewLabel("Label", rectTransform);
             label.rectTransform.pivot = new Vector2(0.5f, 0.5f);
             label.rectTransform.anchorMin = Vector2.zero;
             label.rectTransform.anchorMax = Vector2.one;
-            label.rectTransform.anchoredPosition = new Vector2(20, 0);
-            label.rectTransform.sizeDelta = new Vector2(-60, 0);
-            label.color = Color.white;
+            label.rectTransform.offsetMin = new Vector2(iconW + tips_element_interval, 0);
+            label.rectTransform.offsetMax = new Vector2(-tips_element_interval, 0);
+            label.color = s_Light;
             label.horizontalAlignment = HorizontalAlignmentOptions.Left;
             label.verticalAlignment = VerticalAlignmentOptions.Capline;
             label.fontSize = game_pad_button_label_size;
             label.text = labelText;
             label.fontStyle = FontStyles.Bold;
-
             return rectTransform;
         }
 
     #region GamePadButtonType
 
-        private const int icon_size = 40;
+        public const int icon_size = 30;
 
-        private const int dpad_thickness = 8;
+        public const int tips_rect_height = icon_size;
 
-        private const int rect_radius = 3;
+        public const int dpad_thickness = 8;
 
-        private static readonly Color s_Light = new Color(0.95f, 0.95f, 0.95f, 1f);
+        public const int rect_radius = 3;
 
-        private static readonly Color s_Gray = new Color(0.5f, 0.5f, 0.5f, 1f);
+        public const int tips_label_width = 150;
 
-        private static readonly Color s_Dark = new Color(0.2f, 0.2f, 0.2f, 1f);
+        public const int tips_element_interval = 10;
 
-        private const int game_pad_button_label_size = 24;
+        public const int game_pad_button_label_size = 24;
 
-        private const int game_pad_button_size = game_pad_button_label_size - 3;
+        public const int game_pad_button_size = game_pad_button_label_size - 3;
+
+        public static readonly Color s_Light = new Color(0.95f, 0.95f, 0.95f, 1f);
+
+        public static readonly Color s_Gray = new Color(0.5f, 0.5f, 0.5f, 1f);
+
+        public static readonly Color s_Dark = new Color(0.2f, 0.2f, 0.2f, 1f);
 
         public static RectTransform DrawPadButtonIcon(RectTransform parent, GamePadButton button)
         {
@@ -86,23 +110,20 @@ namespace DuckovController.SceneEdit
                     return DrawPadDPadButton(parent, button);
                 case GamePadButton.LeftAxis:
                 case GamePadButton.RightAxis:
-                case GamePadButton.LeftAxisBtn:
-                case GamePadButton.RightAxisBtn:
-                    //TODO:
-                    return null;
+                    return DrawPadAxisButton(parent, button);
+                case GamePadButton.LeftAxisPress:
+                case GamePadButton.RightAxisPress:
+                    return DrawPadAxisPressButton(parent, button);
                 case GamePadButton.LB:
                 case GamePadButton.RB:
                     return DrawPadShoulderButton(parent, button);
                 case GamePadButton.LT:
                 case GamePadButton.RT:
-                    //TODO:
-                    return null;
+                    return DrawPadTriggerButton(parent, button);
                 case GamePadButton.Menu:
-                    //TODO:
-                    return null;
+                    return DrawPadMenuButton(parent, button);
                 case GamePadButton.Select:
-                    //TODO:
-                    return null;
+                    return DrawPadSelectButton(parent, button);
             }
             return null;
         }
@@ -196,15 +217,7 @@ namespace DuckovController.SceneEdit
             UniShadow(circle.gameObject.AddComponent<TrueShadow>());
 
             var btnLabel = NewLabel("Text", circle.rectTransform);
-            btnLabel.rectTransform.pivot = new Vector2(0.5f, 0.5f);
-            btnLabel.rectTransform.anchorMin = Vector2.zero;
-            btnLabel.rectTransform.anchorMax = Vector2.one;
-            btnLabel.rectTransform.anchoredPosition = Vector2.zero;
-            btnLabel.rectTransform.sizeDelta = Vector2.zero;
-            btnLabel.color = s_Dark;
-            btnLabel.horizontalAlignment = HorizontalAlignmentOptions.Center;
-            btnLabel.verticalAlignment = VerticalAlignmentOptions.Capline;
-            btnLabel.fontSize = game_pad_button_size;
+            TipsTextOnBtnProcess(btnLabel);
             switch (button)
             {
                 case GamePadButton.A: btnLabel.text = "A"; break;
@@ -213,8 +226,73 @@ namespace DuckovController.SceneEdit
                 case GamePadButton.Y: btnLabel.text = "Y"; break;
                 default: btnLabel.text = ""; break;
             }
-            btnLabel.fontStyle = FontStyles.Bold;
             return circle.rectTransform;
+        }
+
+        private static RectTransform DrawPadAxisButton(RectTransform parent, GamePadButton button)
+        {
+            var circle = NewCircleSprite("CircleSprite", parent);
+            circle.rectTransform.pivot = new Vector2(0, 0.5f);
+            circle.rectTransform.anchorMin = new Vector2(0, 0.5f);
+            circle.rectTransform.anchorMax = new Vector2(0, 0.5f);
+            circle.rectTransform.anchoredPosition = Vector2.zero;
+            circle.rectTransform.sizeDelta = new Vector2(icon_size, icon_size);
+            circle.BorderWidth = 2;
+            UniShadow(circle.gameObject.AddComponent<TrueShadow>());
+
+            var subCircle = NewCircleSprite("SubCircleSprite", circle.rectTransform);
+            subCircle.rectTransform.pivot = new Vector2(0.5f, 0.5f);
+            subCircle.rectTransform.anchorMin = new Vector2(0.5f, 0.5f);
+            subCircle.rectTransform.anchorMax = new Vector2(0.5f, 0.5f);
+            subCircle.rectTransform.anchoredPosition = Vector2.zero;
+            subCircle.rectTransform.sizeDelta = new Vector2(icon_size - 8, icon_size - 8);
+            UniShadow(subCircle.gameObject.AddComponent<TrueShadow>());
+
+            var btnLabel = NewLabel("Text", circle.rectTransform);
+            TipsTextOnBtnProcess(btnLabel);
+            btnLabel.text = button == GamePadButton.LeftAxis ? "L" : "R";
+            return circle.rectTransform;
+        }
+
+        private static RectTransform DrawPadAxisPressButton(RectTransform parent, GamePadButton button)
+        {
+            var container = new GameObject("SprContainer").AddComponent<RectTransform>();
+            container.SetParent(parent, false);
+            container.pivot = new Vector2(0, 0.5f);
+            container.anchorMin = new Vector2(0, 0.5f);
+            container.anchorMax = new Vector2(0, 0.5f);
+            container.anchoredPosition = Vector2.zero;
+            container.sizeDelta = new Vector2(icon_size, icon_size);
+
+            var spr1 = new GameObject("Sprite1").AddComponent<RectTransform>();
+            spr1.SetParent(container, false);
+            spr1.pivot = new Vector2(0.5f, 0.5f);
+            spr1.anchorMin = new Vector2(0.5f, 0f);
+            spr1.anchorMax = new Vector2(0.5f, 1f);
+            spr1.anchoredPosition = Vector2.zero;
+            spr1.sizeDelta = new Vector2(18f, 0f);
+            var um1 = spr1.gameObject.AddComponent<UniformModifier>();
+            spr1.gameObject.AddComponent<ProceduralImage>().color = s_Light;
+            um1.Radius = rect_radius;
+            UniShadow(spr1.gameObject.AddComponent<TrueShadow>());
+
+            var spr2 = new GameObject("Sprite2").AddComponent<RectTransform>();
+            spr2.SetParent(container, false);
+            spr2.pivot = new Vector2(0.5f, 1f);
+            spr2.anchorMin = new Vector2(0f, 1f);
+            spr2.anchorMax = new Vector2(1f, 1f);
+            spr2.anchoredPosition = Vector2.zero;
+            spr2.sizeDelta = new Vector2(0, 10f);
+            var um2 = spr2.gameObject.AddComponent<UniformModifier>();
+            spr2.gameObject.AddComponent<ProceduralImage>().color = s_Light;
+            um2.Radius = rect_radius;
+            UniShadow(spr2.gameObject.AddComponent<TrueShadow>());
+
+            var btnLabel = NewLabel("Text", container);
+            TipsTextOnBtnProcess(btnLabel);
+            btnLabel.text = button == GamePadButton.LeftAxisPress ? "L" : "R";
+
+            return container;
         }
 
         private static RectTransform DrawPadShoulderButton(RectTransform parent, GamePadButton button)
@@ -233,18 +311,149 @@ namespace DuckovController.SceneEdit
             UniShadow(image.gameObject.AddComponent<TrueShadow>());
 
             var btnLabel = NewLabel("Text", image.rectTransform);
-            btnLabel.rectTransform.pivot = new Vector2(0.5f, 0.5f);
-            btnLabel.rectTransform.anchorMin = Vector2.zero;
-            btnLabel.rectTransform.anchorMax = Vector2.one;
-            btnLabel.rectTransform.anchoredPosition = Vector2.zero;
-            btnLabel.rectTransform.sizeDelta = Vector2.one * -10; // Offset
-            btnLabel.color = s_Dark;
-            btnLabel.horizontalAlignment = HorizontalAlignmentOptions.Center;
-            btnLabel.verticalAlignment = VerticalAlignmentOptions.Capline;
-            btnLabel.fontSize = game_pad_button_size;
+            TipsTextOnBtnProcess(btnLabel);
+            btnLabel.characterSpacing = -8;
             btnLabel.text = isLeft ? "LB" : "RB";
-            btnLabel.fontStyle = FontStyles.Bold;
             return image.rectTransform;
+        }
+
+        private static RectTransform DrawPadTriggerButton(RectTransform parent, GamePadButton button)
+        {
+            var container = new GameObject("SprContainer").AddComponent<RectTransform>();
+            container.SetParent(parent, false);
+            container.pivot = new Vector2(0, 0.5f);
+            container.anchorMin = new Vector2(0, 0.5f);
+            container.anchorMax = new Vector2(0, 0.5f);
+            container.anchoredPosition = Vector2.zero;
+            container.sizeDelta = new Vector2(icon_size, icon_size);
+
+            var spr1 = new GameObject("Sprite1").AddComponent<RectTransform>();
+            spr1.SetParent(container, false);
+            spr1.pivot = new Vector2(0.5f, 0.5f);
+            spr1.anchorMin = Vector2.zero;
+            spr1.anchorMax = Vector2.one;
+            spr1.offsetMin = new Vector2(0, 5);
+            spr1.offsetMax = Vector2.zero;
+            var um = spr1.gameObject.AddComponent<UniformModifier>();
+            spr1.gameObject.AddComponent<ProceduralImage>().color = s_Light;
+            um.Radius = rect_radius;
+            UniShadow(spr1.gameObject.AddComponent<TrueShadow>());
+
+            var spr2 = new GameObject("Sprite2").AddComponent<RectTransform>();
+            spr2.SetParent(container, false);
+            spr2.pivot = new Vector2(0.5f, 0.5f);
+            spr2.anchorMin = Vector2.zero;
+            spr2.anchorMax = Vector2.one;
+            var fm = spr2.gameObject.AddComponent<FreeModifier>();
+            spr2.gameObject.AddComponent<ProceduralImage>().color = s_Light;
+            UniShadow(spr2.gameObject.AddComponent<TrueShadow>());
+
+            var btnLabel = NewLabel("Text", container);
+            TipsTextOnBtnProcess(btnLabel);
+            btnLabel.characterSpacing = -8;
+            if (button == GamePadButton.LT)
+            {
+                fm.Radius = new Vector4(rect_radius, rect_radius, 10, rect_radius);
+                spr2.offsetMin = Vector2.zero;
+                spr2.offsetMax = new Vector2(-10, 0);
+                btnLabel.text = "LT";
+            }
+            else
+            {
+                fm.Radius = new Vector4(rect_radius, rect_radius, rect_radius, 10);
+                spr2.offsetMin = new Vector2(10, 0);
+                spr2.offsetMax = Vector2.zero;
+                btnLabel.text = "RT";
+            }
+            return container;
+        }
+
+        private static RectTransform DrawPadMenuButton(RectTransform parent, GamePadButton button)
+        {
+            var circle = NewCircleSprite("CircleSprite", parent);
+            circle.rectTransform.pivot = new Vector2(0, 0.5f);
+            circle.rectTransform.anchorMin = new Vector2(0, 0.5f);
+            circle.rectTransform.anchorMax = new Vector2(0, 0.5f);
+            circle.rectTransform.anchoredPosition = Vector2.zero;
+            circle.rectTransform.sizeDelta = new Vector2(icon_size, icon_size);
+            circle.BorderWidth = 2;
+            UniShadow(circle.gameObject.AddComponent<TrueShadow>());
+
+            var cube1 = NewRoundRectSprite("Cube1", circle.rectTransform, 0);
+            cube1.rectTransform.pivot = new Vector2(0.5f, 0.5f);
+            cube1.rectTransform.anchorMin = new Vector2(0.5f, 0.5f);
+            cube1.rectTransform.anchorMax = new Vector2(0.5f, 0.5f);
+            cube1.rectTransform.anchoredPosition = new Vector2(0, 4);
+            cube1.rectTransform.sizeDelta = new Vector2(14, 2);
+            UniShadow(cube1.gameObject.AddComponent<TrueShadow>());
+
+            var cube2 = NewRoundRectSprite("Cube2", circle.rectTransform, 0);
+            cube2.rectTransform.pivot = new Vector2(0.5f, 0.5f);
+            cube2.rectTransform.anchorMin = new Vector2(0.5f, 0.5f);
+            cube2.rectTransform.anchorMax = new Vector2(0.5f, 0.5f);
+            cube2.rectTransform.anchoredPosition = new Vector2(0, 0);
+            cube2.rectTransform.sizeDelta = new Vector2(14, 2);
+            UniShadow(cube2.gameObject.AddComponent<TrueShadow>());
+
+            var cube3 = NewRoundRectSprite("Cube3", circle.rectTransform, 0);
+            cube3.rectTransform.pivot = new Vector2(0.5f, 0.5f);
+            cube3.rectTransform.anchorMin = new Vector2(0.5f, 0.5f);
+            cube3.rectTransform.anchorMax = new Vector2(0.5f, 0.5f);
+            cube3.rectTransform.anchoredPosition = new Vector2(0, -4);
+            cube3.rectTransform.sizeDelta = new Vector2(14, 2);
+            UniShadow(cube3.gameObject.AddComponent<TrueShadow>());
+
+            return circle.rectTransform;
+        }
+
+        private static RectTransform DrawPadSelectButton(RectTransform parent, GamePadButton button)
+        {
+            var circle = NewCircleSprite("CircleSprite", parent);
+            circle.rectTransform.pivot = new Vector2(0, 0.5f);
+            circle.rectTransform.anchorMin = new Vector2(0, 0.5f);
+            circle.rectTransform.anchorMax = new Vector2(0, 0.5f);
+            circle.rectTransform.anchoredPosition = Vector2.zero;
+            circle.rectTransform.sizeDelta = new Vector2(icon_size, icon_size);
+            circle.BorderWidth = 2;
+            UniShadow(circle.gameObject.AddComponent<TrueShadow>());
+
+            var cube1 = NewRoundRectSprite("Cube1", circle.rectTransform, 0);
+            cube1.rectTransform.pivot = new Vector2(0.5f, 0.5f);
+            cube1.rectTransform.anchorMin = new Vector2(0.5f, 0.5f);
+            cube1.rectTransform.anchorMax = new Vector2(0.5f, 0.5f);
+            cube1.rectTransform.anchoredPosition = new Vector2(-2, 2);
+            cube1.rectTransform.sizeDelta = new Vector2(12, 8);
+            cube1.type = Image.Type.Filled;
+            cube1.fillMethod = Image.FillMethod.Radial360;
+            cube1.fillAmount = 0.75f;
+            cube1.fillOrigin = 0;
+            cube1.BorderWidth = 2;
+            UniShadow(cube1.gameObject.AddComponent<TrueShadow>());
+
+            var cube2 = NewRoundRectSprite("Cube2", circle.rectTransform, 0);
+            cube2.rectTransform.pivot = new Vector2(0.5f, 0.5f);
+            cube2.rectTransform.anchorMin = new Vector2(0.5f, 0.5f);
+            cube2.rectTransform.anchorMax = new Vector2(0.5f, 0.5f);
+            cube2.rectTransform.anchoredPosition = new Vector2(2, -2);
+            cube2.rectTransform.sizeDelta = new Vector2(12, 8);
+            cube2.BorderWidth = 2;
+            UniShadow(cube2.gameObject.AddComponent<TrueShadow>());
+
+            return circle.rectTransform;
+        }
+
+        private static void TipsTextOnBtnProcess(TextMeshProUGUI label)
+        {
+            label.rectTransform.pivot = new Vector2(0.5f, 0.5f);
+            label.rectTransform.anchorMin = Vector2.zero;
+            label.rectTransform.anchorMax = Vector2.one;
+            label.rectTransform.anchoredPosition = Vector2.zero;
+            label.rectTransform.sizeDelta = Vector2.one * -10; // Offset
+            label.color = s_Dark;
+            label.horizontalAlignment = HorizontalAlignmentOptions.Center;
+            label.verticalAlignment = VerticalAlignmentOptions.Capline;
+            label.fontSize = game_pad_button_size;
+            label.fontStyle = FontStyles.Bold;
         }
 
     #endregion
@@ -269,8 +478,8 @@ namespace DuckovController.SceneEdit
         {
             var rectTransform = new GameObject(name).AddComponent<RectTransform>();
             rectTransform.SetParent(parent, false);
-            var pi = rectTransform.gameObject.AddComponent<ProceduralImage>();
             rectTransform.gameObject.AddComponent<RoundModifier>();
+            var pi = rectTransform.gameObject.AddComponent<ProceduralImage>();
             pi.color = s_Light;
             return pi;
         }
@@ -279,8 +488,8 @@ namespace DuckovController.SceneEdit
         {
             var rectTransform = new GameObject(name).AddComponent<RectTransform>();
             rectTransform.SetParent(parent, false);
-            var pi = rectTransform.gameObject.AddComponent<ProceduralImage>();
             var um = rectTransform.gameObject.AddComponent<UniformModifier>();
+            var pi = rectTransform.gameObject.AddComponent<ProceduralImage>();
             pi.color = s_Light;
             um.Radius = radius;
             return pi;
@@ -351,9 +560,9 @@ namespace DuckovController.SceneEdit
 
             RightAxis,
 
-            LeftAxisBtn,
+            LeftAxisPress,
 
-            RightAxisBtn,
+            RightAxisPress,
 
             LB,
 
