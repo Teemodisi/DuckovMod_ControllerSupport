@@ -1,40 +1,42 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace DuckovController.SceneEdit.Other
 {
     public class SelectionGroup<T>
     {
-        private readonly T[] _controls;
-
-        private readonly Func<int> _getSelectorIndex;
+        private readonly Func<IReadOnlyList<T>, int> _defaultSelectorIndex;
 
         private readonly bool _isLoop;
 
         private readonly Action<T, int> _onSelected;
 
+        private T[] _selections;
+
         private int _currentIndexCache;
 
         public SelectionGroup(
-            T[] controls,
-            Action<T, int> onSelected,
-            Func<int> getSelectorIndex = null,
+            T[] selections,
+            Action<T, int> onSelected = null,
+            Func<IReadOnlyList<T>, int> selectorIndex = null,
             bool loop = true)
         {
-            _controls = controls;
-            _getSelectorIndex = getSelectorIndex;
+            _selections = selections;
+            _defaultSelectorIndex = selectorIndex;
             _onSelected = onSelected;
-            if (_getSelectorIndex == null)
+            if (_defaultSelectorIndex == null)
             {
-                _getSelectorIndex = DefaultGetIndex;
+                _defaultSelectorIndex = DefaultGetIndex;
             }
-            _currentIndexCache = _getSelectorIndex.Invoke();
             _isLoop = loop;
         }
 
-        public int GroupLength => _controls.Length;
+        public int GroupLength => _selections.Length;
 
-        private int DefaultGetIndex()
+        public T CurrentSelection => _selections[_defaultSelectorIndex.Invoke(_selections)];
+
+        private int DefaultGetIndex(IReadOnlyList<T> controls)
         {
             return _currentIndexCache;
         }
@@ -46,36 +48,50 @@ namespace DuckovController.SceneEdit.Other
                 Debug.LogError("Invalid selection group index");
                 return;
             }
-            _onSelected?.Invoke(_controls[index], index);
+            Debug.Log("Trying to select " + index);
+            _onSelected?.Invoke(_selections[index], index);
             _currentIndexCache = index;
         }
 
         public void SelectNext()
         {
-            var cur = _getSelectorIndex.Invoke();
+            var cur = _defaultSelectorIndex.Invoke(_selections);
             if (_isLoop)
             {
                 cur = cur + 1 >= GroupLength ? 0 : cur + 1;
             }
             else
             {
-                cur = cur + 1 >= GroupLength ? GroupLength - 1 : cur + 1;
+                if (cur + 1 >= GroupLength)
+                {
+                    return;
+                }
+                cur = cur + 1;
             }
             Select(cur);
         }
 
         public void SelectPrev()
         {
-            var cur = _getSelectorIndex.Invoke();
+            var cur = _defaultSelectorIndex.Invoke(_selections);
             if (_isLoop)
             {
                 cur = cur - 1 < 0 ? GroupLength - 1 : cur - 1;
             }
             else
             {
-                cur = cur - 1 < 0 ? 0 : cur - 1;
+                if (cur - 1 < 0)
+                {
+                    return;
+                }
+                cur = cur - 1;
             }
             Select(cur);
+        }
+
+        public void UpdateSelections(T[] selections)
+        {
+            this._selections = selections;
         }
     }
 }

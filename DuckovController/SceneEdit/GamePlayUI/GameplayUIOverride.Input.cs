@@ -20,7 +20,8 @@ namespace DuckovController.SceneEdit.GamePlayUI
             _inputRightTab = _inputActionMap.AddAction("RightTab", InputActionType.Button);
             _inputRightTab.AddBinding("<Gamepad>/rightShoulder");
             
-            CancelAction.AddBinding("<Gamepad>/buttonEast");
+            //TODO: 监听问题 和 主游戏冲突
+            CancelAction.AddBinding("<Gamepad>/start");
         }
 
         private void RegInput()

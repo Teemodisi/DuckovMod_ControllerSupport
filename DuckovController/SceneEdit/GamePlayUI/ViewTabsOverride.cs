@@ -22,7 +22,7 @@ namespace DuckovController.SceneEdit.GamePlayUI
             _selectionGroup = new SelectionGroup<GenericButton>(
                 _horizontalRect.gameObject.GetComponentsInChildren<GenericButton>(),
                 (button, index) => { button.onPointerClick.Invoke(); },
-                () =>
+                (selection) =>
                 {
                     var curView = View.ActiveView;
                     if (curView == null || curView == LootView.Instance)
