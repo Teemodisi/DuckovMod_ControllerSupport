@@ -29,7 +29,7 @@ namespace DuckovController.SceneEdit.Other
 
         public void Move(Vector2 axisInput)
         {
-            _input = axisInput.y;
+            _input = -axisInput.y;
         }
     }
 }

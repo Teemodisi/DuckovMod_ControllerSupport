@@ -8,9 +8,6 @@ namespace DuckovController.SceneEdit.MainMenu
 {
     public partial class MainMenuOverride
     {
-        //不知道为什么，用 EventSystem + Navigate 无法正常运作，用土办法了
-        private int _selectedIndex;
-
         public event Action onCancelBtnDown;
 
         private void RegInput()
@@ -57,8 +54,7 @@ namespace DuckovController.SceneEdit.MainMenu
 #if DEBUG
             Debug.Log($"{Utils.ModName} MainMenu OnNavigateUp");
 #endif
-            _selectedIndex = Mathf.Max(_selectedIndex - 1, 0);
-            EventSystem.current.SetSelectedGameObject(MenuButtonListLayout.GetChild(_selectedIndex).gameObject);
+            _selectionGroup.SelectPrev();
         }
 
         private void OnNavigateDown(InputAction.CallbackContext obj)
@@ -66,8 +62,7 @@ namespace DuckovController.SceneEdit.MainMenu
 #if DEBUG
             Debug.Log($"{Utils.ModName} MainMenu OnNavigateDown");
 #endif
-            _selectedIndex = Mathf.Min(_selectedIndex + 1, _buttons.Length - 1);
-            EventSystem.current.SetSelectedGameObject(MenuButtonListLayout.GetChild(_selectedIndex).gameObject);
+            _selectionGroup.SelectNext();
         }
     }
 }
