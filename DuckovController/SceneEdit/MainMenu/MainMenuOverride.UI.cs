@@ -41,23 +41,26 @@ namespace DuckovController.SceneEdit.MainMenu
             UIStyle.currentFont = _fontTemplate;
 
             MenuPadTipsLayout = new GameObject("ControllerTips").AddComponent<RectTransform>();
+            var canvasGroup = MenuPadTipsLayout.gameObject.AddComponent<CanvasGroup>();
+            canvasGroup.interactable = false;
+            canvasGroup.blocksRaycasts = false;
             MenuPadTipsLayout.SetParent(MenuButtonListLayout.parent, false);
-            MenuPadTipsLayout.anchorMin = new Vector2(1, 0);
-            MenuPadTipsLayout.anchorMax = new Vector2(1, 0);
             MenuPadTipsLayout.pivot = new Vector2(1, 0);
-            MenuPadTipsLayout.sizeDelta = new Vector2(500, 40);
+            MenuPadTipsLayout.anchorMin = new Vector2(0, 0);
+            MenuPadTipsLayout.anchorMax = new Vector2(1, 0);
+            MenuPadTipsLayout.anchoredPosition = new Vector2(-100, 50);
+            MenuPadTipsLayout.sizeDelta = new Vector2(0, UIStyle.tips_rect_height);
             var horGroup = MenuPadTipsLayout.gameObject.AddComponent<HorizontalLayoutGroup>();
             horGroup.spacing = 10;
             horGroup.childAlignment = TextAnchor.MiddleRight;
             horGroup.childControlWidth = false;
-            horGroup.childControlHeight = false;
+            horGroup.childControlHeight = true;
             horGroup.childForceExpandWidth = false;
             horGroup.childForceExpandHeight = true;
-            horGroup.reverseArrangement = true;
-            UIStyle.DrawPadButtonTips(MenuPadTipsLayout, UIStyle.GamePadButton.A, L10N.Instance.Confirm);
-            UIStyle.DrawPadButtonTips(MenuPadTipsLayout, UIStyle.GamePadButton.Up, L10N.Instance.NavigateUp);
-            UIStyle.DrawPadButtonTips(MenuPadTipsLayout, UIStyle.GamePadButton.Down, L10N.Instance.NavigateDown);
-            UpdateTipsRectPos();
+            UIStyle.DrawPadButtonTips(MenuPadTipsLayout, L10N.Instance.MenuMainNavigate,
+                new[] { UIStyle.GamePadButton.Up, UIStyle.GamePadButton.Down });
+            UIStyle.DrawPadButtonTips(MenuPadTipsLayout, L10N.Instance.Confirm,
+                new[] { UIStyle.GamePadButton.A });
 
             //更改UI Hovering样式 改为描边嗷
             var btnAnims = MenuButtonListLayout.gameObject.GetComponentsInChildren<ButtonAnimation>();
@@ -70,20 +73,6 @@ namespace DuckovController.SceneEdit.MainMenu
         private void OnFadeGroupCompleted(FadeGroup fadeGroup)
         {
             EventSystem.current.SetSelectedGameObject(MenuButtonListLayout.GetChild(0).gameObject);
-        }
-
-        private void UpdateTipsRectPos()
-        {
-            //TODO:其实应该将这个提示层级提升
-            //用左边最后一个按钮做参考进行对齐
-            //不知道为什么未显示前和动画后是两个偏移位置，大概是动画造成，通过监听更新这个时机对齐
-            // var lastBtn = MenuButtonListLayout.GetChild(MenuButtonListLayout.childCount - 1)
-            //     .GetComponent<RectTransform>();
-            // lastBtn.LogRectTransformInfo();
-            // MenuButtonListLayout.LogRectTransformInfo();
-            // var offset = MenuButtonListLayout.sizeDelta.y - (-lastBtn.anchoredPosition.y + lastBtn.sizeDelta.y * 0.5f);
-            //已知是16
-            MenuPadTipsLayout.anchoredPosition = new Vector2(-100, 50);
         }
     }
 }
