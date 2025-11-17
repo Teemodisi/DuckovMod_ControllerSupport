@@ -1,13 +1,12 @@
 ﻿using DG.Tweening;
 using Duckov;
-using DuckovController.Helper;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 namespace DuckovController.SceneEdit.MainGame
 {
-    public partial class MainGameItemTurntableHUD : SingletonMonoBehaviour<MainGameItemTurntableHUD>
+    public partial class MainGameItemTurntableHUD : AbstractPatch
     {
         private RectTransform _rectTransform;
 
@@ -29,25 +28,23 @@ namespace DuckovController.SceneEdit.MainGame
 
         protected override void Awake()
         {
-            base.Awake();
             _rectTransform = gameObject.AddComponent<RectTransform>();
             _canvasGroup = gameObject.AddComponent<CanvasGroup>();
             _canvasGroup.interactable = false;
             _canvasGroup.blocksRaycasts = false;
 
-            Patch();
-            InitInputAction();
+            base.Awake();
         }
 
-        private void OnEnable()
+        protected override void OnEnable()
         {
-            _inputAction.Enable();
+            base.OnEnable();
             ItemShortcut.OnSetItem += UpdateFromEvent;
         }
 
-        private void OnDisable()
+        protected override void OnDisable()
         {
-            _inputAction.Disable();
+            base.OnDisable();
             ItemShortcut.OnSetItem -= UpdateFromEvent;
         }
 

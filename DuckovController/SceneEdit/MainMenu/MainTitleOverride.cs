@@ -6,53 +6,24 @@ using UnityEngine.InputSystem;
 
 namespace DuckovController.SceneEdit.MainMenu
 {
-    public class MainTitleOverride : MonoBehaviour
+    public class MainTitleOverride : AbstractPatch
     {
-        private static PointerEventData s_PointerEventData;
-
         private Title _title;
 
-        private static PointerEventData PointerEventData
-        {
-            get
-            {
-                if (s_PointerEventData == null)
-                {
-                    s_PointerEventData = new PointerEventData(EventSystem.current)
-                    {
-                        button = PointerEventData.InputButton.Left
-                    };
-                }
-                return s_PointerEventData;
-            }
-        }
-
-        private void Awake()
+        protected override void Awake()
         {
             _title = gameObject.GetComponent<Title>();
-            Patch();
+            base.Awake();
         }
 
-        private void OnEnable()
+        protected override void InitInput(InputActionMap inputActionMap)
         {
-            GamePadInput.Instance.ConfirmAction.performed += OnClick;
+            var confirmAction = inputActionMap.AddAction("Confirm", InputActionType.Button);
+            confirmAction.AddBinding("<Gamepad>/buttonSouth");
+            confirmAction.performed += OnClick;
         }
 
-        private void OnDisable()
-        {
-            GamePadInput.Instance.ConfirmAction.performed -= OnClick;
-            s_PointerEventData =  null;
-        }
-
-        private void OnClick(InputAction.CallbackContext obj)
-        {
-#if DEBUG
-            Debug.Log($"{Utils.ModName} MainTitleOverride: OnClick");
-#endif
-            _title.OnPointerClick(PointerEventData);
-        }
-
-        private void Patch()
+        protected override void Patch()
         {
             if (!Utils.FindGameObject("TimelineContent", out Transform timelineContent))
             {
@@ -66,6 +37,17 @@ namespace DuckovController.SceneEdit.MainMenu
                 return;
             }
             anyKeyText.text = L10N.Instance.TitlePressAnyKey;
+        }
+
+        private void OnClick(InputAction.CallbackContext obj)
+        {
+#if DEBUG
+            Debug.Log($"{Utils.ModName} {GetType().Name} OnClick");
+#endif
+            _title.OnPointerClick(new PointerEventData(EventSystem.current)
+            {
+                button = PointerEventData.InputButton.Left
+            });
         }
     }
 }

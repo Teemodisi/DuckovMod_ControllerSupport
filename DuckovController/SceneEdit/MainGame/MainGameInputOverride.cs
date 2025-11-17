@@ -6,7 +6,7 @@ using UnityEngine.InputSystem.Interactions;
 
 namespace DuckovController.SceneEdit.MainGame
 {
-    public partial class MainGameInputOverride : MonoBehaviour
+    public partial class MainGameInputOverride : AbstractPatch
     {
         private const float aim_smooth_time_fast = 0.05f;
 
@@ -28,6 +28,8 @@ namespace DuckovController.SceneEdit.MainGame
 
         private int _lastUseWeapon;
 
+        private MainGameItemTurntableHUD _itemTurntable;
+
         //右摇杆平移模式，用于压枪或者是瞄准
         private bool IsTranslateMod => _isAiming || _triggerIsDown;
 
@@ -37,9 +39,10 @@ namespace DuckovController.SceneEdit.MainGame
 
         private float AimDirectDistance => Mathf.Min(Screen.width, Screen.height) * 0.4f;
 
-        private void Awake()
+        protected override void Awake()
         {
-            InitMap();
+            base.Awake();
+            PatchItemTurntableHUD();
             View.OnActiveViewChanged += OnActiveViewChanged;
             OnActiveViewChanged();
         }
@@ -73,19 +76,23 @@ namespace DuckovController.SceneEdit.MainGame
             }
         }
 
-        private void OnEnable()
+        protected override void OnDestroy()
         {
-            _inputActionMap?.Enable();
-        }
-
-        private void OnDisable()
-        {
-            _inputActionMap?.Disable();
-        }
-
-        private void OnDestroy()
-        {
+            base.OnDestroy();
             View.OnActiveViewChanged -= OnActiveViewChanged;
+        }
+
+        private void PatchItemTurntableHUD()
+        {
+            var hudManager = FindObjectOfType<HUDManager>();
+            if (hudManager == null)
+            {
+                Debug.LogError("找不到 HUDManager");
+                return;
+            }
+            var table = new GameObject("ItemTurntableHUD");
+            table.transform.SetParent(hudManager.transform, false);
+            _itemTurntable = table.AddComponent<MainGameItemTurntableHUD>();
         }
 
         private void OnCancelInput(InputAction.CallbackContext context)
@@ -101,18 +108,18 @@ namespace DuckovController.SceneEdit.MainGame
             {
                 if (_isGaming)
                 {
-                    _inputActionMap?.Enable();
+                    InputActionMap?.Enable();
                 }
                 else
                 {
-                    _inputActionMap?.Disable();
+                    InputActionMap?.Disable();
                 }
             }
         }
 
         private void OnAimDirectionInput(InputAction.CallbackContext context)
         {
-            if (MainGameItemTurntableHUD.Instance.Interactive)
+            if (_itemTurntable.Interactive)
             {
                 _controllerDirection = Vector2.zero;
                 return;
@@ -258,7 +265,7 @@ namespace DuckovController.SceneEdit.MainGame
             {
                 if (context.performed)
                 {
-                    MainGameItemTurntableHUD.Instance.UseCurrentSlot();
+                    _itemTurntable.UseCurrentSlot();
                 }
             }
             else if (context.interaction.GetType() == typeof(HoldInteraction))
@@ -266,12 +273,12 @@ namespace DuckovController.SceneEdit.MainGame
                 // 收起武器
                 if (context.performed)
                 {
-                    MainGameItemTurntableHUD.Instance.Show();
+                    _itemTurntable.Show();
                 }
                 if (context.canceled)
                 {
-                    MainGameItemTurntableHUD.Instance.Hide();
-                    MainGameItemTurntableHUD.Instance.UseCurrentSlot();
+                    _itemTurntable.Hide();
+                    _itemTurntable.UseCurrentSlot();
                 }
             }
         }

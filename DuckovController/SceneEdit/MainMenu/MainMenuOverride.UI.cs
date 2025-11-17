@@ -2,7 +2,6 @@
 using JetBrains.Annotations;
 using TMPro;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 namespace DuckovController.SceneEdit.MainMenu
 {
@@ -11,11 +10,11 @@ namespace DuckovController.SceneEdit.MainMenu
         [CanBeNull]
         private TMP_FontAsset _fontTemplate;
 
-        public RectTransform MenuButtonListLayout { get; private set; }
+        private RectTransform _menuButtonListLayout;
 
-        public RectTransform MenuPadTipsLayout { get; private set; }
+        private RectTransform _menuPadTipsLayout;
 
-        public void Patch()
+        protected override void Patch()
         {
             //目前位置 Canvas/MainMenuContainer/Menu/MainGroup
             var obj = transform.Find("Layout");
@@ -24,13 +23,13 @@ namespace DuckovController.SceneEdit.MainMenu
                 Debug.LogError("找不到主菜单的Layout");
                 return;
             }
-            MenuButtonListLayout = obj!.GetComponent<RectTransform>();
-            if (MenuButtonListLayout == null)
+            _menuButtonListLayout = obj!.GetComponent<RectTransform>();
+            if (_menuButtonListLayout == null)
             {
                 Debug.LogError("找不到主菜单的Layout的RectTransform");
                 return;
             }
-            var tmp = MenuButtonListLayout.GetComponentInChildren<TextMeshProUGUI>();
+            var tmp = _menuButtonListLayout.GetComponentInChildren<TextMeshProUGUI>();
             if (tmp == null)
             {
                 Debug.LogError("找不到模板字体");
@@ -39,23 +38,18 @@ namespace DuckovController.SceneEdit.MainMenu
             _fontTemplate = tmp.font;
             UIStyle.currentFont = _fontTemplate;
 
-            MenuPadTipsLayout = UIStyle.GamePadTipsRectTransform(MenuButtonListLayout.parent);
-            UIStyle.DrawPadButtonTips(MenuPadTipsLayout, L10N.Instance.DpadUpDownSelect,
+            _menuPadTipsLayout = UIStyle.GamePadTipsRectTransform(_menuButtonListLayout.parent);
+            UIStyle.DrawPadButtonTips(_menuPadTipsLayout, L10N.Instance.DpadUpDownSelect,
                 new[] { UIStyle.GamePadButton.Up, UIStyle.GamePadButton.Down });
-            UIStyle.DrawPadButtonTips(MenuPadTipsLayout, L10N.Instance.Confirm,
+            UIStyle.DrawPadButtonTips(_menuPadTipsLayout, L10N.Instance.Confirm,
                 new[] { UIStyle.GamePadButton.A });
 
             //更改UI Hovering样式 改为描边嗷
-            var btnAnims = MenuButtonListLayout.gameObject.GetComponentsInChildren<ButtonAnimation>();
+            var btnAnims = _menuButtonListLayout.gameObject.GetComponentsInChildren<ButtonAnimation>();
             foreach (var buttonAnimation in btnAnims)
             {
                 buttonAnimation.gameObject.AddComponent<MainMenuBtnStyleOverride>();
             }
-        }
-
-        private void OnFadeGroupCompleted(FadeGroup fadeGroup)
-        {
-            EventSystem.current.SetSelectedGameObject(MenuButtonListLayout.GetChild(0).gameObject);
         }
     }
 }

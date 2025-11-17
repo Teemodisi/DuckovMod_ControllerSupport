@@ -8,61 +8,34 @@ namespace DuckovController.SceneEdit.MainMenu
 {
     public partial class MainMenuOverride
     {
+        private InputAction _navigateUpAction;
+
+        private InputAction _navigateDownAction;
+
+        private InputAction _confirmAction;
+
+        private InputAction _cancelAction;
+
         public event Action onCancelBtnDown;
 
-        private void RegInput()
+        protected override void InitInput(InputActionMap inputActionMap)
         {
-            GamePadInput.Instance.ConfirmAction.performed += OnConfirm;
-            GamePadInput.Instance.CancelAction.performed += OnCancel;
-            GamePadInput.Instance.NavigateUpAction.performed += OnNavigateUp;
-            GamePadInput.Instance.NavigateDownAction.performed += OnNavigateDown;
+            _confirmAction = inputActionMap.AddAction("Confirm", InputActionType.Button);
+            _confirmAction.AddBinding("<Gamepad>/buttonSouth");
 
-            //好像碳酸本来就没绑这些交互在主界面
-            // GameManager.MainPlayerInput.actions["UI_Cancel"].AddBinding("<Gamepad>/buttonEast");
-        }
+            _cancelAction = inputActionMap.AddAction("Cancel", InputActionType.Button);
+            _cancelAction.AddBinding("<Gamepad>/buttonEast");
 
-        private void UnRegInput()
-        {
-            GamePadInput.Instance.ConfirmAction.performed -= OnConfirm;
-            GamePadInput.Instance.CancelAction.performed -= OnCancel;
-            GamePadInput.Instance.NavigateUpAction.performed -= OnNavigateUp;
-            GamePadInput.Instance.NavigateDownAction.performed -= OnNavigateDown;
-        }
+            _navigateUpAction = inputActionMap.AddAction("NavigationUp", InputActionType.Button);
+            _navigateUpAction.AddBinding("<Gamepad>/dpad/up");
 
-        private void OnConfirm(InputAction.CallbackContext obj)
-        {
-#if DEBUG
-            Debug.Log($"{Utils.ModName} MainMenu OnConfirm");
-#endif
-            var go = EventSystem.current.currentSelectedGameObject;
-            if (go != null)
-            {
-                if (go.TryGetComponent<MainMenuBtnButtonOverride>(out var handler))
-                {
-                    handler.Press();
-                }
-            }
-        }
-
-        private void OnCancel(InputAction.CallbackContext obj)
-        {
-            onCancelBtnDown?.Invoke();
-        }
-
-        private void OnNavigateUp(InputAction.CallbackContext obj)
-        {
-#if DEBUG
-            Debug.Log($"{Utils.ModName} MainMenu OnNavigateUp");
-#endif
-            _selectionGroup.SelectPrev();
-        }
-
-        private void OnNavigateDown(InputAction.CallbackContext obj)
-        {
-#if DEBUG
-            Debug.Log($"{Utils.ModName} MainMenu OnNavigateDown");
-#endif
-            _selectionGroup.SelectNext();
+            _navigateDownAction = inputActionMap.AddAction("NavigationDown", InputActionType.Button);
+            _navigateDownAction.AddBinding("<Gamepad>/dpad/down");
+            
+            _confirmAction.performed += OnConfirm;
+            _cancelAction.performed += OnCancel;
+            _navigateUpAction.performed += OnNavigateUp;
+            _navigateDownAction.performed += OnNavigateDown;
         }
     }
 }

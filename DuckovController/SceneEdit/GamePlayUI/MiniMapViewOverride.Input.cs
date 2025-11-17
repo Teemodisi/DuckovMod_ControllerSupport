@@ -5,7 +5,6 @@ namespace DuckovController.SceneEdit.GamePlayUI
 {
     public partial class MiniMapViewOverride
     {
-        private InputActionMap _inputActionMap;
 
         private InputAction _moveMapAction;
 
@@ -19,28 +18,26 @@ namespace DuckovController.SceneEdit.GamePlayUI
 
         private InputAction _selectColorAndIconAction;
 
-        private void InitInput()
+        protected override void InitInput(InputActionMap inputActionMap)
         {
-            _inputActionMap = new InputActionMap(nameof(MiniMapViewOverride));
-
-            _moveMapAction = _inputActionMap.AddAction("MoveMap");
+            _moveMapAction = inputActionMap.AddAction("MoveMap");
             _moveMapAction.AddBinding("<Gamepad>/leftStick");
 
-            _moveMouseAction = _inputActionMap.AddAction("MoveMouse");
+            _moveMouseAction = inputActionMap.AddAction("MoveMouse");
             _moveMouseAction.AddBinding("<Gamepad>/rightStick");
 
-            _zoomAction = _inputActionMap.AddAction("ZoomUp", expectedControlLayout: "Axis");
+            _zoomAction = inputActionMap.AddAction("ZoomUp", expectedControlLayout: "Axis");
             _zoomAction.AddCompositeBinding("1DAxis")
                 .With("positive", "<Gamepad>/rightTrigger")
                 .With("negative", "<Gamepad>/leftTrigger");
 
-            _pinAction = _inputActionMap.AddAction("Pin", InputActionType.Button);
+            _pinAction = inputActionMap.AddAction("Pin", InputActionType.Button);
             _pinAction.AddBinding("<Gamepad>/buttonSouth");
 
-            _centerPlayerAction = _inputActionMap.AddAction("CenterPlayer", InputActionType.Button);
+            _centerPlayerAction = inputActionMap.AddAction("CenterPlayer", InputActionType.Button);
             _centerPlayerAction.AddBinding("<Gamepad>/leftStickPress");
 
-            _selectColorAndIconAction = _inputActionMap
+            _selectColorAndIconAction = inputActionMap
                 .AddAction("SelectColorAndIcon", expectedControlLayout: "Vector2");
             _selectColorAndIconAction.AddCompositeBinding("2DVector(mode=1)")
                 .With("up", "<Gamepad>/dpad/up")

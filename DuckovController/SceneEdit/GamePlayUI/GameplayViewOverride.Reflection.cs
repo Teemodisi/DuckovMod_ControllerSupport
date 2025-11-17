@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 
 namespace DuckovController.SceneEdit.GamePlayUI
 {
-    public partial class GameplayUIOverride
+    public partial class GameplayViewOverride
     {
         private InputAction CancelAction => (InputAction)Reflection.CancelActionField.GetValue(UIInputManager.Instance);
 

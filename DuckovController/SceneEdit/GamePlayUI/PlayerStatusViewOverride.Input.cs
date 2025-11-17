@@ -5,17 +5,13 @@ namespace DuckovController.SceneEdit.GamePlayUI
 {
     public partial class PlayerStatusViewOverride
     {
-        private InputActionMap _inputActionMap;
-
         private InputAction _moveListAction;
-        
-        private void InitInput()
+
+        protected override void InitInput(InputActionMap inputActionMap)
         {
-            _inputActionMap = new InputActionMap(nameof(PlayerStatusViewOverride));
-            
-            _moveListAction = _inputActionMap.AddAction("MoveMap");
+            _moveListAction = inputActionMap.AddAction("MoveMap");
             _moveListAction.AddBinding("<Gamepad>/leftStick");
-            
+
             _moveListAction.BindInput(OnMoveListInput);
         }
     }

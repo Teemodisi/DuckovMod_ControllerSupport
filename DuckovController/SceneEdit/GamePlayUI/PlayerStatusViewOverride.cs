@@ -5,28 +5,17 @@ using UnityEngine.UI;
 
 namespace DuckovController.SceneEdit.GamePlayUI
 {
-    public partial class PlayerStatusViewOverride : MonoBehaviour
+    public partial class PlayerStatusViewOverride : AbstractPatch
     {
         private ScrollRect _scrollRect;
 
         private ScrollViewGamepadControl _scrollViewGamepadControl;
 
-        private void Awake()
+        protected override void Awake()
         {
             _scrollRect = GetComponentInChildren<ScrollRect>();
             _scrollViewGamepadControl = _scrollRect.gameObject.AddComponent<ScrollViewGamepadControl>();
-            Patch();
-            InitInput();
-        }
-
-        private void OnEnable()
-        {
-            _inputActionMap?.Enable();
-        }
-
-        private void OnDisable()
-        {
-            _inputActionMap?.Disable();
+            base.Awake();
         }
 
         private void OnMoveListInput(InputAction.CallbackContext context)

@@ -5,7 +5,7 @@ namespace DuckovController.SceneEdit.GamePlayUI
 {
     public partial class ViewTabsOverride
     {
-        private void Patch()
+        protected override void Patch()
         {
             var buttonsRect = transform.Find("ViewButtons").gameObject.GetComponent<RectTransform>();
             var lbButton = UIStyle.DrawPadButtonIcon(buttonsRect, UIStyle.GamePadButton.LB);

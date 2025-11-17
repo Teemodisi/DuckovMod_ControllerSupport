@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 namespace DuckovController.SceneEdit.GamePlayUI
 {
-    public partial class MiniMapViewOverride : MonoBehaviour
+    public partial class MiniMapViewOverride : AbstractPatch
     {
         private const float cursor_speed = 1000f;
 
@@ -43,7 +43,7 @@ namespace DuckovController.SceneEdit.GamePlayUI
 
         private readonly List<RaycastResult> _raycastResults = new List<RaycastResult>();
 
-        private void Awake()
+        protected override void Awake()
         {
             _miniMapDisplay = GetComponentInChildren<MiniMapDisplay>().GetComponent<RectTransform>();
             _scrollRect = transform.Find("Content/Scroll View")?.GetComponent<ScrollRect>();
@@ -82,8 +82,7 @@ namespace DuckovController.SceneEdit.GamePlayUI
                 new[] { _iconGroupSelectionGroup, _colorGroupSelectionGroup }
                 , loop: false
             );
-            Patch();
-            InitInput();
+            base.Awake();
             UpdateToolSelected();
         }
 
@@ -106,16 +105,6 @@ namespace DuckovController.SceneEdit.GamePlayUI
             {
                 RefZoom += _zoomInput * zoom_speed * Time.deltaTime;
             }
-        }
-
-        private void OnEnable()
-        {
-            _inputActionMap?.Enable();
-        }
-
-        private void OnDisable()
-        {
-            _inputActionMap?.Disable();
         }
 
         private void OnMoveInput(InputAction.CallbackContext context)

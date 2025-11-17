@@ -15,7 +15,8 @@ namespace DuckovController.SceneEdit.MainGame
         private const float selector_width = 50;
 
         private const float table_width = table_size / 6;
-        private void Patch()
+
+        protected override void Patch()
         {
             _rectTransform.pivot = new Vector2(0.5f, 0.5f);
             _rectTransform.anchorMin = new Vector2(0, 0);

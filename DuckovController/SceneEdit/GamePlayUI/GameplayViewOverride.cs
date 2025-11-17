@@ -1,20 +1,14 @@
 ﻿using Duckov.MiniMaps.UI;
 using Duckov.UI;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace DuckovController.SceneEdit.GamePlayUI
 {
-    public partial class GameplayUIOverride : MonoBehaviour
+    public partial class GameplayViewOverride : AbstractPatch
     {
-        private void Awake()
+        protected override void Awake()
         {
-            Patch();
-            InitInputAction();
-        }
-
-        private void Patch()
-        {
+            base.Awake();
             var viewTabs = GetComponentInChildren<ViewTabs>();
             viewTabs.gameObject.AddComponent<ViewTabsOverride>();
             var playerStatusView = GetComponentInChildren<PlayerStatsView>();
@@ -23,15 +17,15 @@ namespace DuckovController.SceneEdit.GamePlayUI
             miniMapView.gameObject.AddComponent<MiniMapViewOverride>();
         }
 
-        private void OnEnable()
+        protected override void OnEnable()
         {
-            RegInput();
+            base.OnEnable();
             View.OnActiveViewChanged += OnActiveViewChanged;
         }
 
-        private void OnDisable()
+        protected override void OnDisable()
         {
-            UnRegInput();
+            base.OnDisable();
             View.OnActiveViewChanged -= OnActiveViewChanged;
         }
 

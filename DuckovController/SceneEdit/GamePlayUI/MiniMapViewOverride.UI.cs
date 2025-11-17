@@ -12,7 +12,7 @@ namespace DuckovController.SceneEdit.GamePlayUI
 
         private readonly Color _selectedColor = new Color(0.25f, 0.25f, 0.25f);
 
-        private void Patch()
+        protected override void Patch()
         {
             var _iconRT = new GameObject("IconGroupOnSelected").AddComponent<RectTransform>();
             _iconRT.SetParent(_iconGroup.transform, false);

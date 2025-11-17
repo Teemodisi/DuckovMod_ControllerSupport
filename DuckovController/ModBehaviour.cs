@@ -10,15 +10,14 @@ namespace DuckovController
     {
         private void Awake()
         {
-            Debug.Log($"[{nameof(DuckovController)}] Awake");
-            gameObject.AddComponent<GamePadInput>();
+            Debug.Log($"{Utils.ModName} Awake");
         }
 
         protected override void OnAfterSetup()
         {
             SceneManager.sceneLoaded += OnSceneLoad;
 
-            Debug.Log($"[{nameof(DuckovController)}] OnAfterSetup");
+            Debug.Log($"{Utils.ModName} OnAfterSetup");
         }
 
         protected override void OnBeforeDeactivate()

@@ -8,21 +8,20 @@ using UnityEngine.InputSystem;
 
 namespace DuckovController.SceneEdit.GamePlayUI
 {
-    public partial class ViewTabsOverride : MonoBehaviour
+    public partial class ViewTabsOverride : AbstractPatch
     {
         private RectTransform _horizontalRect;
 
         private SelectionGroup<GenericButton> _selectionGroup;
 
-        private void Awake()
+        protected override void Awake()
         {
             _horizontalRect = transform.Find("ViewButtons").gameObject.GetComponent<RectTransform>();
-            Patch();
-            InitInput();
+            base.Awake();
             _selectionGroup = new SelectionGroup<GenericButton>(
                 _horizontalRect.gameObject.GetComponentsInChildren<GenericButton>(),
                 (button, index) => { button.onPointerClick.Invoke(); },
-                (selection) =>
+                selection =>
                 {
                     var curView = View.ActiveView;
                     if (curView == null || curView == LootView.Instance)
@@ -52,16 +51,6 @@ namespace DuckovController.SceneEdit.GamePlayUI
                     return 0;
                 }
             );
-        }
-
-        private void OnEnable()
-        {
-            _inputActionMap?.Enable();
-        }
-
-        private void OnDisable()
-        {
-            _inputActionMap?.Disable();
         }
 
         private void OnLeftNavigate(InputAction.CallbackContext context)

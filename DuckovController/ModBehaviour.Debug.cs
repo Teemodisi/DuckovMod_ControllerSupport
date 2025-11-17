@@ -14,8 +14,8 @@ namespace DuckovController
         {
             if (Input.GetKeyDown(KeyCode.F2))
             {
-                var inputManager = GameObject.FindObjectOfType<LevelManager>();
-                inputManager.transform.ShowAllComponents(depth: 3);
+                // var inputManager = GameObject.FindObjectOfType<LevelManager>();
+                // inputManager.transform.ShowAllComponents(depth: 3);
                 // var fields = typeof(LevelManager)
                 //     .GetFields(BindingFlags.NonPublic | BindingFlags.Instance)
                 //     .Where(x => x.Name.Contains("inputAction"));

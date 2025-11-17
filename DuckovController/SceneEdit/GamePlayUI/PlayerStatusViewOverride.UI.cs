@@ -2,7 +2,7 @@
 {
     public partial class PlayerStatusViewOverride
     {
-        private void Patch()
+        protected override void Patch()
         {
             //TODO：后面把Buff的视图优化一下
 

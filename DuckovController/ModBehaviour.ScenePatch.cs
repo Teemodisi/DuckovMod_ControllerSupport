@@ -68,7 +68,6 @@ namespace DuckovController
         private void PatchMainGame()
         {
             PatchGameInput();
-            PatchItemTurntableHUD();
             PatchGameplayUIManager();
         }
 
@@ -89,19 +88,6 @@ namespace DuckovController
             pi.gameObject.AddComponent<MainGameInputOverride>();
         }
 
-        private void PatchItemTurntableHUD()
-        {
-            var hudManager = FindObjectOfType<HUDManager>();
-            if (hudManager == null)
-            {
-                Debug.LogError("找不到 HUDManager");
-                return;
-            }
-            var table = new GameObject("ItemTurntableHUD");
-            table.transform.SetParent(hudManager.transform, false);
-            table.AddComponent<MainGameItemTurntableHUD>();
-        }
-
         private void PatchGameplayUIManager()
         {
             var gameplayUIManager = FindObjectOfType<GameplayUIManager>();
@@ -110,7 +96,7 @@ namespace DuckovController
                 Debug.LogError("找不到 GameplayUIManager");
                 return;
             }
-            gameplayUIManager.gameObject.AddComponent<GameplayUIOverride>();
+            gameplayUIManager.gameObject.AddComponent<GameplayViewOverride>();
         }
     }
 }

@@ -6,9 +6,9 @@ namespace DuckovController.SceneEdit.MainGame
     {
         private InputAction _inputAction;
 
-        private void InitInputAction()
+        protected override void InitInput(InputActionMap inputActionMap)
         {
-            _inputAction = new InputAction("AimDirection", expectedControlType: "Vector2");
+            _inputAction = inputActionMap.AddAction("AimDirection", expectedControlLayout: "Vector2");
             _inputAction.AddBinding("<Gamepad>/rightStick");
             _inputAction.performed += OnRightStickInput;
         }
