@@ -12,7 +12,7 @@ namespace DuckovController.SceneEdit.MainGame
 
         private const float aim_smooth_time_slow = 0.2f;
 
-        private const float aim_translation = 20f;
+        private const float aim_translation = 15f;
 
         private Vector2 _aimSmoothVel = Vector2.zero;
 
@@ -75,12 +75,12 @@ namespace DuckovController.SceneEdit.MainGame
 
         private void OnEnable()
         {
-            _inputActionMap.Enable();
+            _inputActionMap?.Enable();
         }
 
         private void OnDisable()
         {
-            _inputActionMap.Disable();
+            _inputActionMap?.Disable();
         }
 
         private void OnDestroy()
@@ -101,11 +101,11 @@ namespace DuckovController.SceneEdit.MainGame
             {
                 if (_isGaming)
                 {
-                    _inputActionMap.Enable();
+                    _inputActionMap?.Enable();
                 }
                 else
                 {
-                    _inputActionMap.Disable();
+                    _inputActionMap?.Disable();
                 }
             }
         }
@@ -276,10 +276,10 @@ namespace DuckovController.SceneEdit.MainGame
             }
         }
 
-        private void OnMenuInput(InputAction.CallbackContext context)
-        {
-            PauseMenu.Show();
-        }
+        // private void OnMenuInput(InputAction.CallbackContext context)
+        // {
+        //     PauseMenu.Show();
+        // }
 
         // CharacterMainControl.StoreHoldWeaponBeforeUse 主要服务于物品使用返回
         // 再三测试为了这里响应正确，将独立记录使用过的主/副武器

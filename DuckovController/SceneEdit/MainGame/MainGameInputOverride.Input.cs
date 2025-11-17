@@ -31,6 +31,7 @@ namespace DuckovController.SceneEdit.MainGame
 
         // 另外的做法 详见 MainGameInputOverride
         // private InputAction _switchBullet;
+        private InputActionSetupExtensions.BindingSyntax _switchBulletBinding;
 
         private InputAction _switchMeleeOrHold2ToPutAwayWeapon;
 
@@ -38,7 +39,7 @@ namespace DuckovController.SceneEdit.MainGame
 
         private InputAction _useItemOrHold2OpenTurntable;
 
-        private InputAction _openMenu;
+        // private InputAction _openMenu;
 
         private InputAction _openInventory;
 
@@ -102,8 +103,8 @@ namespace DuckovController.SceneEdit.MainGame
             _openInventory = _inputActionMap.AddAction("OpenInventory", InputActionType.Button);
             _openInventory.AddBinding("<Gamepad>/select");
 
-            _openMenu = _inputActionMap.AddAction("OpenMenu", InputActionType.Button);
-            _openMenu.AddBinding("<Gamepad>/start");
+            // _openMenu = _inputActionMap.AddAction("OpenMenu", InputActionType.Button);
+            // _openMenu.AddBinding("<Gamepad>/start");
 
             _quackAction = _inputActionMap.AddAction("Quack", InputActionType.Button);
             _quackAction.AddBinding("<Gamepad>/rightStickPress");
@@ -119,7 +120,7 @@ namespace DuckovController.SceneEdit.MainGame
             _adsAction.BindInput(OnAdsInput);
             _aimDirectionAction.BindInput(OnAimDirectionInput);
             _openInventory.BindInput(CharacterInputControl.Instance.OnUIInventoryInput);
-            _openMenu.BindInput(OnMenuInput);
+            // _openMenu.BindInput(OnMenuInput);
             _smallMenuNavigateUp.BindInput(OnNavigateUp);
             _smallMenuNavigateDown.BindInput(OnNavigateDown);
             // SwitchBullet.BindInput(OnSwitchBullet);
@@ -133,7 +134,7 @@ namespace DuckovController.SceneEdit.MainGame
             // 反射获取这个 Action 额外给这个按钮绑定新的按键
             // 因为原有 PlayerInput=>InputActionMap 带的 ControlScheme 屏蔽了GamePad的输入，在这里要重刷一下
             GameManager.MainPlayerInput.SwitchCurrentControlScheme(Keyboard.current, Mouse.current, Gamepad.current);
-            SwitchBulletInputAction.AddBinding("<Gamepad>/dpad/right");
+            _switchBulletBinding = SwitchBulletInputAction.AddBinding("<Gamepad>/dpad/right");
         }
     }
 }
