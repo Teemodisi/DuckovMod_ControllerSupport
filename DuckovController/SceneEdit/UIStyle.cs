@@ -69,6 +69,28 @@ namespace DuckovController.SceneEdit
             label.fontStyle = FontStyles.Bold;
             return rectTransform;
         }
+        
+        public static RectTransform GamePadTipsRectTransform(Transform parent)
+        {
+            var tipsRT = new GameObject("GamepadTips").AddComponent<RectTransform>();
+            var canvasGroup = tipsRT.gameObject.AddComponent<CanvasGroup>();
+            canvasGroup.interactable = false;
+            canvasGroup.blocksRaycasts = false;
+            tipsRT.SetParent(parent, false);
+            tipsRT.pivot = new Vector2(1f, 0f);
+            tipsRT.anchorMin = new Vector2(0f, 0f);
+            tipsRT.anchorMax = new Vector2(1f, 0f);
+            tipsRT.anchoredPosition = new Vector2(-100f, 40f);
+            tipsRT.sizeDelta = new Vector2(0, tips_rect_height);
+            var horGroup = tipsRT.gameObject.AddComponent<HorizontalLayoutGroup>();
+            horGroup.spacing = 10;
+            horGroup.childAlignment = TextAnchor.MiddleRight;
+            horGroup.childControlWidth = false;
+            horGroup.childControlHeight = true;
+            horGroup.childForceExpandWidth = false;
+            horGroup.childForceExpandHeight = true;
+            return tipsRT;
+        }
 
     #region GamePadButtonType
 

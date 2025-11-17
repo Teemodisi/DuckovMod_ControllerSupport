@@ -43,24 +43,7 @@ namespace DuckovController.SceneEdit.GamePlayUI
             _colorRT.SetSiblingIndex(0);
 
             //Patch Tips
-            var tipsRT = new GameObject("GamepadTips").AddComponent<RectTransform>();
-            var canvasGroup = tipsRT.gameObject.AddComponent<CanvasGroup>();
-            canvasGroup.interactable = false;
-            canvasGroup.blocksRaycasts = false;
-            tipsRT.SetParent(transform, false);
-            tipsRT.pivot = new Vector2(1f, 0f);
-            tipsRT.anchorMin = new Vector2(0f, 0f);
-            tipsRT.anchorMax = new Vector2(1f, 0f);
-            tipsRT.anchoredPosition = new Vector2(-100f, 40f);
-            tipsRT.sizeDelta = new Vector2(0, UIStyle.tips_rect_height);
-            var horGroup = tipsRT.gameObject.AddComponent<HorizontalLayoutGroup>();
-            horGroup.spacing = 10;
-            horGroup.childAlignment = TextAnchor.MiddleRight;
-            horGroup.childControlWidth = false;
-            horGroup.childControlHeight = true;
-            horGroup.childForceExpandWidth = false;
-            horGroup.childForceExpandHeight = true;
-
+            var tipsRT = UIStyle.GamePadTipsRectTransform(transform.GetComponent<RectTransform>());
             UIStyle.DrawPadButtonTips(tipsRT, L10N.Instance.MiniMapViewToolSwitchType,
                 new[] { UIStyle.GamePadButton.Up, UIStyle.GamePadButton.Down });
             UIStyle.DrawPadButtonTips(tipsRT, L10N.Instance.MiniMapViewToolSelect,

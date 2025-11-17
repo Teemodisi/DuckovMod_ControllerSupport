@@ -3,7 +3,6 @@ using JetBrains.Annotations;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
 namespace DuckovController.SceneEdit.MainMenu
 {
@@ -40,23 +39,7 @@ namespace DuckovController.SceneEdit.MainMenu
             _fontTemplate = tmp.font;
             UIStyle.currentFont = _fontTemplate;
 
-            MenuPadTipsLayout = new GameObject("ControllerTips").AddComponent<RectTransform>();
-            var canvasGroup = MenuPadTipsLayout.gameObject.AddComponent<CanvasGroup>();
-            canvasGroup.interactable = false;
-            canvasGroup.blocksRaycasts = false;
-            MenuPadTipsLayout.SetParent(MenuButtonListLayout.parent, false);
-            MenuPadTipsLayout.pivot = new Vector2(1, 0);
-            MenuPadTipsLayout.anchorMin = new Vector2(0, 0);
-            MenuPadTipsLayout.anchorMax = new Vector2(1, 0);
-            MenuPadTipsLayout.anchoredPosition = new Vector2(-100, 50);
-            MenuPadTipsLayout.sizeDelta = new Vector2(0, UIStyle.tips_rect_height);
-            var horGroup = MenuPadTipsLayout.gameObject.AddComponent<HorizontalLayoutGroup>();
-            horGroup.spacing = 10;
-            horGroup.childAlignment = TextAnchor.MiddleRight;
-            horGroup.childControlWidth = false;
-            horGroup.childControlHeight = true;
-            horGroup.childForceExpandWidth = false;
-            horGroup.childForceExpandHeight = true;
+            MenuPadTipsLayout = UIStyle.GamePadTipsRectTransform(MenuButtonListLayout.parent);
             UIStyle.DrawPadButtonTips(MenuPadTipsLayout, L10N.Instance.MenuMainNavigate,
                 new[] { UIStyle.GamePadButton.Up, UIStyle.GamePadButton.Down });
             UIStyle.DrawPadButtonTips(MenuPadTipsLayout, L10N.Instance.Confirm,
