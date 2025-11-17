@@ -80,7 +80,7 @@ namespace DuckovController.SceneEdit
             tipsRT.pivot = new Vector2(1f, 0f);
             tipsRT.anchorMin = new Vector2(0f, 0f);
             tipsRT.anchorMax = new Vector2(1f, 0f);
-            tipsRT.anchoredPosition = new Vector2(-100f, 40f);
+            tipsRT.anchoredPosition = new Vector2(-100f, 50f);
             tipsRT.sizeDelta = new Vector2(0, tips_rect_height);
             var horGroup = tipsRT.gameObject.AddComponent<HorizontalLayoutGroup>();
             horGroup.spacing = 10;
