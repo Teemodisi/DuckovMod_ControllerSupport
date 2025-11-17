@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using DuckovController.Helper;
+using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
@@ -31,7 +32,7 @@ namespace DuckovController.SceneEdit.Other
         {
             _onPointerClick = GetComponent<OnPointerClick>();
             _action = new InputAction("ConfirmBtn", InputActionType.Button);
-            _action.AddBinding("<Gamepad>/buttonSouth");
+            _action.AddBinding(InputSystemUtils.BindingBButton);
             _action.performed += OnConfirmBtnDown;
         }
 

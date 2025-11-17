@@ -1,4 +1,5 @@
-﻿using UnityEngine.InputSystem;
+﻿using DuckovController.Helper;
+using UnityEngine.InputSystem;
 
 namespace DuckovController.SceneEdit.GamePlayUI
 {
@@ -11,13 +12,13 @@ namespace DuckovController.SceneEdit.GamePlayUI
         protected override void InitInput(InputActionMap inputActionMap)
         {
             _inputLeftTab = inputActionMap.AddAction("LeftTab", InputActionType.Button);
-            _inputLeftTab.AddBinding("<Gamepad>/leftShoulder");
+            _inputLeftTab.AddBinding(InputSystemUtils.BindingLeftShoulder);
 
             _inputRightTab = inputActionMap.AddAction("RightTab", InputActionType.Button);
-            _inputRightTab.AddBinding("<Gamepad>/rightShoulder");
+            _inputRightTab.AddBinding(InputSystemUtils.BindingRightShoulder);
 
             //TODO: 监听问题 和 主游戏冲突
-            CancelAction.AddBinding("<Gamepad>/start");
+            CancelAction.AddBinding(InputSystemUtils.BindingMenuButton);
         }
     }
 }

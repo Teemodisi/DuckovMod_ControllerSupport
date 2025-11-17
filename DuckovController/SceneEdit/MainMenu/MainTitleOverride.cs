@@ -19,7 +19,7 @@ namespace DuckovController.SceneEdit.MainMenu
         protected override void InitInput(InputActionMap inputActionMap)
         {
             var confirmAction = inputActionMap.AddAction("Confirm", InputActionType.Button);
-            confirmAction.AddBinding("<Gamepad>/buttonSouth");
+            confirmAction.AddBinding(InputSystemUtils.BindingBButton);
             confirmAction.performed += OnClick;
         }
 

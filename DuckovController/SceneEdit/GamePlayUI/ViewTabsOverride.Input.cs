@@ -12,10 +12,10 @@ namespace DuckovController.SceneEdit.GamePlayUI
         protected override void InitInput(InputActionMap inputActionMap)
         {
             _leftAction = inputActionMap.AddAction("LeftNavigate", InputActionType.Button);
-            _leftAction.AddBinding("<Gamepad>/leftShoulder");
+            _leftAction.AddBinding(InputSystemUtils.BindingLeftShoulder);
 
             _rightAction = inputActionMap.AddAction("RightNavigate", InputActionType.Button);
-            _rightAction.AddBinding("<Gamepad>/rightShoulder");
+            _rightAction.AddBinding(InputSystemUtils.BindingRightShoulder);
 
             _leftAction.BindInput(OnLeftNavigate);
             _rightAction.BindInput(OnRightNavigate);

@@ -10,7 +10,7 @@ namespace DuckovController.SceneEdit.GamePlayUI
         protected override void InitInput(InputActionMap inputActionMap)
         {
             _moveListAction = inputActionMap.AddAction("MoveMap");
-            _moveListAction.AddBinding("<Gamepad>/leftStick");
+            _moveListAction.AddBinding(InputSystemUtils.BindingLeftStick);
 
             _moveListAction.BindInput(OnMoveListInput);
         }

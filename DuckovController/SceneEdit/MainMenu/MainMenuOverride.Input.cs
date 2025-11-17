@@ -1,7 +1,5 @@
 ﻿using System;
 using DuckovController.Helper;
-using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 namespace DuckovController.SceneEdit.MainMenu
@@ -21,17 +19,17 @@ namespace DuckovController.SceneEdit.MainMenu
         protected override void InitInput(InputActionMap inputActionMap)
         {
             _confirmAction = inputActionMap.AddAction("Confirm", InputActionType.Button);
-            _confirmAction.AddBinding("<Gamepad>/buttonSouth");
+            _confirmAction.AddBinding(InputSystemUtils.BindingBButton);
 
             _cancelAction = inputActionMap.AddAction("Cancel", InputActionType.Button);
-            _cancelAction.AddBinding("<Gamepad>/buttonEast");
+            _cancelAction.AddBinding(InputSystemUtils.BindingAButton);
 
             _navigateUpAction = inputActionMap.AddAction("NavigationUp", InputActionType.Button);
-            _navigateUpAction.AddBinding("<Gamepad>/dpad/up");
+            _navigateUpAction.AddBinding(InputSystemUtils.BindingDpadUp);
 
             _navigateDownAction = inputActionMap.AddAction("NavigationDown", InputActionType.Button);
-            _navigateDownAction.AddBinding("<Gamepad>/dpad/down");
-            
+            _navigateDownAction.AddBinding(InputSystemUtils.BindingDpadDown);
+
             _confirmAction.performed += OnConfirm;
             _cancelAction.performed += OnCancel;
             _navigateUpAction.performed += OnNavigateUp;

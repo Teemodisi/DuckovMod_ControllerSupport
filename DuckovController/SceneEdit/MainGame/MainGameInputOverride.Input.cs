@@ -46,64 +46,64 @@ namespace DuckovController.SceneEdit.MainGame
         protected override void InitInput(InputActionMap inputActionMap)
         {
             _runAction = inputActionMap.AddAction("Run", InputActionType.Button);
-            _runAction.AddBinding("<Gamepad>/buttonEast");
-            _runAction.AddBinding("<Gamepad>/leftStickPress");
+            _runAction.AddBinding(InputSystemUtils.BindingAButton);
+            _runAction.AddBinding(InputSystemUtils.BindingLeftStickPress);
 
             _cancelAction = inputActionMap.AddAction("Cancel", InputActionType.Button);
-            _cancelAction.AddBinding("<Gamepad>/buttonEast");
+            _cancelAction.AddBinding(InputSystemUtils.BindingAButton);
 
             _rollAction = inputActionMap.AddAction("Roll", InputActionType.Button);
-            _rollAction.AddBinding("<Gamepad>/buttonSouth");
+            _rollAction.AddBinding(InputSystemUtils.BindingBButton);
 
             _interactAction = inputActionMap.AddAction("Interact", InputActionType.Button);
-            _interactAction.AddBinding("<Gamepad>/buttonNorth");
+            _interactAction.AddBinding(InputSystemUtils.BindingYButton);
 
             _reloadAction = inputActionMap.AddAction("Reload", InputActionType.Button);
-            _reloadAction.AddBinding("<Gamepad>/buttonWest");
+            _reloadAction.AddBinding(InputSystemUtils.BindingXButton);
 
             _movementAction = inputActionMap.AddAction("Movement", expectedControlLayout: "Vector2");
-            _movementAction.AddBinding("<Gamepad>/leftStick").WithProcessors("StickDeadzone");
+            _movementAction.AddBinding(InputSystemUtils.BindingLeftStick).WithProcessors("StickDeadzone");
 
             _aimDirectionAction = inputActionMap.AddAction("AimDirection", expectedControlLayout: "Vector2");
-            _aimDirectionAction.AddBinding("<Gamepad>/rightStick").WithProcessors("StickDeadzone");
+            _aimDirectionAction.AddBinding(InputSystemUtils.BindingRightStick).WithProcessors("StickDeadzone");
 
             _adsAction = inputActionMap.AddAction("Aim");
-            _adsAction.AddBinding("<Gamepad>/leftTrigger");
+            _adsAction.AddBinding(InputSystemUtils.BindingLeftTrigger);
 
             _triggerAction = inputActionMap.AddAction("Trigger");
-            _triggerAction.AddBinding("<Gamepad>/rightTrigger");
+            _triggerAction.AddBinding(InputSystemUtils.BindingRightTrigger);
 
             // 另外的做法 详见 MainGameInputOverride
             // _switchBullet = Map.AddAction("SwitchBullet", InputActionType.Button);
-            // _switchBullet.AddBinding("<Gamepad>/dpad/right");
+            // _switchBullet.AddBinding(InputSystemUtils.BindingDpadRight);
 
             _switchMeleeOrHold2ToPutAwayWeapon = inputActionMap
                 .AddAction("SwitchMeleeOrPutAway", InputActionType.Button);
-            _switchMeleeOrHold2ToPutAwayWeapon.AddBinding("<Gamepad>/dpad/left")
+            _switchMeleeOrHold2ToPutAwayWeapon.AddBinding(InputSystemUtils.BindingDpadLeft)
                 .WithInteractions("Hold,Press");
 
             _switchWeapon = inputActionMap.AddAction("SwitchWeapon", InputActionType.Button);
-            _switchWeapon.AddBinding("<Gamepad>/leftShoulder");
+            _switchWeapon.AddBinding(InputSystemUtils.BindingLeftShoulder);
 
             _useItemOrHold2OpenTurntable = inputActionMap
                 .AddAction("UseItemOrOpenTurntable", InputActionType.Button);
-            _useItemOrHold2OpenTurntable.AddBinding("<Gamepad>/rightShoulder")
+            _useItemOrHold2OpenTurntable.AddBinding(InputSystemUtils.BindingRightShoulder)
                 .WithInteractions("Hold(duration=0.2),Press");
 
             _smallMenuNavigateUp = inputActionMap.AddAction("SmallMenuNavigationUp", InputActionType.Button);
-            _smallMenuNavigateUp.AddBinding("<Gamepad>/dpad/up");
+            _smallMenuNavigateUp.AddBinding(InputSystemUtils.BindingDpadUp);
 
             _smallMenuNavigateDown = inputActionMap.AddAction("SmallMenuNavigationDown", InputActionType.Button);
-            _smallMenuNavigateDown.AddBinding("<Gamepad>/dpad/down");
+            _smallMenuNavigateDown.AddBinding(InputSystemUtils.BindingDpadDown);
 
             _openInventory = inputActionMap.AddAction("OpenInventory", InputActionType.Button);
-            _openInventory.AddBinding("<Gamepad>/select");
+            _openInventory.AddBinding(InputSystemUtils.BindingSelectButton);
 
             // _openMenu = _inputActionMap.AddAction("OpenMenu", InputActionType.Button);
-            // _openMenu.AddBinding("<Gamepad>/start");
+            // _openMenu.AddBinding(InputSystemUtils.BindingMenuButton);
 
             _quackAction = inputActionMap.AddAction("Quack", InputActionType.Button);
-            _quackAction.AddBinding("<Gamepad>/rightStickPress");
+            _quackAction.AddBinding(InputSystemUtils.BindingRightStickPress);
 
             //TODO:缺少开启夜视仪
             _runAction.BindInput(CharacterInputControl.Instance.OnPlayerRunInput);
@@ -131,7 +131,7 @@ namespace DuckovController.SceneEdit.MainGame
             // 反射获取这个 Action 额外给这个按钮绑定新的按键
             // 因为原有 PlayerInput=>InputActionMap 带的 ControlScheme 屏蔽了GamePad的输入，在这里要重刷一下
             GameManager.MainPlayerInput.SwitchCurrentControlScheme(Keyboard.current, Mouse.current, Gamepad.current);
-            _switchBulletBinding = SwitchBulletInputAction.AddBinding("<Gamepad>/dpad/right");
+            _switchBulletBinding = SwitchBulletInputAction.AddBinding(InputSystemUtils.BindingDpadRight);
         }
     }
 }
