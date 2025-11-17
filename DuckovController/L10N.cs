@@ -26,6 +26,8 @@ namespace DuckovController
 
         public string MiniMapViewPinOrRemove => "标记/移除";
 
+        public string Exit => "退出";
+
         private void Awake()
         {
             // LocalizationManager.SetOverrideText("Title", "");

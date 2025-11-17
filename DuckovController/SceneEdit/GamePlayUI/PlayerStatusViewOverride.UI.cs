@@ -10,6 +10,8 @@
             var tips = UIStyle.GamePadTipsRectTransform(transform);
             UIStyle.DrawPadButtonTips(tips, L10N.Instance.LeftAxisUpDownSlide,
                 new[] { UIStyle.GamePadButton.LeftAxis });
+            UIStyle.DrawPadButtonTips(tips, L10N.Instance.Exit,
+                new[] { UIStyle.GamePadButton.Menu });
         }
     }
 }

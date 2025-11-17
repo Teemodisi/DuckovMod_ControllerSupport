@@ -43,19 +43,21 @@ namespace DuckovController.SceneEdit.GamePlayUI
             _colorRT.SetSiblingIndex(0);
 
             //Patch Tips
-            var tipsRT = UIStyle.GamePadTipsRectTransform(transform.GetComponent<RectTransform>());
-            UIStyle.DrawPadButtonTips(tipsRT, L10N.Instance.MiniMapViewToolSwitchType,
+            var tips = UIStyle.GamePadTipsRectTransform(transform.GetComponent<RectTransform>());
+            UIStyle.DrawPadButtonTips(tips, L10N.Instance.MiniMapViewToolSwitchType,
                 new[] { UIStyle.GamePadButton.Up, UIStyle.GamePadButton.Down });
-            UIStyle.DrawPadButtonTips(tipsRT, L10N.Instance.DpadLeftRightSelect,
+            UIStyle.DrawPadButtonTips(tips, L10N.Instance.DpadLeftRightSelect,
                 new[] { UIStyle.GamePadButton.Left, UIStyle.GamePadButton.Right });
-            UIStyle.DrawPadButtonTips(tipsRT, L10N.Instance.MiniMapViewZoom,
+            UIStyle.DrawPadButtonTips(tips, L10N.Instance.MiniMapViewZoom,
                 new[] { UIStyle.GamePadButton.LT, UIStyle.GamePadButton.RT });
-            UIStyle.DrawPadButtonTips(tipsRT, L10N.Instance.MiniMapViewMoveMap,
+            UIStyle.DrawPadButtonTips(tips, L10N.Instance.MiniMapViewMoveMap,
                 new[] { UIStyle.GamePadButton.LeftAxis });
-            UIStyle.DrawPadButtonTips(tipsRT, L10N.Instance.MiniMapViewMoveCursor,
+            UIStyle.DrawPadButtonTips(tips, L10N.Instance.MiniMapViewMoveCursor,
                 new[] { UIStyle.GamePadButton.RightAxis });
-            UIStyle.DrawPadButtonTips(tipsRT, L10N.Instance.MiniMapViewPinOrRemove,
+            UIStyle.DrawPadButtonTips(tips, L10N.Instance.MiniMapViewPinOrRemove,
                 new[] { UIStyle.GamePadButton.A });
+            UIStyle.DrawPadButtonTips(tips, L10N.Instance.Exit,
+                new[] { UIStyle.GamePadButton.Menu });
         }
     }
 }

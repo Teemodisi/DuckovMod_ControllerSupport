@@ -190,5 +190,16 @@ namespace DuckovController.Helper
         {
             return new Color(color.r, color.g, color.b, alpha);
         }
+        
+        public static Transform FindWithDebug(this Transform transform, string path)
+        {
+            var child = transform.Find(path);
+            if (child == null)
+            {
+                Debug.LogError($"{path} not found.");
+                return null;
+            }
+            return child;
+        }
     }
 }
