@@ -1,4 +1,5 @@
-﻿using Duckov.Quests.UI;
+﻿using Cysharp.Threading.Tasks;
+using Duckov.Quests.UI;
 using DuckovController.Helper;
 using DuckovController.SceneEdit.Other;
 using UnityEngine;
@@ -76,14 +77,14 @@ namespace DuckovController.SceneEdit.GamePlayUI
                 if (value > 0.1f)
                 {
                     _historyQuestButton.onClick.Invoke();
-                    // _selectionGroup.UpdateSelections();
-                    FocusSelection();
+                    _selectionGroup.UpdateSelections();
+                    FocusSelectionDelay().Forget();
                 }
                 else if (value < -0.1f)
                 {
                     _activeQuestButton.onClick.Invoke();
-                    // _selectionGroup.UpdateSelections();
-                    FocusSelection();
+                    _selectionGroup.UpdateSelections();
+                    FocusSelectionDelay().Forget();
                 }
             }
         }
@@ -136,9 +137,27 @@ namespace DuckovController.SceneEdit.GamePlayUI
         {
             if (context.performed)
             {
-                _sortingButton.OnPointerClick(new PointerEventData(EventSystem.current));
-                // _selectionGroup.UpdateSelections();
-                FocusSelection();
+                if (_selectionGroup.CurrentSelection != null && _selectionGroup.Selections != null)
+                {
+                    var curID = _selectionGroup.CurrentSelection.Target.ID;
+                    _sortingButton.OnPointerClick(new PointerEventData(EventSystem.current));
+                    for (var i = 0; i < _selectionGroup.Selections.Count; i++)
+                    {
+                        if (_selectionGroup.Selections[i].Target.ID == curID)
+                        {
+                            _selectionGroup.Selections[i].OnPointerClick(new PointerEventData(EventSystem.current)
+                            {
+                                button = PointerEventData.InputButton.Left
+                            });
+                            break;
+                        }
+                    }
+                    FocusSelectionDelay().Forget();
+                }
+                else
+                {
+                    _sortingButton.OnPointerClick(new PointerEventData(EventSystem.current));
+                }
             }
         }
 
@@ -146,6 +165,13 @@ namespace DuckovController.SceneEdit.GamePlayUI
         {
             _leftScrollViewGamepadControl.TryToFocusContentObject(
                 _selectionGroup.CurrentSelection?.GetComponent<RectTransform>());
+        }
+
+        private async UniTask FocusSelectionDelay()
+        {
+            // 等待一帧，确保滚动视图更新
+            await UniTask.DelayFrame(1);
+            FocusSelection();
         }
     }
 }

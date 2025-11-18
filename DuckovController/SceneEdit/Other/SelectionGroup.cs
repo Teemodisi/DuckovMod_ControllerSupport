@@ -13,9 +13,9 @@ namespace DuckovController.SceneEdit.Other
 
         private readonly Action<T, int> _onSelected;
 
-        private int _currentIndexCache;
-
         private readonly Func<T[]> _onUpdateSelection;
+
+        private int _currentIndexCache;
 
         private T[] _selections;
 
@@ -37,6 +37,8 @@ namespace DuckovController.SceneEdit.Other
         }
 
         public int GroupLength => _selections.Length;
+
+        public IReadOnlyList<T> Selections => _selections;
 
         [CanBeNull]
         public T CurrentSelection
@@ -81,7 +83,7 @@ namespace DuckovController.SceneEdit.Other
                 if (cur + 1 >= GroupLength)
                 {
 #if DEBUG
-                    Debug.Log($"Trying to select next but already at the end");
+                    Debug.Log("Trying to select next but already at the end");
 #endif
                     return;
                 }
@@ -105,7 +107,7 @@ namespace DuckovController.SceneEdit.Other
                 if (cur - 1 < 0)
                 {
 #if DEBUG
-                    Debug.Log($"Trying to select prev but already at the start");
+                    Debug.Log("Trying to select prev but already at the start");
 #endif
                     return;
                 }
