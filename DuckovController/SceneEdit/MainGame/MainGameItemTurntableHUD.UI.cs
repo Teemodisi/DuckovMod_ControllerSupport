@@ -92,15 +92,15 @@ namespace DuckovController.SceneEdit.MainGame
                 var rect = new GameObject($"ItemSlotMark_{i + 3}").AddComponent<RectTransform>();
                 _itemSlotMark[i] = rect;
                 rect.SetParent(buttons[i].transform, false);
-                rect.pivot = Vector2.one * 0.5f;
+                rect.pivot = new Vector2(0.5f, 0f);
                 rect.anchorMin = new Vector2(0.5f, 1f);
                 rect.anchorMax = new Vector2(0.5f, 1f);
-                rect.anchoredPosition = new Vector2(0, 20);
-                rect.sizeDelta = Vector2.one * 10;
-                rect.gameObject.AddComponent<RoundModifier>();
-                rect.gameObject.AddComponent<ProceduralImage>();
-                UIStyle.UniShadow(rect.gameObject.AddComponent<TrueShadow>());
+                rect.anchoredPosition = new Vector2(0, 10);
+                rect.sizeDelta = Vector2.one * UIStyle.gamepad_btn_icon_size;
+                UIStyle.DrawPadButtonIcon(rect, UIStyle.GamePadButton.RB);
                 _itemSlotMark[i].gameObject.SetActive(false);
+                //隐藏原来的按键提示
+                // buttons[i].transform.FindWithDebug("InputIndicator").gameObject.SetActive(false);
             }
         }
 
@@ -129,21 +129,31 @@ namespace DuckovController.SceneEdit.MainGame
             var image = subImage.AddComponent<ProceduralImage>();
             image.color = new Color(1, 1, 1, 0.25f);
 
-            var tmp = UIStyle.NewLabel("SubText", parent);
+            var tipsAngle = angle * Mathf.Deg2Rad + 90;
+            var tipsDis = len - 30;
+            var circle = UIStyle.NewCircleSprite("TextCircle", parent);
+            circle.rectTransform.pivot = Vector3.one * 0.5f;
+            circle.rectTransform.anchorMin = Vector3.one * 0.5f;
+            circle.rectTransform.anchorMax = Vector3.one * 0.5f;
+            circle.rectTransform.anchoredPosition = new Vector2(
+                Mathf.Cos(tipsAngle) * tipsDis,
+                Mathf.Sin(tipsAngle) * tipsDis);
+            circle.rectTransform.sizeDelta = Vector2.one * 35;
+            circle.color = UIStyle.s_Light;
+            UIStyle.UniShadow(circle.gameObject.AddComponent<TrueShadow>());
+
+            var tmp = UIStyle.NewLabel("SubText", circle.rectTransform);
             tmp.text = label;
-            tmp.color = Color.white;
+            tmp.color = UIStyle.s_Dark;
             tmp.horizontalAlignment = HorizontalAlignmentOptions.Center;
             tmp.verticalAlignment = VerticalAlignmentOptions.Capline;
-            tmp.fontSize = 40;
+            tmp.fontSize = 30;
+            tmp.fontStyle = FontStyles.Bold;
             tmp.rectTransform.pivot = Vector3.one * 0.5f;
             tmp.rectTransform.anchorMin = Vector3.one * 0.5f;
             tmp.rectTransform.anchorMax = Vector3.one * 0.5f;
-            var textAngle = angle * Mathf.Deg2Rad + 90;
-            var textDis = len - 30;
-            tmp.rectTransform.anchoredPosition = new Vector2(
-                Mathf.Cos(textAngle) * textDis,
-                Mathf.Sin(textAngle) * textDis);
-            tmp.rectTransform.sizeDelta = Vector2.one * 50;
+            tmp.rectTransform.anchoredPosition = Vector2.zero;
+            tmp.rectTransform.sizeDelta = Vector2.one * 35;
         }
     }
 }
