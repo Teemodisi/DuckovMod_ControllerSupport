@@ -1,5 +1,6 @@
 ﻿using Duckov.Utilities;
 using DuckovController.Helper;
+using DuckovController.InputSystemExtend;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -11,6 +12,7 @@ namespace DuckovController
         private void Awake()
         {
             Debug.Log($"{Utils.ModName} Awake");
+            RepeatInteraction.Initialize();
         }
 
         protected override void OnAfterSetup()

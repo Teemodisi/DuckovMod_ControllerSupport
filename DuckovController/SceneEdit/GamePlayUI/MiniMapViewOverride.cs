@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Duckov.MiniMaps;
 using Duckov.MiniMaps.UI;
+using DuckovController.Helper;
 using DuckovController.SceneEdit.Other;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -46,40 +47,27 @@ namespace DuckovController.SceneEdit.GamePlayUI
         protected override void Awake()
         {
             _miniMapDisplay = GetComponentInChildren<MiniMapDisplay>().GetComponent<RectTransform>();
-            _scrollRect = transform.Find("Content/Scroll View")?.GetComponent<ScrollRect>();
-            if (_scrollRect == null)
-            {
-                Debug.LogError("Scroll View not found");
-            }
+            _scrollRect = transform.FindWithDebug("Content/Scroll View")?.GetComponent<ScrollRect>();
             _mapMarkerSettingsPanel = GetComponentInChildren<MapMarkerSettingsPanel>();
             if (_mapMarkerSettingsPanel == null)
             {
                 Debug.LogError("Map Marker Settings Panel not found");
             }
-            _iconGroup = _mapMarkerSettingsPanel.transform.Find("Icons").GetComponent<HorizontalLayoutGroup>();
-            if (_iconGroup == null)
-            {
-                Debug.LogError("Icon Group not found");
-            }
+            _iconGroup = _mapMarkerSettingsPanel.transform.FindWithDebug("Icons").GetComponent<HorizontalLayoutGroup>();
             //狗屎啊 每次选中 MapMarkerSettingsPanel 全回收对象池重新生成一边
             //我说patch进去的数字怎么每按一次就反转排序一次
             //原来是进了对象池又出来了一遍重新赋值了icon
-            //没法用SelectionGroup<T>
             _iconGroupSelectionGroup = new SelectionGroup<Button>(
-                _iconGroup.GetComponentsInChildren<Button>(),
+                () => _iconGroup.GetComponentsInChildren<Button>(),
                 (button, index) => button.onClick.Invoke(),
                 buttons => MapMarkerManager.SelectedIconIndex);
-            _colorGroup = _mapMarkerSettingsPanel.transform.Find("Colors").GetComponent<HorizontalLayoutGroup>();
-            if (_colorGroup == null)
-            {
-                Debug.LogError("Color Group not found");
-            }
+            _colorGroup = _mapMarkerSettingsPanel.transform.FindWithDebug("Colors").GetComponent<HorizontalLayoutGroup>();
             _colorGroupSelectionGroup = new SelectionGroup<Button>(
-                _colorGroup.GetComponentsInChildren<Button>(),
+                () => _colorGroup.GetComponentsInChildren<Button>(),
                 (button, index) => { button.onClick.Invoke(); }
             );
             _toolSelectionGroup = new SelectionGroup<SelectionGroup<Button>>(
-                new[] { _iconGroupSelectionGroup, _colorGroupSelectionGroup }
+                () => new[] { _iconGroupSelectionGroup, _colorGroupSelectionGroup }
                 , loop: false
             );
             base.Awake();
@@ -210,11 +198,11 @@ namespace DuckovController.SceneEdit.GamePlayUI
         {
             if (_toolSelectionGroup.CurrentSelection == _iconGroupSelectionGroup)
             {
-                _iconGroupSelectionGroup.UpdateSelections(_iconGroup.GetComponentsInChildren<Button>());
+                _iconGroupSelectionGroup.UpdateSelections();
             }
             else if (_toolSelectionGroup.CurrentSelection == _colorGroupSelectionGroup)
             {
-                _colorGroupSelectionGroup.UpdateSelections(_colorGroup.GetComponentsInChildren<Button>());
+                _colorGroupSelectionGroup.UpdateSelections();
             }
         }
 

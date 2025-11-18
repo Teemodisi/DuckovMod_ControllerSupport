@@ -18,17 +18,21 @@ namespace DuckovController.SceneEdit.MainMenu
 
             base.Awake();
 
-            var buttons = new MainMenuBtnButtonOverride[_menuButtonListLayout.childCount];
-            for (var i = 0; i < buttons.Length; i++)
-            {
-                buttons[i] = _menuButtonListLayout.GetChild(i).gameObject.AddComponent<MainMenuBtnButtonOverride>();
-            }
             //选中第一
             EventSystem.current.SetSelectedGameObject(_menuButtonListLayout.GetChild(0).gameObject);
             //使用内置Index计数
             //不知道为什么，用 EventSystem + Navigate 无法正常运作，用土办法了
             _selectionGroup = new SelectionGroup<MainMenuBtnButtonOverride>(
-                buttons,
+                () =>
+                {
+                    var buttons = new MainMenuBtnButtonOverride[_menuButtonListLayout.childCount];
+                    for (var i = 0; i < buttons.Length; i++)
+                    {
+                        buttons[i] = _menuButtonListLayout.GetChild(i).gameObject
+                            .AddComponent<MainMenuBtnButtonOverride>();
+                    }
+                    return buttons;
+                },
                 (button, index) =>
                 {
                     EventSystem.current.SetSelectedGameObject(_menuButtonListLayout.GetChild(index).gameObject);

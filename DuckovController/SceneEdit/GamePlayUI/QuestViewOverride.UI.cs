@@ -1,8 +1,4 @@
-﻿using Duckov.Quests.UI;
-using DuckovController.Helper;
-using DuckovController.SceneEdit.Other;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
 
 namespace DuckovController.SceneEdit.GamePlayUI
 {
@@ -10,11 +6,8 @@ namespace DuckovController.SceneEdit.GamePlayUI
     {
         protected override void Patch()
         {
-            var tabs = transform.FindWithDebug("Content/Selection/Tabs");
-
-            var activeQuestBtnRect = tabs.FindWithDebug("Btn_Active").GetComponent<RectTransform>();
+            var activeQuestBtnRect = _activeQuestButton.GetComponent<RectTransform>();
             activeQuestBtnRect.gameObject.AddComponent<CanvasGroup>().interactable = false;
-            _activeQuestButton = activeQuestBtnRect.GetComponent<Button>();
             var leftIcon = UIStyle.DrawPadButtonIcon(activeQuestBtnRect, UIStyle.GamePadButton.Left);
             leftIcon.pivot = new Vector2(1f, 0.5f);
             leftIcon.anchorMin = new Vector2(1f, 0.5f);
@@ -22,9 +15,8 @@ namespace DuckovController.SceneEdit.GamePlayUI
             leftIcon.anchoredPosition = new Vector2(-50f, 0f);
             leftIcon.sizeDelta = new Vector2(UIStyle.gamepad_btn_icon_size, UIStyle.gamepad_btn_icon_size);
 
-            var historyQuestBtnRect = tabs.FindWithDebug("Btn_History").GetComponent<RectTransform>();
+            var historyQuestBtnRect = _historyQuestButton.GetComponent<RectTransform>();
             historyQuestBtnRect.gameObject.AddComponent<CanvasGroup>().interactable = false;
-            _historyQuestButton = historyQuestBtnRect.GetComponent<Button>();
             var rightIcon = UIStyle.DrawPadButtonIcon(historyQuestBtnRect, UIStyle.GamePadButton.Right);
             rightIcon.pivot = new Vector2(1f, 0.5f);
             rightIcon.anchorMin = new Vector2(1f, 0.5f);
@@ -32,10 +24,8 @@ namespace DuckovController.SceneEdit.GamePlayUI
             rightIcon.anchoredPosition = new Vector2(-50f, 0f);
             rightIcon.sizeDelta = new Vector2(UIStyle.gamepad_btn_icon_size, UIStyle.gamepad_btn_icon_size);
 
-            var sortBtnRect = transform.FindWithDebug("Content/Selection/SortingBar/Btn_Sort")
-                .GetComponent<RectTransform>();
+            var sortBtnRect = _sortingButton.GetComponent<RectTransform>();
             sortBtnRect.gameObject.AddComponent<CanvasGroup>().interactable = false;
-            _sortingButton = sortBtnRect.GetComponent<QuestSortButton>();
             var sortIcon = UIStyle.DrawPadButtonIcon(sortBtnRect, UIStyle.GamePadButton.Y);
             sortIcon.pivot = new Vector2(1f, 0.5f);
             sortIcon.anchorMin = new Vector2(1f, 0.5f);
@@ -43,13 +33,10 @@ namespace DuckovController.SceneEdit.GamePlayUI
             sortIcon.anchoredPosition = new Vector2(-50f, 0f);
             sortIcon.sizeDelta = new Vector2(UIStyle.gamepad_btn_icon_size, UIStyle.gamepad_btn_icon_size);
 
-            _leftScrollViewGamepadControl = transform.FindWithDebug("Content/Selection/Scroll View")
-                .gameObject.AddComponent<ScrollViewGamepadControl>();
-            _rightScrollViewGamepadControl = transform.FindWithDebug("Content/Details/Content/Scroll View")
-                .gameObject.AddComponent<ScrollViewGamepadControl>();
-
             //Tips
             var tips = UIStyle.GamePadTipsRectTransform(transform.GetComponent<RectTransform>());
+            UIStyle.DrawPadButtonTips(tips, L10N.Instance.DpadUpDownSelect,
+                new[] { UIStyle.GamePadButton.Up, UIStyle.GamePadButton.Down });
             UIStyle.DrawPadButtonTips(tips, L10N.Instance.LeftAxisUpDownSlide,
                 new[] { UIStyle.GamePadButton.LeftAxis });
             UIStyle.DrawPadButtonTips(tips, L10N.Instance.Exit,

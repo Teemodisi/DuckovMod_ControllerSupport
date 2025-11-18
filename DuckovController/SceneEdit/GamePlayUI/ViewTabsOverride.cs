@@ -19,7 +19,7 @@ namespace DuckovController.SceneEdit.GamePlayUI
             _horizontalRect = transform.Find("ViewButtons").gameObject.GetComponent<RectTransform>();
             base.Awake();
             _selectionGroup = new SelectionGroup<GenericButton>(
-                _horizontalRect.gameObject.GetComponentsInChildren<GenericButton>(),
+                () => _horizontalRect.gameObject.GetComponentsInChildren<GenericButton>(),
                 (button, index) => { button.onPointerClick.Invoke(); },
                 selection =>
                 {

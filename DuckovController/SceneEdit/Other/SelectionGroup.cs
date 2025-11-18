@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using UnityEngine;
 
 namespace DuckovController.SceneEdit.Other
@@ -12,17 +13,20 @@ namespace DuckovController.SceneEdit.Other
 
         private readonly Action<T, int> _onSelected;
 
-        private T[] _selections;
-
         private int _currentIndexCache;
 
+        private readonly Func<T[]> _onUpdateSelection;
+
+        private T[] _selections;
+
         public SelectionGroup(
-            T[] selections,
+            Func<T[]> onUpdateSelection,
             Action<T, int> onSelected = null,
             Func<IReadOnlyList<T>, int> selectorIndex = null,
             bool loop = true)
         {
-            _selections = selections;
+            _onUpdateSelection = onUpdateSelection;
+            _selections = onUpdateSelection.Invoke();
             _defaultSelectorIndex = selectorIndex;
             _onSelected = onSelected;
             if (_defaultSelectorIndex == null)
@@ -34,7 +38,19 @@ namespace DuckovController.SceneEdit.Other
 
         public int GroupLength => _selections.Length;
 
-        public T CurrentSelection => _selections[_defaultSelectorIndex.Invoke(_selections)];
+        [CanBeNull]
+        public T CurrentSelection
+        {
+            get
+            {
+                var index = _defaultSelectorIndex.Invoke(_selections);
+                if (index < 0 || index >= GroupLength)
+                {
+                    return default;
+                }
+                return _selections[index];
+            }
+        }
 
         private int DefaultGetIndex(IReadOnlyList<T> controls)
         {
@@ -64,10 +80,16 @@ namespace DuckovController.SceneEdit.Other
             {
                 if (cur + 1 >= GroupLength)
                 {
+#if DEBUG
+                    Debug.Log($"Trying to select next but already at the end");
+#endif
                     return;
                 }
                 cur = cur + 1;
             }
+#if DEBUG
+            Debug.Log($"Trying to select prev {_defaultSelectorIndex.Invoke(_selections)} => {cur}");
+#endif
             Select(cur);
         }
 
@@ -82,16 +104,27 @@ namespace DuckovController.SceneEdit.Other
             {
                 if (cur - 1 < 0)
                 {
+#if DEBUG
+                    Debug.Log($"Trying to select prev but already at the start");
+#endif
                     return;
                 }
                 cur = cur - 1;
             }
+#if DEBUG
+            Debug.Log($"Trying to select prev {_defaultSelectorIndex.Invoke(_selections)} => {cur}");
+#endif
             Select(cur);
+        }
+
+        public void UpdateSelections()
+        {
+            _selections = _onUpdateSelection.Invoke();
         }
 
         public void UpdateSelections(T[] selections)
         {
-            this._selections = selections;
+            _selections = selections;
         }
     }
 }
