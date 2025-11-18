@@ -26,7 +26,6 @@ namespace DuckovController.SceneEdit.Other
             bool loop = true)
         {
             _onUpdateSelection = onUpdateSelection;
-            _selections = onUpdateSelection.Invoke();
             _defaultSelectorIndex = selectorIndex;
             _onSelected = onSelected;
             if (_defaultSelectorIndex == null)
@@ -34,6 +33,7 @@ namespace DuckovController.SceneEdit.Other
                 _defaultSelectorIndex = DefaultGetIndex;
             }
             _isLoop = loop;
+            _selections = _onUpdateSelection?.Invoke();
         }
 
         public int GroupLength => _selections.Length;
@@ -121,7 +121,7 @@ namespace DuckovController.SceneEdit.Other
 
         public void UpdateSelections()
         {
-            _selections = _onUpdateSelection.Invoke();
+            _selections = _onUpdateSelection?.Invoke();
         }
 
         public void UpdateSelections(T[] selections)

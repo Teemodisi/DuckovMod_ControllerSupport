@@ -10,13 +10,15 @@ namespace DuckovController
 
         public string Return => "返回";
 
+        public string PickSelection => "选择";
+
+        public string SlideLeft => "浏览左侧";
+
+        public string SlideRight => "浏览右侧";
+
+        public string Exit => "退出";
+
         public string MiniMapViewToolSwitchType => "切换样式";
-
-        public string DpadUpDownSelect => "上/下选择";
-
-        public string DpadLeftRightSelect => "左/右选择";
-
-        public string LeftAxisUpDownSlide => "上/下滑动";
 
         public string MiniMapViewZoom => "缩小放大";
 
@@ -25,8 +27,6 @@ namespace DuckovController
         public string MiniMapViewMoveCursor => "移动光标";
 
         public string MiniMapViewPinOrRemove => "标记/移除";
-
-        public string Exit => "退出";
 
         private void Awake()
         {

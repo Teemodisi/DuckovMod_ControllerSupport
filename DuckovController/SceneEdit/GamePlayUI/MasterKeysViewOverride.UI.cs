@@ -23,11 +23,11 @@ namespace DuckovController.SceneEdit.GamePlayUI
             um.Radius = 20f;
 
             var tips = UIStyle.GamePadTipsRectTransform(transform);
-            UIStyle.DrawPadButtonTips(tips, L10N.Instance.DpadUpDownSelect,
+            UIStyle.DrawPadButtonTips(tips, L10N.Instance.PickSelection,
                 new[] { UIStyle.GamePadButton.Up, UIStyle.GamePadButton.Down });
-            UIStyle.DrawPadButtonTips(tips, L10N.Instance.DpadLeftRightSelect,
+            UIStyle.DrawPadButtonTips(tips, L10N.Instance.PickSelection,
                 new[] { UIStyle.GamePadButton.Left, UIStyle.GamePadButton.Right });
-            UIStyle.DrawPadButtonTips(tips, L10N.Instance.LeftAxisUpDownSlide,
+            UIStyle.DrawPadButtonTips(tips, L10N.Instance.SlideLeft,
                 new[] { UIStyle.GamePadButton.LeftAxis });
             UIStyle.DrawPadButtonTips(tips, L10N.Instance.Exit,
                 new[] { UIStyle.GamePadButton.Menu });

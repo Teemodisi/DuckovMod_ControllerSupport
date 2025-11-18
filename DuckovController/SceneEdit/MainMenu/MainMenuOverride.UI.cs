@@ -39,7 +39,7 @@ namespace DuckovController.SceneEdit.MainMenu
             UIStyle.currentFont = _fontTemplate;
 
             _menuPadTipsLayout = UIStyle.GamePadTipsRectTransform(_menuButtonListLayout.parent);
-            UIStyle.DrawPadButtonTips(_menuPadTipsLayout, L10N.Instance.DpadUpDownSelect,
+            UIStyle.DrawPadButtonTips(_menuPadTipsLayout, L10N.Instance.PickSelection,
                 new[] { UIStyle.GamePadButton.Up, UIStyle.GamePadButton.Down });
             UIStyle.DrawPadButtonTips(_menuPadTipsLayout, L10N.Instance.Confirm,
                 new[] { UIStyle.GamePadButton.A });

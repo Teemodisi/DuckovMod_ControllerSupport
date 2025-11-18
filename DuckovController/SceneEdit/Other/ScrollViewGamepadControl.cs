@@ -13,6 +13,8 @@ namespace DuckovController.SceneEdit.Other
 
         private bool _doFocusTween;
 
+        private bool _doMoveTween;
+
         private float _focusTarget;
 
         private void Awake()
@@ -30,13 +32,24 @@ namespace DuckovController.SceneEdit.Other
             {
                 var pos = _scrollRect.content.anchoredPosition;
                 pos.y = Mathf.SmoothDamp(pos.y, _focusTarget, ref _velocity, 0.15f);
+                if (Mathf.Abs(pos.y - _focusTarget) < 0.0001f)
+                {
+                    pos.y = _focusTarget;
+                    _doFocusTween = false;
+                }
                 _scrollRect.content.anchoredPosition = pos;
             }
-            else
+
+            if (_doMoveTween)
             {
                 var target = Mathf.Abs(_input) > 0.1f ? _input : 0;
                 _velocity = Mathf.MoveTowards(_velocity, target, 10 * Time.deltaTime);
                 _scrollRect.content.anchoredPosition += new Vector2(0, 1500f * _velocity * Time.deltaTime);
+                if (Mathf.Abs(_velocity) < 0.01f)
+                {
+                    _doMoveTween = false;
+                    _velocity = 0;
+                }
             }
         }
 
@@ -46,6 +59,7 @@ namespace DuckovController.SceneEdit.Other
             {
                 _velocity = 0;
             }
+            _doMoveTween = true;
             _doFocusTween = false;
             _input = -axisInput.y;
         }
@@ -58,10 +72,11 @@ namespace DuckovController.SceneEdit.Other
             {
                 return;
             }
-            if (!_doFocusTween)
+            if (!_doMoveTween)
             {
                 _velocity = 0;
             }
+            _doMoveTween = false;
             _doFocusTween = true;
             var viewPortHeight = _scrollRect.viewport.rect.height;
             var contentHeight = _scrollRect.content.rect.height;

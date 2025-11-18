@@ -9,10 +9,10 @@ namespace DuckovController.SceneEdit.GamePlayUI
 
         private static class Reflection
         {
-            private static readonly BindingFlags binding = BindingFlags.Instance | BindingFlags.NonPublic;
+            private static readonly BindingFlags s_Binding = BindingFlags.Instance | BindingFlags.NonPublic;
 
             public static FieldInfo CancelActionField { get; } = typeof(UIInputManager)
-                .GetField("inputActionCancel", binding);
+                .GetField("inputActionCancel", s_Binding);
         }
     }
 }

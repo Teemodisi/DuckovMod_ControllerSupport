@@ -46,7 +46,7 @@ namespace DuckovController.SceneEdit.GamePlayUI
             var tips = UIStyle.GamePadTipsRectTransform(transform.GetComponent<RectTransform>());
             UIStyle.DrawPadButtonTips(tips, L10N.Instance.MiniMapViewToolSwitchType,
                 new[] { UIStyle.GamePadButton.Up, UIStyle.GamePadButton.Down });
-            UIStyle.DrawPadButtonTips(tips, L10N.Instance.DpadLeftRightSelect,
+            UIStyle.DrawPadButtonTips(tips, L10N.Instance.PickSelection,
                 new[] { UIStyle.GamePadButton.Left, UIStyle.GamePadButton.Right });
             UIStyle.DrawPadButtonTips(tips, L10N.Instance.MiniMapViewZoom,
                 new[] { UIStyle.GamePadButton.LT, UIStyle.GamePadButton.RT });

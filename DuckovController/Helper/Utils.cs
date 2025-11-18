@@ -14,7 +14,7 @@ namespace DuckovController.Helper
         private static readonly Type[] s_BaseExcludeList =
         {
             typeof(Transform),
-            typeof(RectTransform),
+            // typeof(RectTransform),
             typeof(TMP_SubMeshUI),
             typeof(TMP_SubMesh),
             typeof(CanvasRenderer)

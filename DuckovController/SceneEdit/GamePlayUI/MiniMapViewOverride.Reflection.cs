@@ -14,10 +14,10 @@ namespace DuckovController.SceneEdit.GamePlayUI
 
         private static class Reflection
         {
-            private static readonly BindingFlags binding = BindingFlags.Instance | BindingFlags.NonPublic;
+            private static readonly BindingFlags s_Binding = BindingFlags.Instance | BindingFlags.NonPublic;
 
             public static PropertyInfo ZoomPropInfo { get; } = typeof(MiniMapView)
-                .GetProperty("Zoom", binding);
+                .GetProperty("Zoom", s_Binding);
         }
     }
 }
