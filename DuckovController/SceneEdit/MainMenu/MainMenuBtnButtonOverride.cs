@@ -2,8 +2,8 @@
 using Duckov.UI;
 using Duckov.UI.Animations;
 using Duckov.UI.MainMenu;
+using DuckovController.Helper;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 namespace DuckovController.SceneEdit.MainMenu
 {
@@ -12,18 +12,9 @@ namespace DuckovController.SceneEdit.MainMenu
     {
         private PunchReceiver _punchReceiver;
 
-        private IPointerClickHandler[] _openFadeGroupHandlers;
-
-        private MainMenuOverride _mainMenuOverride;
-
-        private PointerEventData MouseLeftClick { get; } = new PointerEventData(EventSystem.current)
-            { button = PointerEventData.InputButton.Left };
-
         private void Awake()
         {
             _punchReceiver = GetComponent<PunchReceiver>();
-            _openFadeGroupHandlers = gameObject.GetComponents<IPointerClickHandler>();
-            _mainMenuOverride = GetComponentInParent<MainMenuOverride>();
             TryPatchReturnButton();
         }
 
@@ -55,18 +46,7 @@ namespace DuckovController.SceneEdit.MainMenu
                     {
                         return;
                     }
-                    var btn = returnBtn.GetComponentsInChildren<IPointerClickHandler>();
-                    //添加返回监听
-                    _mainMenuOverride.onCancelBtnDown += () =>
-                    {
-                        if (panel.IsShown)
-                        {
-                            foreach (var pointerClickHandler in btn)
-                            {
-                                pointerClickHandler.OnPointerClick(MouseLeftClick);
-                            }
-                        }
-                    };
+                    returnBtn.EmitEventPointerClickAndDownBtnLeft();
                 }
             }
         }
@@ -76,21 +56,8 @@ namespace DuckovController.SceneEdit.MainMenu
             //TODO:有空再覆盖这个面板
             var menu = typeof(SavesButton).GetField("selectionMenu", BindingFlags.NonPublic | BindingFlags.Instance)
                 !.GetValue(savesButton) as SaveSlotSelectionMenu;
-            var group = typeof(SaveSlotSelectionMenu).GetField("fadeGroup",
-                    BindingFlags.NonPublic | BindingFlags.Instance)
-                !.GetValue(menu) as FadeGroup;
             var btn = menu?.transform.Find("Cancel");
-            var allClick = btn!.GetComponentsInChildren<IPointerClickHandler>();
-            _mainMenuOverride.onCancelBtnDown += () =>
-            {
-                if (group != null && group.IsShown)
-                {
-                    foreach (var pointerClickHandler in allClick)
-                    {
-                        pointerClickHandler.OnPointerClick(MouseLeftClick);
-                    }
-                }
-            };
+            btn.EmitEventPointerClickAndDownBtnLeft();
         }
 
         public void Press()
@@ -99,13 +66,7 @@ namespace DuckovController.SceneEdit.MainMenu
             {
                 _punchReceiver.Punch();
             }
-            foreach (var pointerClickHandler in _openFadeGroupHandlers)
-            {
-                pointerClickHandler.OnPointerClick(new PointerEventData(EventSystem.current)
-                {
-                    button = PointerEventData.InputButton.Left
-                });
-            }
+            gameObject.EmitEventPointerClickAndDownBtnLeft();
         }
     }
 }

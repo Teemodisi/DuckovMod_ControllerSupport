@@ -3,7 +3,6 @@ using Duckov.Quests.UI;
 using DuckovController.Helper;
 using DuckovController.SceneEdit.Other;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
@@ -40,13 +39,7 @@ namespace DuckovController.SceneEdit.GamePlayUI
             base.Awake();
             _selectionGroup = new SelectionGroup<QuestEntry>(
                 () => _leftScrollRect.content.GetComponentsInChildren<QuestEntry>(),
-                (entry, i) =>
-                {
-                    entry.OnPointerClick(new PointerEventData(EventSystem.current)
-                    {
-                        button = PointerEventData.InputButton.Left
-                    });
-                },
+                (entry, i) => { entry.gameObject.EmitEventPointerClickAndDownBtnLeft(); },
                 list =>
                 {
                     for (var i = 0; i < list.Count; i++)
@@ -60,6 +53,9 @@ namespace DuckovController.SceneEdit.GamePlayUI
                 },
                 false
             );
+            
+            _historyQuestButton.onClick.AddListener((() => { Debug.Log("Fuck");}));
+            _activeQuestButton.onClick.AddListener((() => { Debug.Log("Fuck");}));
         }
 
         protected override void OnEnable()
@@ -76,12 +72,15 @@ namespace DuckovController.SceneEdit.GamePlayUI
                 var value = context.ReadValue<float>();
                 if (value > 0.1f)
                 {
+                    //不知道为什么这里两个按钮用事件触发不到button的Invoke
+                    _historyQuestButton.gameObject.EmitEventPointerClickAndDownBtnLeft();
                     _historyQuestButton.onClick.Invoke();
                     _selectionGroup.UpdateSelections();
                     FocusSelectionDelay().Forget();
                 }
                 else if (value < -0.1f)
                 {
+                    _activeQuestButton.gameObject.EmitEventPointerClickAndDownBtnLeft();
                     _activeQuestButton.onClick.Invoke();
                     _selectionGroup.UpdateSelections();
                     FocusSelectionDelay().Forget();
@@ -140,15 +139,12 @@ namespace DuckovController.SceneEdit.GamePlayUI
                 if (_selectionGroup.CurrentSelection != null && _selectionGroup.Selections != null)
                 {
                     var curID = _selectionGroup.CurrentSelection.Target.ID;
-                    _sortingButton.OnPointerClick(new PointerEventData(EventSystem.current));
+                    _sortingButton.EmitEventPointerClickAndDownBtnLeft();
                     for (var i = 0; i < _selectionGroup.Selections.Count; i++)
                     {
                         if (_selectionGroup.Selections[i].Target.ID == curID)
                         {
-                            _selectionGroup.Selections[i].OnPointerClick(new PointerEventData(EventSystem.current)
-                            {
-                                button = PointerEventData.InputButton.Left
-                            });
+                            _selectionGroup.Selections[i].EmitEventPointerClickAndDownBtnLeft();
                             break;
                         }
                     }
@@ -156,7 +152,7 @@ namespace DuckovController.SceneEdit.GamePlayUI
                 }
                 else
                 {
-                    _sortingButton.OnPointerClick(new PointerEventData(EventSystem.current));
+                    _sortingButton.gameObject.EmitEventPointerClickAndDownBtnLeft();
                 }
             }
         }

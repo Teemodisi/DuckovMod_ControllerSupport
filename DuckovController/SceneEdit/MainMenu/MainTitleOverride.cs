@@ -1,7 +1,6 @@
 ﻿using DuckovController.Helper;
 using TMPro;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 namespace DuckovController.SceneEdit.MainMenu
@@ -44,10 +43,7 @@ namespace DuckovController.SceneEdit.MainMenu
 #if DEBUG
             Debug.Log($"{Utils.ModName} {GetType().Name} OnClick");
 #endif
-            _title.OnPointerClick(new PointerEventData(EventSystem.current)
-            {
-                button = PointerEventData.InputButton.Left
-            });
+            _title.EmitEventPointerClickAndDownBtnLeft();
         }
     }
 }

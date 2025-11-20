@@ -111,7 +111,7 @@ namespace DuckovController.SceneEdit.GamePlayUI
             void OnSelect(int i)
             {
                 var target = _selections[i];
-                target.OnPointerClick(new PointerEventData(EventSystem.current));
+                target.EmitEventPointerClickAndDownBtnLeft();
                 _selector.gameObject.SetActive(true);
                 _selector.anchoredPosition = target.GetComponent<RectTransform>().anchoredPosition;
                 _selectionIndex = i;

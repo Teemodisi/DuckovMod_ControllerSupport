@@ -145,7 +145,7 @@ namespace DuckovController.SceneEdit.GamePlayUI
             var pos = Mouse.current.position.ReadValue();
             RectTransformUtility.ScreenPointToWorldPointInRectangle(transform as RectTransform, pos, null, out _);
             var pointerEventData = new PointerEventData(EventSystem.current)
-            {
+            {   
                 position = pos,
                 button = PointerEventData.InputButton.Right
             };

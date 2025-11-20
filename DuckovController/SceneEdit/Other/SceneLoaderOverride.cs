@@ -7,26 +7,9 @@ namespace DuckovController.SceneEdit.Other
 {
     public class SceneLoaderOverride : MonoBehaviour
     {
-        private static PointerEventData s_PointerEventData;
-
         private OnPointerClick _onPointerClick;
 
         private InputAction _action;
-
-        private static PointerEventData PointerEventData
-        {
-            get
-            {
-                if (s_PointerEventData == null)
-                {
-                    s_PointerEventData = new PointerEventData(EventSystem.current)
-                    {
-                        button = PointerEventData.InputButton.Left
-                    };
-                }
-                return s_PointerEventData;
-            }
-        }
 
         private void Awake()
         {
@@ -49,8 +32,7 @@ namespace DuckovController.SceneEdit.Other
 
         private void OnConfirmBtnDown(InputAction.CallbackContext obj)
         {
-            //诶 这里刚好接口没写公共但是 event 没写规范就直接用了嘻嘻
-            _onPointerClick.onPointerClick.Invoke(PointerEventData);
+            _onPointerClick.gameObject.EmitEventPointerClickAndDownBtnLeft();
         }
     }
 }
