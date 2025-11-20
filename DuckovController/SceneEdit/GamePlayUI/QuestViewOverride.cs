@@ -53,9 +53,6 @@ namespace DuckovController.SceneEdit.GamePlayUI
                 },
                 false
             );
-            
-            _historyQuestButton.onClick.AddListener((() => { Debug.Log("Fuck");}));
-            _activeQuestButton.onClick.AddListener((() => { Debug.Log("Fuck");}));
         }
 
         protected override void OnEnable()
