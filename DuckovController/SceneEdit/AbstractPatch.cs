@@ -9,12 +9,19 @@ namespace DuckovController.SceneEdit
         protected bool HasPatched { get; private set; }
 
         protected InputActionMap InputActionMap { get; private set; }
+        
+        protected RectTransform RectTransform { get; private set; }
 
         protected virtual void Awake()
         {
 #if DEBUG
             Debug.Log($"{Utils.ModName} {GetType().Name} Awake");
 #endif
+            RectTransform = GetComponent<RectTransform>();
+            if (RectTransform == null)
+            {
+                RectTransform = gameObject.AddComponent<RectTransform>();
+            }
             PatchImpl();
             InputActionMap = new InputActionMap(GetType().Name);
             InitInput(InputActionMap);
