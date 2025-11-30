@@ -1,80 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using JetBrains.Annotations;
 using UnityEngine;
 
 namespace DuckovController.SceneEdit.Other
 {
-    public class SelectionGroup<T>
+    public class SelectionGroup<T> : SelectionGroupBase<T>
     {
-        private readonly Func<IReadOnlyList<T>, int> _defaultSelectorIndex;
-
-        private readonly bool _isLoop;
-
-        private readonly Action<T, int> _onSelected;
-
-        private readonly Func<T[]> _onUpdateSelection;
-
-        private int _currentIndexCache;
-
-        private T[] _selections;
-
         public SelectionGroup(
-            Func<T[]> onUpdateSelection,
+            Func<T[]> getSelection,
             Action<T, int> onSelected = null,
             Func<IReadOnlyList<T>, int> selectorIndex = null,
-            bool loop = true)
+            bool loop = true) : base(getSelection, onSelected, selectorIndex, loop) { }
+
+        public bool SelectNext()
         {
-            _onUpdateSelection = onUpdateSelection;
-            _defaultSelectorIndex = selectorIndex;
-            _onSelected = onSelected;
-            if (_defaultSelectorIndex == null)
-            {
-                _defaultSelectorIndex = DefaultGetIndex;
-            }
-            _isLoop = loop;
-            _selections = _onUpdateSelection?.Invoke();
-        }
-
-        public int GroupLength => _selections.Length;
-
-        public IReadOnlyList<T> Selections => _selections;
-
-        [CanBeNull]
-        public T CurrentSelection
-        {
-            get
-            {
-                var index = _defaultSelectorIndex.Invoke(_selections);
-                if (index < 0 || index >= GroupLength)
-                {
-                    return default;
-                }
-                return _selections[index];
-            }
-        }
-
-        private int DefaultGetIndex(IReadOnlyList<T> controls)
-        {
-            return _currentIndexCache;
-        }
-
-        public void Select(int index)
-        {
-            if (index < 0 || index >= GroupLength)
-            {
-                Debug.LogError("Invalid selection group index");
-                return;
-            }
-            Debug.Log("Trying to select " + index);
-            _onSelected?.Invoke(_selections[index], index);
-            _currentIndexCache = index;
-        }
-
-        public void SelectNext()
-        {
-            var cur = _defaultSelectorIndex.Invoke(_selections);
-            if (_isLoop)
+            var cur = defaultSelectorIndex.Invoke(selections);
+            if (isLoop)
             {
                 cur = cur + 1 >= GroupLength ? 0 : cur + 1;
             }
@@ -85,20 +26,20 @@ namespace DuckovController.SceneEdit.Other
 #if DEBUG
                     Debug.Log("Trying to select next but already at the end");
 #endif
-                    return;
+                    return false;
                 }
                 cur = cur + 1;
             }
 #if DEBUG
-            Debug.Log($"Trying to select prev {_defaultSelectorIndex.Invoke(_selections)} => {cur}");
+            Debug.Log($"Trying to select prev {defaultSelectorIndex.Invoke(selections)} => {cur}");
 #endif
-            Select(cur);
+            return Select(cur);
         }
 
-        public void SelectPrev()
+        public bool SelectPrev()
         {
-            var cur = _defaultSelectorIndex.Invoke(_selections);
-            if (_isLoop)
+            var cur = defaultSelectorIndex.Invoke(selections);
+            if (isLoop)
             {
                 cur = cur - 1 < 0 ? GroupLength - 1 : cur - 1;
             }
@@ -109,24 +50,14 @@ namespace DuckovController.SceneEdit.Other
 #if DEBUG
                     Debug.Log("Trying to select prev but already at the start");
 #endif
-                    return;
+                    return false;
                 }
                 cur = cur - 1;
             }
 #if DEBUG
-            Debug.Log($"Trying to select prev {_defaultSelectorIndex.Invoke(_selections)} => {cur}");
+            Debug.Log($"Trying to select prev {defaultSelectorIndex.Invoke(selections)} => {cur}");
 #endif
-            Select(cur);
-        }
-
-        public void UpdateSelections()
-        {
-            _selections = _onUpdateSelection?.Invoke();
-        }
-
-        public void UpdateSelections(T[] selections)
-        {
-            _selections = selections;
+            return Select(cur);
         }
     }
 }

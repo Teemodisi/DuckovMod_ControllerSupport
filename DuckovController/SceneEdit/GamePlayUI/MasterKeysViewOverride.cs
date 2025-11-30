@@ -1,8 +1,8 @@
 ﻿using Duckov.MasterKeys.UI;
+using Duckov.UI.Animations;
 using DuckovController.Helper;
 using DuckovController.SceneEdit.Other;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
@@ -18,11 +18,11 @@ namespace DuckovController.SceneEdit.GamePlayUI
 
         private RectTransform _selector;
 
+        private FadeGroup _fadeGroup;
+
         private ScrollViewGamepadControl _scrollViewGamepadControl;
 
-        private MasterKeysIndexEntry[] _selections;
-
-        private int _selectionIndex = -1;
+        private GridSelectGroup<MasterKeysIndexEntry> _gridSelectGroup;
 
         protected override void Awake()
         {
@@ -30,14 +30,28 @@ namespace DuckovController.SceneEdit.GamePlayUI
             _scrollRect = transform.FindWithDebug("Content/Content/Scroll View").GetComponent<ScrollRect>();
             _scrollViewGamepadControl = _scrollRect.gameObject.AddComponent<ScrollViewGamepadControl>();
             _gridLayoutGroup = _scrollRect.content.GetComponent<GridLayoutGroup>();
-            base.Awake();
-        }
+            _fadeGroup = gameObject.GetComponent<FadeGroup>();
+            _fadeGroup.OnShowComplete += _ =>
+            {
+                _gridSelectGroup.UpdateSelections();
+                if (_gridSelectGroup.CurrentSelection == null)
+                {
+                    _gridSelectGroup.Select(0);
+                }
+            };
 
-        protected override void OnEnable()
-        {
-            base.OnEnable();
-            _selector.gameObject.SetActive(false);
-            SelectWithOffset(0);
+            base.Awake();
+
+            _gridSelectGroup = new GridSelectGroup<MasterKeysIndexEntry>(
+                _gridLayoutGroup,
+                () => _gridLayoutGroup.GetComponentsInChildren<MasterKeysIndexEntry>(),
+                (item, index) =>
+                {
+                    item.EmitEventPointerClickAndDownBtnLeft();
+                    _selector.gameObject.SetActive(true);
+                    _selector.anchoredPosition = item.GetComponent<RectTransform>().anchoredPosition;
+                }
+            );
         }
 
         private void OnNavigationInput(InputAction.CallbackContext context)
@@ -47,80 +61,25 @@ namespace DuckovController.SceneEdit.GamePlayUI
                 var value = context.ReadValue<Vector2>();
                 if (value.x > 0.1f)
                 {
-                    SelectWithOffset(1);
+                    _gridSelectGroup.UpdateSelections();
+                    _gridSelectGroup.SelectRight();
                 }
                 else if (value.x < -0.1f)
                 {
-                    SelectWithOffset(-1);
+                    _gridSelectGroup.UpdateSelections();
+                    _gridSelectGroup.SelectLeft();
                 }
                 else if (value.y > 0.1f)
                 {
-                    SelectWithOffset(-10);
+                    _gridSelectGroup.UpdateSelections();
+                    _gridSelectGroup.SelectUp();
                 }
                 else if (value.y < -0.1f)
                 {
-                    SelectWithOffset(10);
+                    _gridSelectGroup.UpdateSelections();
+                    _gridSelectGroup.SelectDown();
                 }
             }
-        }
-
-        private void SelectWithOffset(int offsetIndex)
-        {
-            UpdateSelections();
-            if (_selections.Length <= 0)
-            {
-                return;
-            }
-
-            var w = _scrollRect.content.rect.width;
-            var spaceX = _gridLayoutGroup.spacing.x;
-            var col = Mathf.FloorToInt((w - spaceX) / (_gridLayoutGroup.cellSize.x + spaceX));
-            
-            var originIndex = _selectionIndex;
-            var index = originIndex;
-            var originRow = Mathf.FloorToInt((float)index / col);
-#if DEBUG
-            Debug.Log($"GetSelectIndex{index} originRow{originRow} col {col}");
-#endif
-            if (index < 0)
-            {
-                OnSelect(0);
-                return;
-            }
-            index += offsetIndex;
-            if (index < 0 || index >= _selections.Length)
-            {
-#if DEBUG
-                Debug.Log($"过界 To{index}");
-#endif
-                OnSelect(originIndex);
-                return;
-            }
-            var nowRow = Mathf.FloorToInt((float)index / col);
-            if (Mathf.Abs(offsetIndex) < col && originRow != nowRow)
-            {
-#if DEBUG
-                Debug.Log($"过行 To{index}  Row{nowRow} != {originRow}");
-#endif
-                OnSelect(originIndex);
-                return;
-            }
-            OnSelect(index);
-            return;
-
-            void OnSelect(int i)
-            {
-                var target = _selections[i];
-                target.EmitEventPointerClickAndDownBtnLeft();
-                _selector.gameObject.SetActive(true);
-                _selector.anchoredPosition = target.GetComponent<RectTransform>().anchoredPosition;
-                _selectionIndex = i;
-            }
-        }
-
-        private void UpdateSelections()
-        {
-            _selections = _gridLayoutGroup.GetComponentsInChildren<MasterKeysIndexEntry>();
         }
 
         private void OnScrollInput(InputAction.CallbackContext context)

@@ -1,5 +1,4 @@
-﻿using Duckov.UI.Animations;
-using DuckovController.SceneEdit.Other;
+﻿using DuckovController.SceneEdit.Other;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
@@ -9,17 +8,10 @@ namespace DuckovController.SceneEdit.MainMenu
     {
         private SelectionGroup<MainMenuBtnButtonOverride> _selectionGroup;
 
-        private FadeGroup _fadeGroup;
-
         protected override void Awake()
         {
-            _fadeGroup = GetComponent<FadeGroup>();
-            _fadeGroup.OnShowComplete += OnFadeGroupCompleted;
-
             base.Awake();
 
-            //选中第一
-            EventSystem.current.SetSelectedGameObject(_menuButtonListLayout.GetChild(0).gameObject);
             //使用内置Index计数
             //不知道为什么，用 EventSystem + Navigate 无法正常运作，用土办法了
             _selectionGroup = new SelectionGroup<MainMenuBtnButtonOverride>(
@@ -41,9 +33,12 @@ namespace DuckovController.SceneEdit.MainMenu
             );
         }
 
-        private void OnFadeGroupCompleted(FadeGroup fadeGroup)
+        protected override void OnEnable()
         {
-            EventSystem.current.SetSelectedGameObject(_menuButtonListLayout.GetChild(0).gameObject);
+            base.OnEnable();
+            //选中第一
+            _selectionGroup.UpdateSelections();
+            _selectionGroup.Select(0);
         }
 
         private void OnConfirm(InputAction.CallbackContext obj)
