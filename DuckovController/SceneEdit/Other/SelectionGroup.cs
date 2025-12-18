@@ -9,8 +9,9 @@ namespace DuckovController.SceneEdit.Other
         public SelectionGroup(
             Func<T[]> getSelection,
             Action<T, int> onSelected = null,
+            Action<T, int> onDeselected = null,
             Func<IReadOnlyList<T>, int> selectorIndex = null,
-            bool loop = true) : base(getSelection, onSelected, selectorIndex, loop) { }
+            bool loop = true) : base(getSelection, onSelected, onDeselected, selectorIndex, loop) { }
 
         public bool SelectNext()
         {

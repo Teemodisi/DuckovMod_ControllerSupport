@@ -43,7 +43,7 @@ namespace DuckovController.SceneEdit.MainMenu
 #if DEBUG
             Debug.Log($"{Utils.ModName} {GetType().Name} OnClick");
 #endif
-            _title.EmitEventPointerClickAndDownBtnLeft();
+            _title.gameObject.EmitEventPointerClickAndDownBtnLeft();
         }
     }
 }

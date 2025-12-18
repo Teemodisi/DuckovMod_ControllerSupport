@@ -35,7 +35,7 @@ namespace DuckovController.SceneEdit.GamePlayUI
             //不清楚原因，这里如果注册了UpdateSelection获取函数，这个时机获取的列表100%报错，很诡异的报空
             _selectionGroup = new SelectionGroup<NoteIndexView_Entry>(
                 null,
-                (entry, i) => entry.EmitEventPointerClickAndDownBtnLeft(),
+                (entry, i) => entry.gameObject.EmitEventPointerClickAndDownBtnLeft(),
                 loop: false
             );
             base.Awake();

@@ -60,8 +60,9 @@ namespace DuckovController.SceneEdit.GamePlayUI
             _iconGroupSelectionGroup = new SelectionGroup<Button>(
                 () => _iconGroup.GetComponentsInChildren<Button>(),
                 (button, index) => button.onClick.Invoke(),
-                buttons => MapMarkerManager.SelectedIconIndex);
-            _colorGroup = _mapMarkerSettingsPanel.transform.FindWithDebug("Colors").GetComponent<HorizontalLayoutGroup>();
+                selectorIndex: buttons => MapMarkerManager.SelectedIconIndex);
+            _colorGroup = _mapMarkerSettingsPanel.transform.FindWithDebug("Colors")
+                .GetComponent<HorizontalLayoutGroup>();
             _colorGroupSelectionGroup = new SelectionGroup<Button>(
                 () => _colorGroup.GetComponentsInChildren<Button>(),
                 (button, index) => { button.onClick.Invoke(); }
@@ -145,7 +146,7 @@ namespace DuckovController.SceneEdit.GamePlayUI
             var pos = Mouse.current.position.ReadValue();
             RectTransformUtility.ScreenPointToWorldPointInRectangle(transform as RectTransform, pos, null, out _);
             var pointerEventData = new PointerEventData(EventSystem.current)
-            {   
+            {
                 position = pos,
                 button = PointerEventData.InputButton.Right
             };

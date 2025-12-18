@@ -9,8 +9,10 @@ namespace DuckovController.SceneEdit
         protected bool HasPatched { get; private set; }
 
         protected InputActionMap InputActionMap { get; private set; }
-        
+
         protected RectTransform RectTransform { get; private set; }
+
+        protected virtual bool EnableInputOnEnable => true;
 
         protected virtual void Awake()
         {
@@ -65,8 +67,11 @@ namespace DuckovController.SceneEdit
 
         private void EnableInputImpl()
         {
-            InputActionMap.Enable();
-            EnableInput();
+            if (EnableInputOnEnable)
+            {
+                InputActionMap.Enable();
+                EnableInput();
+            }
         }
 
         private void DisableInputImpl()

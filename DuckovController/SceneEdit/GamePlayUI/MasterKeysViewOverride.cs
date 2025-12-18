@@ -47,7 +47,7 @@ namespace DuckovController.SceneEdit.GamePlayUI
                 () => _gridLayoutGroup.GetComponentsInChildren<MasterKeysIndexEntry>(),
                 (item, index) =>
                 {
-                    item.EmitEventPointerClickAndDownBtnLeft();
+                    item.gameObject.EmitEventPointerClickAndDownBtnLeft();
                     _selector.gameObject.SetActive(true);
                     _selector.anchoredPosition = item.GetComponent<RectTransform>().anchoredPosition;
                 }

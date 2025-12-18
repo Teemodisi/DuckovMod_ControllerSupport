@@ -9,24 +9,31 @@ namespace DuckovController.SceneEdit.GamePlayUI
     {
         private RectTransform _selectedBorder;
 
+        //禁用自动监听输入
+        protected override bool EnableInputOnEnable => false;
+
         protected virtual string SelectorPatchSubPath => null;
 
-        public void OnSelect()
+        public virtual void OnSelect()
         {
             _selectedBorder.gameObject.SetActive(true);
+            InputActionMap.Enable();
+            EnableInput();
         }
 
-        public void OnDeselect()
+        public virtual void OnDeselect()
         {
+            InputActionMap.Disable();
+            DisableInput();
             _selectedBorder.gameObject.SetActive(false);
         }
 
         protected override void Patch()
         {
-            var targetObj =SelectorPatchSubPath == null
+            var targetObj = SelectorPatchSubPath == null
                 ? transform
                 : transform.FindWithDebug(SelectorPatchSubPath);
-            
+
             const int width = 5;
             var obj = new GameObject("SelectionMark");
             _selectedBorder = obj.AddComponent<RectTransform>();

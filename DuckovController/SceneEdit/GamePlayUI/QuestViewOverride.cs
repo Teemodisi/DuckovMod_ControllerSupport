@@ -40,6 +40,7 @@ namespace DuckovController.SceneEdit.GamePlayUI
             _selectionGroup = new SelectionGroup<QuestEntry>(
                 () => _leftScrollRect.content.GetComponentsInChildren<QuestEntry>(),
                 (entry, i) => { entry.gameObject.EmitEventPointerClickAndDownBtnLeft(); },
+                null,
                 list =>
                 {
                     for (var i = 0; i < list.Count; i++)
@@ -136,12 +137,12 @@ namespace DuckovController.SceneEdit.GamePlayUI
                 if (_selectionGroup.CurrentSelection != null && _selectionGroup.Selections != null)
                 {
                     var curID = _selectionGroup.CurrentSelection.Target.ID;
-                    _sortingButton.EmitEventPointerClickAndDownBtnLeft();
+                    _sortingButton.gameObject.EmitEventPointerClickAndDownBtnLeft();
                     for (var i = 0; i < _selectionGroup.Selections.Count; i++)
                     {
                         if (_selectionGroup.Selections[i].Target.ID == curID)
                         {
-                            _selectionGroup.Selections[i].EmitEventPointerClickAndDownBtnLeft();
+                            _selectionGroup.Selections[i].gameObject.EmitEventPointerClickAndDownBtnLeft();
                             break;
                         }
                     }

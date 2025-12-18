@@ -46,7 +46,7 @@ namespace DuckovController.SceneEdit.MainMenu
                     {
                         return;
                     }
-                    returnBtn.EmitEventPointerClickAndDownBtnLeft();
+                    returnBtn.gameObject.EmitEventPointerClickAndDownBtnLeft();
                 }
             }
         }
@@ -57,7 +57,7 @@ namespace DuckovController.SceneEdit.MainMenu
             var menu = typeof(SavesButton).GetField("selectionMenu", BindingFlags.NonPublic | BindingFlags.Instance)
                 !.GetValue(savesButton) as SaveSlotSelectionMenu;
             var btn = menu?.transform.Find("Cancel");
-            btn.EmitEventPointerClickAndDownBtnLeft();
+            btn?.gameObject.EmitEventPointerClickAndDownBtnLeft();
         }
 
         public void Press()
