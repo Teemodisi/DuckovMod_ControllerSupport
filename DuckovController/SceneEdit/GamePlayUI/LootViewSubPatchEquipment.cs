@@ -23,6 +23,8 @@ namespace DuckovController.SceneEdit.GamePlayUI
 
         private GridSelectGroup<InventoryEntry> _petSelectGroup;
 
+        private ScrollViewGamepadControl _scrollControl;
+
         protected override string SelectorPatchSubPath => "Content";
 
         protected override void Awake()
@@ -34,6 +36,8 @@ namespace DuckovController.SceneEdit.GamePlayUI
                 .GetComponent<GridLayoutGroup>();
             _petLayout = transform.FindWithDebug("Content/InventoryDisplay_Pet/Container/Layout")
                 .GetComponent<GridLayoutGroup>();
+            _scrollControl = _inventoryGridLayout.GetComponentInParent<ScrollRect>()
+                .gameObject.AddComponent<ScrollViewGamepadControl>();
 
             base.Awake();
 
@@ -66,31 +70,32 @@ namespace DuckovController.SceneEdit.GamePlayUI
             _curSelectingPart = _equipmentSelectGroup;
         }
 
-        private static void OnInventoryEntrySelect(SlotDisplay entry, int _)
+        private void OnInventoryEntrySelect(SlotDisplay entry, int _)
         {
             entry.gameObject.EmitEventPointerEnter();
             var itemDisplay = (ItemDisplay)Reflection.slotDisplayGetItemDisplay.GetValue(entry);
             ItemUIUtilities.Select(itemDisplay);
         }
 
-        private static void OnInventoryEntrySelect(InventoryEntry entry, int _)
+        private void OnInventoryEntrySelect(InventoryEntry entry, int _)
         {
             entry.gameObject.EmitEventPointerEnter();
             var itemDisplay = (ItemDisplay)Reflection.inventoryDisplayGetItemDisplay.GetValue(entry);
             ItemUIUtilities.Select(itemDisplay);
+            _scrollControl.TryToFocusContentObject(entry.gameObject.GetComponent<RectTransform>());
         }
 
-        private static void OnInventoryEntryDeselect(SlotDisplay entry, int _)
+        private void OnInventoryEntryDeselect(SlotDisplay entry, int _)
         {
             entry.gameObject.EmitEventPointerExit();
         }
 
-        private static void OnInventoryEntryDeselect(InventoryEntry entry, int _)
+        private void OnInventoryEntryDeselect(InventoryEntry entry, int _)
         {
             entry.gameObject.EmitEventPointerExit();
         }
 
-        private static void TryDeselect(IGridSelectGroup obj)
+        private void TryDeselect(IGridSelectGroup obj)
         {
             if (obj is GridSelectGroup<SlotDisplay> slotDisplay)
             {
@@ -132,6 +137,18 @@ namespace DuckovController.SceneEdit.GamePlayUI
             {
                 _curSelectingPart.UpdateSelections();
                 _curSelectingPart.SelectDown();
+            }
+        }
+
+        private void OnScrollInput(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+            {
+                _scrollControl.Move(context.ReadValue<Vector2>());
+            }
+            if (context.canceled)
+            {
+                _scrollControl.Move(Vector2.zero);
             }
         }
 

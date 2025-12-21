@@ -32,10 +32,6 @@ namespace DuckovController.SceneEdit.GamePlayUI
 
         private LootViewSubSelection _currentSelectionArea;
 
-        private Vector2 _anchoredPosVel;
-
-        private Vector2 _sizeDeltaVel;
-
         protected override void Awake()
         {
             _lootView = GetComponent<LootView>();

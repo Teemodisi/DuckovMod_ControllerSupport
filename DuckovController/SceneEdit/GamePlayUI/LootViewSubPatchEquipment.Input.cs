@@ -15,7 +15,11 @@ namespace DuckovController.SceneEdit.GamePlayUI
                 .With("left", InputSystemUtils.BindingDpadLeft)
                 .With("right", InputSystemUtils.BindingDpadRight);
 
+            var scroll = inputActionMap.AddAction("Scroll");
+            scroll.AddBinding(InputSystemUtils.BindingLeftStick);
+
             navigation.BindInput(OnNavigationInput);
+            scroll.BindInput(OnScrollInput);
         }
     }
 }
