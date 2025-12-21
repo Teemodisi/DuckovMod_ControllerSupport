@@ -63,7 +63,7 @@ namespace DuckovController.SceneEdit.Other
             if (index < 0 || index >= GroupLength)
             {
 #if DEBUG
-                Debug.LogWarning("Invalid selection group index");
+                Debug.LogWarning($"Invalid selection group index. GroupLength:{GroupLength} Index:{index}");
 #endif
                 return false;
             }

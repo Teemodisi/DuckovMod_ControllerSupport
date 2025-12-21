@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using DuckovController.Helper;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,7 +10,7 @@ namespace DuckovController.SceneEdit.Other
         public int XCount { get; }
 
         public int YCount { get; }
-        
+
         public int GroupLength { get; }
 
         public event Action<Vector2Int> onUpEdge;

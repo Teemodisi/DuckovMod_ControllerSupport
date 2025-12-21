@@ -60,74 +60,45 @@ namespace DuckovController.SceneEdit.GamePlayUI
             _petSelectGroup.onLeftEdge += SelectPet2Equ;
         }
 
-        private static void OnInventoryEntrySelect(SlotDisplay entry, int index)
+        protected override void OnEnable()
+        {
+            base.OnEnable();
+            _curSelectingPart = _equipmentSelectGroup;
+        }
+
+        private static void OnInventoryEntrySelect(SlotDisplay entry, int _)
         {
             entry.gameObject.EmitEventPointerEnter();
             var itemDisplay = (ItemDisplay)Reflection.slotDisplayGetItemDisplay.GetValue(entry);
             ItemUIUtilities.Select(itemDisplay);
         }
 
-        private static void OnInventoryEntrySelect(InventoryEntry entry, int index)
+        private static void OnInventoryEntrySelect(InventoryEntry entry, int _)
         {
             entry.gameObject.EmitEventPointerEnter();
             var itemDisplay = (ItemDisplay)Reflection.inventoryDisplayGetItemDisplay.GetValue(entry);
             ItemUIUtilities.Select(itemDisplay);
         }
 
-        private static void OnInventoryEntryDeselect(SlotDisplay entry, int index)
+        private static void OnInventoryEntryDeselect(SlotDisplay entry, int _)
         {
             entry.gameObject.EmitEventPointerExit();
         }
 
-        private static void OnInventoryEntryDeselect(InventoryEntry entry, int index)
+        private static void OnInventoryEntryDeselect(InventoryEntry entry, int _)
         {
             entry.gameObject.EmitEventPointerExit();
         }
 
-        private void SelectEqu2Pet(Vector2Int fromPos)
+        private static void TryDeselect(IGridSelectGroup obj)
         {
-            _curSelectingPart = _petSelectGroup;
-            var index = Mathf.Clamp(fromPos.y, 0, _curSelectingPart.GroupLength - 1);
-            _curSelectingPart.Select(index);
-        }
-
-        private void SelectEqu2Inv(Vector2Int fromPos)
-        {
-            _curSelectingPart = _inventorySelectGroup;
-            var index = Mathf.Clamp(fromPos.x, 0, _curSelectingPart.XCount - 1);
-            _curSelectingPart.Select(index);
-        }
-
-        private void SelectInv2Pet(Vector2Int fromPos)
-        {
-            _curSelectingPart = _petSelectGroup;
-            var index = Mathf.Clamp(fromPos.y - 2, 0, _curSelectingPart.GroupLength - 1);
-            _curSelectingPart.Select(index);
-        }
-
-        private void SelectInv2Equ(Vector2Int fromPos)
-        {
-            _curSelectingPart = _equipmentSelectGroup;
-            var x = Mathf.Clamp(fromPos.x, 0, _curSelectingPart.XCount - 1);
-            var y = Mathf.Max(0, _curSelectingPart.YCount - 1);
-            _curSelectingPart.Select(x + y * _curSelectingPart.XCount);
-        }
-
-        private void SelectPet2Equ(Vector2Int fromPos)
-        {
-            if (fromPos.y < 2)
+            if (obj is GridSelectGroup<SlotDisplay> slotDisplay)
             {
-                _curSelectingPart = _equipmentSelectGroup;
-                var x = _curSelectingPart.XCount - 1;
-                var y = Mathf.Clamp(fromPos.y, 0, _curSelectingPart.YCount - 1);
-                _curSelectingPart.Select(x + y * _curSelectingPart.XCount);
+                OnInventoryEntryDeselect(slotDisplay.CurrentSelection, 0);
             }
-            else
+            else if (obj is GridSelectGroup<InventoryEntry> inventoryEntry)
             {
-                _curSelectingPart = _inventorySelectGroup;
-                var x = _curSelectingPart.XCount - 1;
-                var y = Mathf.Clamp(fromPos.y - 2, 0, _curSelectingPart.YCount - 1);
-                _curSelectingPart.Select(x + y * _curSelectingPart.XCount);
+                OnInventoryEntryDeselect(inventoryEntry.CurrentSelection, 0);
             }
         }
 
@@ -163,5 +134,75 @@ namespace DuckovController.SceneEdit.GamePlayUI
                 _curSelectingPart.SelectDown();
             }
         }
+
+    #region OnChangeSelected
+
+        private void SelectEqu2Pet(Vector2Int fromPos)
+        {
+            TryDeselect(_curSelectingPart);
+            _curSelectingPart = _petSelectGroup;
+            EnsureUpdate(_curSelectingPart);
+            var index = Mathf.Clamp(fromPos.y, 0, _curSelectingPart.GroupLength - 1);
+            _curSelectingPart.Select(index);
+        }
+
+        private void SelectEqu2Inv(Vector2Int fromPos)
+        {
+            TryDeselect(_curSelectingPart);
+            _curSelectingPart = _inventorySelectGroup;
+            EnsureUpdate(_curSelectingPart);
+            var index = Mathf.Clamp(fromPos.x, 0, _curSelectingPart.XCount - 1);
+            _curSelectingPart.Select(index);
+        }
+
+        private void SelectInv2Pet(Vector2Int fromPos)
+        {
+            TryDeselect(_curSelectingPart);
+            _curSelectingPart = _petSelectGroup;
+            EnsureUpdate(_curSelectingPart);
+            var index = Mathf.Clamp(fromPos.y + 2, 0, _curSelectingPart.GroupLength - 1);
+            _curSelectingPart.Select(index);
+        }
+
+        private void SelectInv2Equ(Vector2Int fromPos)
+        {
+            TryDeselect(_curSelectingPart);
+            _curSelectingPart = _equipmentSelectGroup;
+            EnsureUpdate(_curSelectingPart);
+            var x = Mathf.Clamp(fromPos.x, 0, _curSelectingPart.XCount - 1);
+            var y = Mathf.Max(0, _curSelectingPart.YCount - 1);
+            _curSelectingPart.Select(x + y * _curSelectingPart.XCount);
+        }
+
+        private void SelectPet2Equ(Vector2Int fromPos)
+        {
+            TryDeselect(_curSelectingPart);
+            if (fromPos.y < 2)
+            {
+                _curSelectingPart = _equipmentSelectGroup;
+                EnsureUpdate(_curSelectingPart);
+                var x = _curSelectingPart.XCount - 1;
+                var y = Mathf.Clamp(fromPos.y, 0, _curSelectingPart.YCount - 1);
+                _curSelectingPart.Select(x + y * _curSelectingPart.XCount);
+            }
+            else
+            {
+                _curSelectingPart = _inventorySelectGroup;
+                EnsureUpdate(_curSelectingPart);
+                var x = _curSelectingPart.XCount - 1;
+                var y = Mathf.Clamp(fromPos.y - 2, 0, _curSelectingPart.YCount - 1);
+                _curSelectingPart.Select(x + y * _curSelectingPart.XCount);
+            }
+        }
+
+        private void EnsureUpdate(IGridSelectGroup group)
+        {
+            if (group?.GroupLength == 0)
+            {
+                group.UpdateSelections();
+            }
+        }
+
+    #endregion
     }
 }

@@ -107,6 +107,10 @@ namespace DuckovController.SceneEdit.GamePlayUI
             {
                 SelectSelection(_leftRect);
             }
+            else
+            {
+                _currentSelectionArea?.OnSelect();
+            }
         }
 
         private void SelectSelection(LootViewSubSelection selection)
