@@ -19,10 +19,10 @@ namespace DuckovController.SceneEdit.MainMenu
         protected override void InitInput(InputActionMap inputActionMap)
         {
             _confirmAction = inputActionMap.AddAction("Confirm", InputActionType.Button);
-            _confirmAction.AddBinding(InputSystemUtils.BindingBButton);
+            _confirmAction.AddBinding(InputSystemUtils.BindingAButton);
 
             _cancelAction = inputActionMap.AddAction("Cancel", InputActionType.Button);
-            _cancelAction.AddBinding(InputSystemUtils.BindingAButton);
+            _cancelAction.AddBinding(InputSystemUtils.BindingBButton);
 
             _navigateUpAction = inputActionMap.AddAction("NavigationUp", InputActionType.Button);
             _navigateUpAction.AddBinding(InputSystemUtils.BindingDpadUp);

@@ -3,9 +3,9 @@
     //避免写错
     public static class InputSystemUtils
     {
-        public static string BindingAButton => "<Gamepad>/buttonEast";
+        public static string BindingAButton => "<Gamepad>/buttonSouth";
 
-        public static string BindingBButton => "<Gamepad>/buttonSouth";
+        public static string BindingBButton => "<Gamepad>/buttonEast";
 
         public static string BindingXButton => "<Gamepad>/buttonWest";
 

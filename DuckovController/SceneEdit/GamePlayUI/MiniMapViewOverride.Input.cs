@@ -31,7 +31,7 @@ namespace DuckovController.SceneEdit.GamePlayUI
                 .With("negative", InputSystemUtils.BindingLeftTrigger);
 
             _pinAction = inputActionMap.AddAction("Pin", InputActionType.Button);
-            _pinAction.AddBinding(InputSystemUtils.BindingBButton);
+            _pinAction.AddBinding(InputSystemUtils.BindingAButton);
 
             _centerPlayerAction = inputActionMap.AddAction("CenterPlayer", InputActionType.Button);
             _centerPlayerAction.AddBinding(InputSystemUtils.BindingLeftStickPress);

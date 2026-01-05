@@ -18,7 +18,7 @@ namespace DuckovController.SceneEdit.MainMenu
         protected override void InitInput(InputActionMap inputActionMap)
         {
             var confirmAction = inputActionMap.AddAction("Confirm", InputActionType.Button);
-            confirmAction.AddBinding(InputSystemUtils.BindingBButton);
+            confirmAction.AddBinding(InputSystemUtils.BindingAButton);
             confirmAction.performed += OnClick;
         }
 

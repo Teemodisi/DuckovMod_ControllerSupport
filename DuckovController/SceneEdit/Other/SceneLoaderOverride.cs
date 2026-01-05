@@ -15,7 +15,7 @@ namespace DuckovController.SceneEdit.Other
         {
             _onPointerClick = GetComponent<OnPointerClick>();
             _action = new InputAction("ConfirmBtn", InputActionType.Button);
-            _action.AddBinding(InputSystemUtils.BindingBButton);
+            _action.AddBinding(InputSystemUtils.BindingAButton);
             _action.performed += OnConfirmBtnDown;
         }
 

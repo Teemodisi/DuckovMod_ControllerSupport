@@ -50,7 +50,7 @@ namespace DuckovController.SceneEdit.MainGame
             _runAction.AddBinding(InputSystemUtils.BindingLeftStickPress);
 
             _cancelAction = inputActionMap.AddAction("Cancel", InputActionType.Button);
-            _cancelAction.AddBinding(InputSystemUtils.BindingAButton);
+            _cancelAction.AddBinding(InputSystemUtils.BindingBButton);
 
             _rollAction = inputActionMap.AddAction("Roll", InputActionType.Button);
             _rollAction.AddBinding(InputSystemUtils.BindingBButton);
